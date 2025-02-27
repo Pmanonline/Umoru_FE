@@ -209,13 +209,13 @@ export const Ebusinesses = ({ userInfo }) => (
     </div>
     {/* LastSection */}
     {/* TopBusinessCard */}
-    <div className="px-12">
+    <div className="px-2 md:px-12">
       <TopNotchBusinesses />
     </div>
-    <div className="px-12 ">
+    <div className="md:px-12 px-2 ">
       <TopBusinessCatCard />
     </div>
-    <div className="px-12">
+    <div className="md:px-12 px-2">
       <FilterBusiness />
     </div>
     <div className="px-6 pt-12">

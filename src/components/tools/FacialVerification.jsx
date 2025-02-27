@@ -932,7 +932,7 @@ const FacialVerification = ({ onComplete, onExit }) => {
                   </button>
                   <button
                     onClick={onComplete}
-                    className="px-4 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center justify-center"
+                    className="px-4 py-3 bg-green text-white rounded-md hover:bg-green-700 transition-colors flex items-center justify-center"
                     aria-label="Continue">
                     Continue
                   </button>

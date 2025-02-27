@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import PeopleCard from "../components/Cards/PeopleCard";
 import peopleImage from "../assets/images/E-business.png";
+import backendURL from "../config";
 
 const PeoplePage = () => {
   const [profiles, setProfiles] = useState([]);
@@ -36,7 +37,7 @@ const PeoplePage = () => {
   const fetchProfiles = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://backend.edirect.ng/api/profiles");
+      const response = await fetch(`${backendURL}/api/profiles`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

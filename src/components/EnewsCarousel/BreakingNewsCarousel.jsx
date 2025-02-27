@@ -17,7 +17,7 @@ export const BreakingNewsCarousel = () => {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          "https://essentialnews.connectnesthub.com/api/posts/breaking"
+          "http://backend.essentialnews.ng/api/posts/breaking"
         );
         const data = await response.json();
         setNews(data.data.posts.slice(0, 7));
@@ -152,7 +152,7 @@ export const TopTopicCarousel = () => {
     const fetchTopics = async () => {
       try {
         const response = await fetch(
-          "https://essentialnews.connectnesthub.com/api/posts/top-topic"
+          "http://backend.essentialnews.ng/api/posts/top-topic"
         );
         const data = await response.json();
         // Assuming each post has a 'createdAt' field that contains the date

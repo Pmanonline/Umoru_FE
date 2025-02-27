@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { VscLoading } from "react-icons/vsc";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
 import { useLocation } from "react-router-dom";
+import backendURL from "../../config";
 
 // Validation Schema
 const resetPasswordSchema = yup.object().shape({
@@ -66,16 +67,13 @@ const ResetPassword = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "http://backend.edirect.ng/api/reset-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${backendURL}/api/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 
@@ -119,21 +117,6 @@ const ResetPassword = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* <div>
-            <label className="block text-gray-700 mb-2">Email</label>
-            <input
-              {...register("email")}
-              type="email"
-              placeholder="Enter your email"
-              className={`w-full p-2 border rounded ${errors.email ? "border-red-500" : "border-gray-300"}`}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div> */}
-
           <input
             type="hidden"
             {...register("token")}

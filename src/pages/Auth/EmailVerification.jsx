@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Loader2, CheckCircle2, XCircle, MailCheck } from "lucide-react";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
+import backendURL from "../../config";
 
 const EmailVerification = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const EmailVerification = () => {
     setIsResending(true);
     try {
       const response = await fetch(
-        "http://backend.edirect.ng/api/resend-verification-link",
+        `${backendURL}/api/resend-verification-link`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -74,14 +75,11 @@ const EmailVerification = () => {
       }
 
       try {
-        const response = await fetch(
-          "http://backend.edirect.ng/api/verify-email",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, email }),
-          }
-        );
+        const response = await fetch(`${backendURL}/api/verify-email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token, email }),
+        });
         const data = await response.json();
         console.log("Backend response:", { status: response.status, data }); // Debug log
 

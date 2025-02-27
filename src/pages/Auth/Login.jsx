@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "../../components/tools/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/Auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import backendURL from "../../config";
 
 // Validation Schema
 const loginSchema = yup.object().shape({
@@ -74,7 +75,7 @@ const Login = () => {
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    window.location = "http://backend.edirect.ng/api/auth/google";
+    window.location = `${backendURL}/api/auth/google`;
   };
 
   return (

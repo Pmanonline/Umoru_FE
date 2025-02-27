@@ -198,6 +198,7 @@ import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { FilterPeople } from "../components/Cards/BrowseComponent";
 import PeopleCard from "../components/Cards/PeopleCard";
 import axios from "axios";
+import backendURL from "../config";
 
 const PeopleSearchPage = () => {
   const location = useLocation();
@@ -224,9 +225,7 @@ const PeopleSearchPage = () => {
   const fetchPeopleData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "http://backend.edirect.ng/api/profiles"
-      );
+      const response = await axios.get(`${backendURL}/api/profiles`);
       if (response.data.status === "success") {
         // Transform the data to match the expected format for the UI
         const transformedData = response.data.contacts.map((contact) => ({

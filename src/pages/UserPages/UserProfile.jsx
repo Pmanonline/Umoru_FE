@@ -571,7 +571,7 @@
 //     try {
 //       setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
 //       const response = await fetch(
-//         `http://backend.edirect.ng/api/profile/${userInfo.contact.slug}`
+//         `${backendURL}/api/profile/${userInfo.contact.slug}`
 //       );
 
 //       if (!response.ok) {
@@ -676,7 +676,7 @@
 //         ),
 //       };
 //       const result = await handleApiCall(
-//         "http://backend.edirect.ng/api/create/user/profile",
+//         "${backendURL}/api/create/user/profile",
 //         cleanedData,
 //         false
 //       );
@@ -744,7 +744,7 @@
 //   const saveDraft = async () => {
 //     try {
 //       await handleApiCall(
-//         "http://backend.edirect.ng/api/create/user/profile",
+//         "${backendURL}/api/create/user/profile",
 //         formik.values,
 //         true
 //       );
@@ -970,6 +970,7 @@ import { useDispatch, useSelector } from "react-redux";
 import statesAndLGAs from "../../assets/json/statesAndLGAs.json";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import backendURL from "../../config";
 
 // ProgressRing component remains unchanged
 const ProgressRing = ({ progress, size = 100, strokeWidth = 8 }) => {
@@ -1730,91 +1731,17 @@ const UserProfile = () => {
     });
   }, [formik.values, currentStep]);
 
-  // const fetchUserSlug = useCallback(async () => {
-  //   if (!userInfo?.slug) {
-  //     showAlertMessage("User slug not found", "destructive");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await fetch(
-  //       `http://backend.edirect.ng/api/user/${userInfo.slug}`
-  //     );
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.message || "Failed to fetch profile data");
-  //     }
-
-  //     const data = await response.json();
-  //     const newSlug = data?.data?.user.contact.slug;
-  //     setUserSlug(newSlug);
-  //     console.log("Fetched slug:", newSlug);
-  //     return newSlug;
-  //   } catch (error) {
-  //     showAlertMessage(error.message, "destructive");
-  //   }
-  // }, [userInfo?.slug, showAlertMessage]);
-
-  // useEffect(() => {
-  //   fetchUserSlug();
-  // }, [fetchUserSlug]);
-
-  // const fetchProfile = useCallback(async () => {
-  //   if (!userSlug) {
-  //     showAlertMessage("User slug not found.....", "destructive");
-  //     return;
-  //   }
-  //   try {
-  //     setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
-  //     const response = await fetch(
-  //       `http://backend.edirect.ng/api/profile/${userSlug}`
-  //     );
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.message || "Failed to fetch profile data");
-  //     }
-
-  //     const data = await response.json();
-  //     if (data.contact) {
-  //       const newValues = {
-  //         ...formik.initialValues,
-  //         ...data.contact,
-  //         social_media_links: data.contact.social_media_links?.length
-  //           ? data.contact.social_media_links
-  //           : [""],
-  //       };
-  //       formik.setValues(newValues);
-  //     }
-  //   } catch (error) {
-  //     showAlertMessage(error.message, "destructive");
-  //     setFormStatus((prev) => ({ ...prev, error: error.message }));
-  //   } finally {
-  //     setFormStatus((prev) => ({ ...prev, loading: false }));
-  //   }
-  // }, [userSlug, formik.initialValues, showAlertMessage]);
-
-  // // Fetch profile on mount
-  // useEffect(() => {
-  //   if (!initialFetchDone.current) {
-  //     fetchProfile();
-  //     initialFetchDone.current = true;
-  //   }
-  // }, [fetchProfile]);
   const fetchUserSlug = useCallback(async () => {
     if (!userInfo?.slug) {
       showAlertMessage("User slug not found in userInfo", "destructive");
       return null;
     }
     try {
-      const response = await fetch(
-        `http://backend.edirect.ng/api/user/${userInfo.slug}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`, // Add token if required
-          },
-        }
-      );
+      const response = await fetch(`${backendURL}/api/user/${userInfo.slug}`, {
+        headers: {
+          Authorization: `Bearer ${token.token}`, // Add token if required
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -1847,9 +1774,7 @@ const UserProfile = () => {
       }
       try {
         setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
-        const response = await fetch(
-          `http://backend.edirect.ng/api/profile/${slug}`
-        );
+        const response = await fetch(`${backendURL}/api/profile/${slug}`);
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -1961,7 +1886,7 @@ const UserProfile = () => {
           ),
         };
         await handleApiCall(
-          "http://backend.edirect.ng/api/create/user/profile",
+          `${backendURL}/api/create/user/profile`,
           cleanedData,
           false
         );
@@ -2031,7 +1956,7 @@ const UserProfile = () => {
   const saveDraft = useCallback(async () => {
     try {
       await handleApiCall(
-        "http://backend.edirect.ng/api/create/user/profile",
+        `${backendURL}/api/create/user/profile`,
         formik.values,
         true
       );

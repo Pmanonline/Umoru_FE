@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { VscLoading } from "react-icons/vsc";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
+import backendURL from "../../config";
 
 // Validation Schema
 const forgotPasswordSchema = yup.object().shape({
@@ -40,16 +41,13 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "http://backend.edirect.ng/api/forgot-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${backendURL}/api/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 

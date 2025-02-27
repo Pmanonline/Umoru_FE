@@ -7,6 +7,7 @@ import { VscLoading } from "react-icons/vsc";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import backendURL from "../../config";
 
 // Updated Validation Schema
 const signupSchema = yup.object().shape({
@@ -73,7 +74,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://backend.edirect.ng/api/register", {
+      const response = await fetch(`${backendURL}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
