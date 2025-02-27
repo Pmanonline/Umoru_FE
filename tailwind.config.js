@@ -27,7 +27,7 @@ module.exports = {
         purple: "#8400AB",
         purple2: "#7402BA",
         dark: "#000000",
-        customBlack: "#201F1F",
+        formClr: "#0d2042",
 
         extend: {},
       },

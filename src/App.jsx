@@ -10,9 +10,12 @@ import PeopleSearchPage from "./pages/PeopleSearchPage";
 import BlacklistPage from "./pages/BlacklistPage";
 import AllBusinessesPage from "./pages/AllBusinessPage";
 import SingleBusinessPage from "./pages/SingleBusinessPage";
+import SinglePeoplesPage from "./pages/SinglePeoplesPage";
 import PeoplePage from "./pages/PeoplesPage";
 import RequestFormPage from "./pages/RequestFormPage";
 import ReporBusiness from "./pages/ReporBusiness";
+import PackagesPage from "./pages/PackagesPage";
+import PaymentPage from "./pages/PaymentPage ";
 // Egroup
 import GroupPage from "./pages/Groups/GroupPage";
 import DiscussionPage from "./pages/Groups/Discussion";
@@ -60,15 +63,19 @@ const AppContent = () => {
       <ScrollToTop />
       {!isDashboardRoute && <Navbar />}
       <Routes>
+        {/* general */}
         <Route path="/" element={<Home />} />
         <Route path="/searchPage" element={<SearchPage />} />
         <Route path="/searchPage/people" element={<PeopleSearchPage />} />
         <Route path="/business" element={<AllBusinessesPage />} />
         <Route path="/SingleBusinessPage" element={<SingleBusinessPage />} />
+        <Route path="/profile/:slug?" element={<SinglePeoplesPage />} />
         <Route path="/people" element={<PeoplePage />} />
         <Route path="/blacklist" element={<BlacklistPage />} />
         <Route path="/requests" element={<RequestFormPage />} />
         <Route path="/reports" element={<ReporBusiness />} />
+        <Route path="/packages" element={<PackagesPage />} />
+        <Route path="/payment/:packageId?" element={<PaymentPage />} />
         {/* E-Groups */}
         <Route path="/Group/:slug?" element={<GroupPage />} />
         <Route path="/discussion/:slug?" element={<DiscussionPage />} />

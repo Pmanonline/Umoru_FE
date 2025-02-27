@@ -67,7 +67,7 @@ const ResetPassword = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://api.edirect.ng/api/reset-password",
+        "http://backend.edirect.ng/api/reset-password",
         {
           method: "POST",
           headers: {

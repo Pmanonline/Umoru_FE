@@ -19,6 +19,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, userInfo } = useSelector((state) => state.auth);
+
   const [showAlert, setShowAlert] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({
     type: "",
@@ -73,7 +74,7 @@ const Login = () => {
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    window.location = "https://api.edirect.ng/api/auth/google";
+    window.location = "http://backend.edirect.ng/api/auth/google";
   };
 
   return (

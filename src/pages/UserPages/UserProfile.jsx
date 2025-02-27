@@ -1,434 +1,2247 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useCallback, useRef } from "react";
+// import { ChevronRight, ChevronLeft, Check, Save, Menu, X } from "lucide-react";
+// import * as Yup from "yup";
+// import { useFormik } from "formik";
+// import { Alert, AlertDescription } from "../../components/tools/Alert";
+// import { refreshUserInfo } from "../../features/Auth/authSlice";
+// import FacialVerification from "../../components/tools/FacialVerification";
+// import { useDispatch, useSelector } from "react-redux";
+
+// // Progress Ring Component with hover effect
+// const ProgressRing = ({ progress, size = 100, strokeWidth = 8 }) => {
+//   const radius = (size - strokeWidth) / 2;
+//   const circumference = radius * 2 * Math.PI;
+//   const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+//   return (
+//     <div className="relative inline-flex items-center justify-center group">
+//       <svg height={size} width={size} className="transform -rotate-90">
+//         <circle
+//           r={radius}
+//           cx={size / 2}
+//           cy={size / 2}
+//           fill="transparent"
+//           stroke="#e5e7eb"
+//           strokeWidth={strokeWidth}
+//         />
+//         <circle
+//           r={radius}
+//           cx={size / 2}
+//           cy={size / 2}
+//           fill="transparent"
+//           stroke="#3b82f6"
+//           strokeLinecap="round"
+//           strokeWidth={strokeWidth}
+//           strokeDasharray={circumference}
+//           strokeDashoffset={strokeDashoffset}
+//           className="transition-all duration-500 ease-in-out"
+//         />
+//       </svg>
+//       <div className="absolute flex flex-col items-center justify-center">
+//         <span className="text-2xl font-semibold text-blue-600 group-hover:text-blue-700 transition-colors">
+//           {Math.round(progress)}%
+//         </span>
+//         <span className="text-xs text-gray-500">Complete</span>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // Form Section Components with smaller font and hover effects
+// const PersonalInfo = ({ formik }) => (
+//   <section className="space-y-5">
+//     <h5 className="text-sm text-gray-700">
+//       Enter accurate information to the best of your knowledge.
+//     </h5>
+//     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+//       {[
+//         { name: "first_name", label: "First Name", required: true },
+//         { name: "middle_name", label: "Middle Name" },
+//         { name: "last_name", label: "Last Name", required: true },
+//         { name: "date_of_birth", label: "Date of Birth", type: "date" },
+//         {
+//           name: "gender",
+//           label: "Gender",
+//           type: "select",
+//           options: ["", "male", "female", "other"],
+//           optionLabels: ["Select Gender", "Male", "Female", "Other"],
+//         },
+//         {
+//           name: "marital_status",
+//           label: "Marital Status",
+//           type: "select",
+//           options: ["", "single", "married", "divorced", "widowed"],
+//           optionLabels: [
+//             "Select Status",
+//             "Single",
+//             "Married",
+//             "Divorced",
+//             "Widowed",
+//           ],
+//         },
+//         {
+//           name: "religion",
+//           label: "Religion",
+//           type: "select",
+//           options: [
+//             "",
+//             "christianity",
+//             "islam",
+//             "judaism",
+//             "hinduism",
+//             "other",
+//           ],
+//           optionLabels: [
+//             "Select Religion",
+//             "Christianity",
+//             "Islam",
+//             "Judaism",
+//             "Hinduism",
+//             "Other",
+//           ],
+//         },
+//         {
+//           name: "number_of_children",
+//           label: "Number of Children",
+//           type: "number",
+//           min: 0,
+//         },
+//       ].map((field) => (
+//         <div key={field.name} className="group">
+//           <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+//             {field.label}{" "}
+//             {field.required && <span className="text-red-500">*</span>}
+//           </label>
+//           {field.type === "select" ? (
+//             <select
+//               name={field.name}
+//               value={formik.values[field.name]}
+//               onChange={formik.handleChange}
+//               onBlur={formik.handleBlur}
+//               className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+//                 formik.touched[field.name] && formik.errors[field.name]
+//                   ? "border-red-400"
+//                   : "border-gray-200"
+//               }`}>
+//               {field.options.map((option, idx) => (
+//                 <option key={option} value={option}>
+//                   {field.optionLabels[idx]}
+//                 </option>
+//               ))}
+//             </select>
+//           ) : (
+//             <input
+//               type={field.type || "text"}
+//               name={field.name}
+//               value={formik.values[field.name]}
+//               onChange={formik.handleChange}
+//               onBlur={formik.handleBlur}
+//               min={field.min}
+//               className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+//                 formik.touched[field.name] && formik.errors[field.name]
+//                   ? "border-red-400"
+//                   : "border-gray-200"
+//               }`}
+//               required={field.required}
+//             />
+//           )}
+//           {formik.touched[field.name] && formik.errors[field.name] && (
+//             <p className="mt-1 text-xs text-red-500">
+//               {formik.errors[field.name]}
+//             </p>
+//           )}
+//         </div>
+//       ))}
+//     </div>
+//   </section>
+// );
+
+// const ContactInfo = ({
+//   formik,
+//   handleSocialMediaChange,
+//   addSocialMediaField,
+//   removeSocialMediaField,
+// }) => (
+//   <section className="space-y-5">
+//     <h2 className="text-lg font-semibold text-gray-800">Contact Information</h2>
+//     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+//       {[
+//         { name: "phone", label: "Phone Number", required: true, type: "tel" },
+//         { name: "state", label: "State" },
+//         { name: "city", label: "City" },
+//       ].map((field) => (
+//         <div key={field.name} className="group">
+//           <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+//             {field.label}{" "}
+//             {field.required && <span className="text-red-500">*</span>}
+//           </label>
+//           <input
+//             type={field.type || "text"}
+//             name={field.name}
+//             value={formik.values[field.name]}
+//             onChange={formik.handleChange}
+//             onBlur={formik.handleBlur}
+//             className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+//               formik.touched[field.name] && formik.errors[field.name]
+//                 ? "border-red-400"
+//                 : "border-gray-200"
+//             }`}
+//             required={field.required}
+//           />
+//           {formik.touched[field.name] && formik.errors[field.name] && (
+//             <p className="mt-1 text-xs text-red-500">
+//               {formik.errors[field.name]}
+//             </p>
+//           )}
+//         </div>
+//       ))}
+//     </div>
+//     <div className="group">
+//       <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+//         Address <span className="text-red-500">*</span>
+//       </label>
+//       <textarea
+//         name="address"
+//         value={formik.values.address}
+//         onChange={formik.handleChange}
+//         onBlur={formik.handleBlur}
+//         className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+//           formik.touched.address && formik.errors.address
+//             ? "border-red-400"
+//             : "border-gray-200"
+//         }`}
+//         rows="3"
+//         required
+//       />
+//       {formik.touched.address && formik.errors.address && (
+//         <p className="mt-1 text-xs text-red-500">{formik.errors.address}</p>
+//       )}
+//     </div>
+//     <div className="space-y-3">
+//       <label className="block text-xs font-medium text-gray-600">
+//         Social Media Links
+//       </label>
+//       {formik.values.social_media_links.map((link, index) => (
+//         <div key={index} className="flex items-center gap-2 group">
+//           <input
+//             type="url"
+//             value={link}
+//             onChange={(e) => handleSocialMediaChange(index, e.target.value)}
+//             onBlur={formik.handleBlur}
+//             className={`flex-1 p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+//               formik.touched.social_media_links?.[index] &&
+//               formik.errors.social_media_links?.[index]
+//                 ? "border-red-400"
+//                 : "border-gray-200"
+//             }`}
+//             placeholder="https://example.com"
+//           />
+//           <button
+//             type="button"
+//             onClick={() => removeSocialMediaField(index)}
+//             className="p-1.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 disabled:opacity-50"
+//             disabled={formik.values.social_media_links.length <= 1}>
+//             <X size={14} />
+//           </button>
+//         </div>
+//       ))}
+//       {formik.errors.social_media_links && (
+//         <p className="text-xs text-red-500">
+//           Please enter valid URLs or leave empty
+//         </p>
+//       )}
+//       <button
+//         type="button"
+//         onClick={addSocialMediaField}
+//         className="mt-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-green-600 transition-colors duration-200">
+//         Add Social Media
+//       </button>
+//     </div>
+//   </section>
+// );
+
+// const ProfessionalInfo = ({ formik }) => (
+//   <section className="space-y-5">
+//     <h2 className="text-lg font-semibold text-gray-800">
+//       Professional Details
+//     </h2>
+//     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+//       {[
+//         { name: "current_place_of_work", label: "Current Place of Work" },
+//         { name: "last_place_of_work", label: "Last Place of Work" },
+//         {
+//           name: "qualification",
+//           label: "Qualification",
+//           type: "select",
+//           options: [
+//             "",
+//             "high_school",
+//             "undergraduate",
+//             "postgraduate",
+//             "other",
+//           ],
+//           optionLabels: [
+//             "Select Qualification",
+//             "High School",
+//             "Undergraduate",
+//             "Postgraduate",
+//             "Other",
+//           ],
+//         },
+//       ].map((field) => (
+//         <div key={field.name} className="group">
+//           <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+//             {field.label}
+//           </label>
+//           {field.type === "select" ? (
+//             <select
+//               name={field.name}
+//               value={formik.values[field.name]}
+//               onChange={formik.handleChange}
+//               onBlur={formik.handleBlur}
+//               className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200">
+//               {field.options.map((option, idx) => (
+//                 <option key={option} value={option}>
+//                   {field.optionLabels[idx]}
+//                 </option>
+//               ))}
+//             </select>
+//           ) : (
+//             <input
+//               type="text"
+//               name={field.name}
+//               value={formik.values[field.name]}
+//               onChange={formik.handleChange}
+//               onBlur={formik.handleBlur}
+//               className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200"
+//             />
+//           )}
+//         </div>
+//       ))}
+//     </div>
+//   </section>
+// );
+
+// const ReviewSubmit = ({ formik }) => (
+//   <section className="space-y-5">
+//     <h2 className="text-lg font-semibold text-gray-800">Review & Submit</h2>
+//     <div className="bg-gray-50 p-5 rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200">
+//       <h3 className="text-base font-semibold text-gray-700 mb-3">
+//         Your Profile Summary
+//       </h3>
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+//         <div>
+//           <h4 className="font-semibold text-blue-600 mb-2">
+//             Personal Information
+//           </h4>
+//           <p>
+//             Full Name:{" "}
+//             {`${formik.values.first_name} ${formik.values.middle_name} ${formik.values.last_name}`}
+//           </p>
+//           <p>Date of Birth: {formik.values.date_of_birth || "Not provided"}</p>
+//           <p>Gender: {formik.values.gender || "Not provided"}</p>
+//           <p>
+//             Marital Status: {formik.values.marital_status || "Not provided"}
+//           </p>
+//           <p>Religion: {formik.values.religion || "Not provided"}</p>
+//           <p>Number of Children: {formik.values.number_of_children || "0"}</p>
+//         </div>
+//         <div>
+//           <h4 className="font-semibold text-blue-600 mb-2">
+//             Contact Information
+//           </h4>
+//           <p>Phone: {formik.values.phone}</p>
+//           <p>
+//             Location:{" "}
+//             {`${formik.values.city || "Not provided"}, ${formik.values.state || "Not provided"}`}
+//           </p>
+//           <p>Address: {formik.values.address}</p>
+//           <div>
+//             <span>Social Media:</span>
+//             <ul className="list-disc pl-4 mt-1">
+//               {formik.values.social_media_links.filter((link) => link).length >
+//               0 ? (
+//                 formik.values.social_media_links.map((link, index) =>
+//                   link ? (
+//                     <li
+//                       key={index}
+//                       className="hover:text-blue-500 transition-colors">
+//                       {link}
+//                     </li>
+//                   ) : null
+//                 )
+//               ) : (
+//                 <li>No links provided</li>
+//               )}
+//             </ul>
+//           </div>
+//         </div>
+//         <div className="md:col-span-2 mt-4">
+//           <h4 className="font-semibold text-blue-600 mb-2">
+//             Professional Details
+//           </h4>
+//           <p>
+//             Current Workplace:{" "}
+//             {formik.values.current_place_of_work || "Not provided"}
+//           </p>
+//           <p>
+//             Previous Workplace:{" "}
+//             {formik.values.last_place_of_work || "Not provided"}
+//           </p>
+//           <p>Qualification: {formik.values.qualification || "Not provided"}</p>
+//         </div>
+//       </div>
+//     </div>
+//   </section>
+// );
+
+// const LoadingSpinner = () => (
+//   <div className="flex justify-center items-center py-4">
+//     <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
+//     <span className="ml-2 text-sm text-gray-600">Loading...</span>
+//   </div>
+// );
+
+// const UserProfile = () => {
+//   const { userInfo, token } = useSelector((state) => state.auth);
+//   const [currentStep, setCurrentStep] = useState(1);
+//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+//   const [isVerificationRequired, setIsVerificationRequired] = useState(false);
+//   const [showAlert, setShowAlert] = useState(false);
+//   const [alertConfig, setAlertConfig] = useState({
+//     variant: "default",
+//     message: "",
+//   });
+
+//   const showAlertMessage = (message, variant = "default") => {
+//     setAlertConfig({ message, variant });
+//     setShowAlert(true);
+//     setTimeout(() => setShowAlert(false), 5000); // Auto-close after 5s
+//   };
+
+//   const [formStatus, setFormStatus] = useState({
+//     loading: false,
+//     error: null,
+//     success: null,
+//     isDraft: false,
+//   });
+//   const [completionData, setCompletionData] = useState({
+//     personal: 0,
+//     contact: 0,
+//     professional: 0,
+//     overall: 0,
+//   });
+
+//   const validationSchema = Yup.object({
+//     first_name: Yup.string()
+//       .required("First name is required")
+//       .min(2, "First name must be at least 2 characters"),
+//     last_name: Yup.string()
+//       .required("Last name is required")
+//       .min(2, "Last name must be at least 2 characters"),
+//     phone: Yup.string()
+//       .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")
+//       .required("Phone number is required"),
+//     address: Yup.string()
+//       .required("Address is required")
+//       .min(5, "Address must be at least 5 characters"),
+//     social_media_links: Yup.array().of(
+//       Yup.string()
+//         .url("Invalid URL format")
+//         .nullable()
+//         .matches(
+//           /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+//           "Invalid URL"
+//         )
+//     ),
+//   });
+//   const initialFetchDone = useRef(false);
+//   const formik = useFormik({
+//     initialValues: {
+//       first_name: "",
+//       middle_name: "",
+//       last_name: "",
+//       date_of_birth: "",
+//       gender: "",
+//       marital_status: "",
+//       religion: "",
+//       number_of_children: "",
+//       phone: "",
+//       state: "",
+//       city: "",
+//       address: "",
+//       social_media_links: [""],
+//       current_place_of_work: "",
+//       last_place_of_work: "",
+//       qualification: "",
+//     },
+//     validationSchema,
+//     onSubmit: async (values) => await handleSubmit(values),
+//   });
+
+//   const steps = [
+//     {
+//       id: 1,
+//       title: "Personal Information",
+//       component: PersonalInfo,
+//       weight: 35,
+//     },
+//     {
+//       id: 2,
+//       title: "Contact",
+//       component: (props) => (
+//         <ContactInfo
+//           {...props}
+//           handleSocialMediaChange={handleSocialMediaChange}
+//           addSocialMediaField={addSocialMediaField}
+//           removeSocialMediaField={removeSocialMediaField}
+//         />
+//       ),
+//       weight: 35,
+//     },
+//     { id: 3, title: "Professional", component: ProfessionalInfo, weight: 20 },
+//     { id: 4, title: "Review", component: ReviewSubmit, weight: 10 },
+//   ];
+
+//   const calculateCompletionStatus = useCallback(() => {
+//     const personalFields = [
+//       "first_name",
+//       "last_name",
+//       "date_of_birth",
+//       "gender",
+//       "marital_status",
+//       "religion",
+//     ];
+//     const personalComplete = personalFields.filter(
+//       (field) => formik.values[field]
+//     ).length;
+//     const personalPercentage = Math.min(
+//       100,
+//       Math.round((personalComplete / personalFields.length) * 100)
+//     );
+
+//     const contactFields = ["phone", "state", "city", "address"];
+//     const contactComplete = contactFields.filter(
+//       (field) => formik.values[field]
+//     ).length;
+//     const contactPercentage = Math.min(
+//       100,
+//       Math.round((contactComplete / contactFields.length) * 100)
+//     );
+
+//     const professionalFields = [
+//       "current_place_of_work",
+//       "last_place_of_work",
+//       "qualification",
+//     ];
+//     const professionalComplete = professionalFields.filter(
+//       (field) => formik.values[field]
+//     ).length;
+//     const professionalPercentage = Math.min(
+//       100,
+//       Math.round((professionalComplete / professionalFields.length) * 100)
+//     );
+
+//     // Fixed weights reference - don't use steps array directly
+//     const personalWeight = 35;
+//     const contactWeight = 35;
+//     const professionalWeight = 20;
+
+//     const overallPercentage = Math.round(
+//       (personalPercentage * personalWeight +
+//         contactPercentage * contactWeight +
+//         professionalPercentage * professionalWeight) /
+//         (personalWeight + contactWeight + professionalWeight)
+//     );
+
+//     setCompletionData({
+//       personal: personalPercentage,
+//       contact: contactPercentage,
+//       professional: professionalPercentage,
+//       overall: overallPercentage,
+//     });
+//   }, [formik.values]);
+
+//   const fetchProfile = useCallback(async () => {
+//     if (!userInfo?.contact?.slug) {
+//       showAlertMessage("User slug not found", "destructive");
+//       return;
+//     }
+
+//     try {
+//       setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
+//       const response = await fetch(
+//         `http://backend.edirect.ng/api/profile/${userInfo.contact.slug}`
+//       );
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || "Failed to fetch profile data");
+//       }
+
+//       const data = await response.json();
+//       if (data.contact) {
+//         const newValues = {
+//           ...formik.initialValues,
+//           ...data.contact,
+//           social_media_links: data.contact.social_media_links?.length
+//             ? data.contact.social_media_links
+//             : [""],
+//         };
+//         formik.setValues(newValues);
+//       }
+//       // Don't call calculateCompletionStatus here - it will be triggered by the effect
+//     } catch (error) {
+//       showAlertMessage(error.message, "destructive");
+//       setFormStatus((prev) => ({
+//         ...prev,
+//         error: error.message,
+//       }));
+//     } finally {
+//       setFormStatus((prev) => ({ ...prev, loading: false }));
+//     }
+//   }, [userInfo?.contact?.slug, formik.initialValues, showAlertMessage]);
+
+//   useEffect(() => {
+//     if (!initialFetchDone.current) {
+//       fetchProfile();
+//       initialFetchDone.current = true;
+//     }
+//   }, [fetchProfile]);
+//   useEffect(() => {
+//     calculateCompletionStatus();
+//   }, [calculateCompletionStatus]);
+
+//   const handleFormChange = useCallback(() => {
+//     calculateCompletionStatus();
+//   }, [calculateCompletionStatus]);
+
+//   const handleApiCall = async (url, data, isDraft = false) => {
+//     try {
+//       setFormStatus((prev) => ({
+//         ...prev,
+//         loading: true,
+//         error: null,
+//         success: null,
+//         isDraft,
+//       }));
+
+//       const response = await fetch(url, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token.token}`,
+//         },
+//         body: JSON.stringify(data),
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || "Request failed");
+//       }
+
+//       const result = await response.json();
+//       // Refresh user info after successful API call
+//       await dispatch(refreshUserInfo()).unwrap();
+//       showAlertMessage(
+//         isDraft ? "Draft saved successfully" : "Profile updated successfully!",
+//         "success"
+//       );
+//       setFormStatus((prev) => ({
+//         ...prev,
+//         loading: false,
+//         success: true,
+//         isDraft,
+//       }));
+//       return result;
+//     } catch (error) {
+//       showAlertMessage(error.message, "destructive");
+//       setFormStatus((prev) => ({
+//         ...prev,
+//         loading: false,
+//         error: error.message,
+//         success: null,
+//         isDraft,
+//       }));
+//       throw error;
+//     }
+//   };
+
+//   const handleSubmit = async (values) => {
+//     try {
+//       const cleanedData = {
+//         ...values,
+//         social_media_links: values.social_media_links.filter((link) =>
+//           link?.trim()
+//         ),
+//       };
+//       const result = await handleApiCall(
+//         "http://backend.edirect.ng/api/create/user/profile",
+//         cleanedData,
+//         false
+//       );
+//       if (result.verification_required) {
+//         // Assume API indicates this
+//         setIsVerificationRequired(true);
+//       } else {
+//         setCurrentStep(steps.length + 1);
+//       }
+//     } catch (error) {
+//       console.error("Submission failed:", error);
+//     }
+//   };
+
+//   // Add verification completion handler
+//   const handleVerificationComplete = () => {
+//     setIsVerificationRequired(false);
+//     setCurrentStep(steps.length + 1);
+//   };
+
+//   const handleNext = () => {
+//     formik.validateForm().then((errors) => {
+//       const stepFields = {
+//         1: ["first_name", "last_name"],
+//         2: ["phone", "address"],
+//         3: [],
+//         4: [],
+//       };
+//       const relevantErrors = Object.keys(errors).filter((key) =>
+//         stepFields[currentStep].includes(key)
+//       );
+//       if (relevantErrors.length === 0) {
+//         setCurrentStep((prev) => Math.min(prev + 1, steps.length));
+//       } else {
+//         formik.setTouched(
+//           relevantErrors.reduce((acc, key) => ({ ...acc, [key]: true }), {})
+//         );
+//         showAlertMessage(
+//           "Please fix the errors before proceeding",
+//           "destructive"
+//         );
+//       }
+//     });
+//   };
+
+//   const handleSocialMediaChange = (index, value) => {
+//     const updatedLinks = [...formik.values.social_media_links];
+//     updatedLinks[index] = value;
+//     formik.setFieldValue("social_media_links", updatedLinks);
+//   };
+
+//   const addSocialMediaField = () => {
+//     formik.setFieldValue("social_media_links", [
+//       ...formik.values.social_media_links,
+//       "",
+//     ]);
+//   };
+
+//   const removeSocialMediaField = (index) => {
+//     const updatedLinks = [...formik.values.social_media_links];
+//     updatedLinks.splice(index, 1);
+//     formik.setFieldValue("social_media_links", updatedLinks);
+//   };
+
+//   const saveDraft = async () => {
+//     try {
+//       await handleApiCall(
+//         "http://backend.edirect.ng/api/create/user/profile",
+//         formik.values,
+//         true
+//       );
+//     } catch (error) {
+//       console.error("Failed to save draft:", error);
+//     }
+//   };
+
+//   return (
+//     <div className="">
+//       {isVerificationRequired ? (
+//         <FacialVerification onComplete={handleVerificationComplete} />
+//       ) : (
+//         <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row p-3 md:p-5">
+//           {/* Sidebar for desktop */}
+//           <aside className="hidden lg:block w-64 bg-white shadow-md rounded-lg p-5 sticky top-5 h-[calc(100vh-2.5rem)]">
+//             <h2 className="text-xl font-bold text-gray-800 mb-5">
+//               Profile Setup
+//             </h2>
+//             <div className="flex justify-center mb-5">
+//               <ProgressRing progress={completionData.overall} />
+//             </div>
+//             <nav className="space-y-2">
+//               {steps.map((step) => (
+//                 <button
+//                   key={step.id}
+//                   onClick={() => setCurrentStep(step.id)}
+//                   className={`w-full flex items-center p-2 rounded-md text-sm transition-all duration-200 ${
+//                     currentStep === step.id
+//                       ? "bg-blue-50 text-blue-600 font-medium"
+//                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+//                   }`}>
+//                   <span
+//                     className={`w-5 h-5 mr-2 flex items-center justify-center rounded-full text-xs ${
+//                       currentStep > step.id
+//                         ? "bg-green-500 text-white"
+//                         : currentStep === step.id
+//                           ? "bg-blue-500 text-white"
+//                           : "bg-gray-200"
+//                     }`}>
+//                     {currentStep > step.id ? <Check size={12} /> : step.id}
+//                   </span>
+//                   {step.title}
+//                   <span className="ml-auto text-xs font-medium">
+//                     {step.id === 1
+//                       ? `${completionData.personal}%`
+//                       : step.id === 2
+//                         ? `${completionData.contact}%`
+//                         : step.id === 3
+//                           ? `${completionData.professional}%`
+//                           : ""}
+//                   </span>
+//                 </button>
+//               ))}
+//             </nav>
+//           </aside>
+
+//           {/* Mobile sidebar */}
+//           <div
+//             className={`fixed inset-0 bg-black/40 z-40 lg:hidden transition-opacity duration-300 ${
+//               isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+//             }`}
+//             onClick={() => setIsSidebarOpen(false)}
+//           />
+//           <aside
+//             className={`fixed inset-y-0 left-0 w-64 bg-white shadow-md p-5 transition-transform duration-300 z-50 lg:hidden ${
+//               isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+//             }`}>
+//             <div className="flex justify-between items-center mb-5">
+//               <h2 className="text-xl font-bold text-gray-800">Profile Setup</h2>
+//               <button
+//                 onClick={() => setIsSidebarOpen(false)}
+//                 className="p-1 rounded-full hover:bg-gray-100 transition-colors">
+//                 <X size={20} />
+//               </button>
+//             </div>
+//             <div className="flex justify-center mb-5">
+//               <ProgressRing progress={completionData.overall} size={90} />
+//             </div>
+//             <nav className="space-y-2">
+//               {steps.map((step) => (
+//                 <button
+//                   key={step.id}
+//                   onClick={() => {
+//                     setCurrentStep(step.id);
+//                     setIsSidebarOpen(false);
+//                   }}
+//                   className={`w-full flex items-center p-2 rounded-md text-sm transition-all duration-200 ${
+//                     currentStep === step.id
+//                       ? "bg-blue-50 text-blue-600 font-medium"
+//                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+//                   }`}>
+//                   <span
+//                     className={`w-5 h-5 mr-2 flex items-center justify-center rounded-full text-xs ${
+//                       currentStep > step.id
+//                         ? "bg-green-500 text-white"
+//                         : currentStep === step.id
+//                           ? "bg-blue-500 text-white"
+//                           : "bg-gray-200"
+//                     }`}>
+//                     {currentStep > step.id ? <Check size={12} /> : step.id}
+//                   </span>
+//                   {step.title}
+//                   <span className="ml-auto text-xs font-medium">
+//                     {step.id === 1
+//                       ? `${completionData.personal}%`
+//                       : step.id === 2
+//                         ? `${completionData.contact}%`
+//                         : step.id === 3
+//                           ? `${completionData.professional}%`
+//                           : ""}
+//                   </span>
+//                 </button>
+//               ))}
+//             </nav>
+//           </aside>
+
+//           {/* Main Content */}
+//           <main className="flex-1 bg-white shadow-md Nlg:mt-16 rounded-lg p-2 md:p-2 lg:ml-5 mt-4 lg:mt-0">
+//             <div className="flex justify-between items-center mb-5">
+//               <h1 className="text-xl font-bold text-gray-800">
+//                 {currentStep <= steps.length
+//                   ? `Step ${currentStep}: ${steps[currentStep - 1].title}`
+//                   : "Profile Complete"}
+//               </h1>
+//               <button
+//                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+//                 className="lg:hidden p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+//                 <Menu size={18} />
+//               </button>
+//             </div>
+
+//             {/* Form Content */}
+//             <form onSubmit={formik.handleSubmit} onChange={handleFormChange}>
+//               {formStatus.loading ? (
+//                 <LoadingSpinner />
+//               ) : currentStep <= steps.length ? (
+//                 steps[currentStep - 1].component({ formik })
+//               ) : (
+//                 <div className="text-center space-y-5 py-12 bg-gray-50 rounded-lg border border-green shadow-sm max-w-xl mx-auto">
+//                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500 text-green mb-5 ring-2 ring-green">
+//                     <Check size={32} strokeWidth={2.5} />
+//                   </div>
+//                   <h2 className="text-lg font-bold text-green">
+//                     Profile Submitted Successfully
+//                   </h2>
+//                   <p className="text-sm text-gray-600 max-w-md mx-auto">
+//                     Your profile is now complete! Explore the platform and
+//                     manage your details from your dashboard.
+//                   </p>
+//                   <button
+//                     type="button"
+//                     className="mt-6 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+//                     onClick={() => (window.location.href = "/user/MyDashBoad")}>
+//                     Go to Dashboard
+//                   </button>
+//                 </div>
+//               )}
+
+//               {/* Navigation */}
+//               {currentStep <= steps.length && !formStatus.loading && (
+//                 <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between items-center">
+//                   {currentStep > 1 ? (
+//                     <button
+//                       type="button"
+//                       onClick={() => setCurrentStep((prev) => prev - 1)}
+//                       className="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-colors duration-200">
+//                       <ChevronLeft size={18} className="mr-1" /> Previous
+//                     </button>
+//                   ) : (
+//                     <div></div>
+//                   )}
+//                   <div className="flex gap-2 w-full sm:w-auto">
+//                     <button
+//                       type="button"
+//                       onClick={saveDraft}
+//                       disabled={formStatus.loading}
+//                       className="flex-1 sm:flex-initial px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50">
+//                       <Save size={18} className="inline mr-1" /> Save Draft
+//                     </button>
+//                     <button
+//                       type={currentStep === steps.length ? "submit" : "button"}
+//                       onClick={
+//                         currentStep === steps.length ? undefined : handleNext
+//                       }
+//                       disabled={formStatus.loading}
+//                       className="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50">
+//                       {currentStep === steps.length ? "Submit" : "Next"}
+//                       <ChevronRight size={18} className="inline ml-1" />
+//                     </button>
+//                   </div>
+//                 </div>
+//               )}
+//             </form>
+//           </main>
+
+//           {/* Alert Component */}
+//           {showAlert && (
+//             <Alert
+//               variant={alertConfig.variant}
+//               show={showAlert}
+//               onClose={() => setShowAlert(false)}
+//               autoClose={true}
+//               autoCloseTime={5000}>
+//               <AlertDescription>{alertConfig.message}</AlertDescription>
+//             </Alert>
+//           )}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default UserProfile;
+
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronRight, ChevronLeft, Check, Save, Menu, X } from "lucide-react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { Alert, AlertDescription } from "../../components/tools/Alert";
+import FacialVerification from "../../components/tools/FacialVerification";
+import { useDispatch, useSelector } from "react-redux";
+import statesAndLGAs from "../../assets/json/statesAndLGAs.json";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+// ProgressRing component remains unchanged
+const ProgressRing = ({ progress, size = 100, strokeWidth = 8 }) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <div className="relative inline-flex items-center justify-center group">
+      <svg height={size} width={size} className="transform -rotate-90">
+        <circle
+          r={radius}
+          cx={size / 2}
+          cy={size / 2}
+          fill="transparent"
+          stroke="#e5e7eb"
+          strokeWidth={strokeWidth}
+        />
+        <circle
+          r={radius}
+          cx={size / 2}
+          cy={size / 2}
+          fill="transparent"
+          stroke="#3b82f6"
+          strokeLinecap="round"
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          className="transition-all duration-500 ease-in-out"
+        />
+      </svg>
+      <div className="absolute flex flex-col items-center justify-center">
+        <span className="text-2xl font-semibold text-blue-600 group-hover:text-blue-700 transition-colors">
+          {Math.round(progress)}%
+        </span>
+        <span className="text-xs text-gray-500">Complete</span>
+      </div>
+    </div>
+  );
+};
+
+// Form Section Components with smaller font and hover effects
+const PersonalInfo = ({ formik }) => (
+  <section className="space-y-5">
+    <h5 className="text-sm text-gray-700">
+      Enter accurate information to the best of your knowledge.
+    </h5>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {[
+        { name: "first_name", label: "First Name", required: true },
+        { name: "middle_name", label: "Middle Name" },
+        { name: "last_name", label: "Last Name", required: true },
+        { name: "date_of_birth", label: "Date of Birth", type: "date" },
+        {
+          name: "gender",
+          label: "Gender",
+          type: "select",
+          options: ["", "male", "female", "other"],
+          optionLabels: ["Select Gender", "Male", "Female", "Other"],
+        },
+        {
+          name: "marital_status",
+          label: "Marital Status",
+          type: "select",
+          options: ["", "single", "married", "divorced", "widowed"],
+          optionLabels: [
+            "Select Status",
+            "Single",
+            "Married",
+            "Divorced",
+            "Widowed",
+          ],
+        },
+        {
+          name: "religion",
+          label: "Religion",
+          type: "select",
+          options: [
+            "",
+            "christianity",
+            "islam",
+            "judaism",
+            "hinduism",
+            "other",
+          ],
+          optionLabels: [
+            "Select Religion",
+            "Christianity",
+            "Islam",
+            "Judaism",
+            "Hinduism",
+            "Other",
+          ],
+        },
+        {
+          name: "number_of_children",
+          label: "Number of Children",
+          type: "number",
+          min: 0,
+        },
+      ].map((field) => (
+        <div key={field.name} className="group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            {field.label}{" "}
+            {field.required && <span className="text-red-500">*</span>}
+          </label>
+          {field.type === "select" ? (
+            <select
+              name={field.name}
+              value={formik.values[field.name]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+                formik.touched[field.name] && formik.errors[field.name]
+                  ? "border-red-400"
+                  : "border-gray-200"
+              }`}>
+              {field.options.map((option, idx) => (
+                <option key={option} value={option}>
+                  {field.optionLabels[idx]}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              type={field.type || "text"}
+              name={field.name}
+              value={formik.values[field.name]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              min={field.min}
+              className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+                formik.touched[field.name] && formik.errors[field.name]
+                  ? "border-red-400"
+                  : "border-gray-200"
+              }`}
+              required={field.required}
+            />
+          )}
+          {formik.touched[field.name] && formik.errors[field.name] && (
+            <p className="mt-1 text-xs text-red-500">
+              {formik.errors[field.name]}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
+const ContactInfo = ({
+  formik,
+  handleSocialMediaChange,
+  addSocialMediaField,
+  removeSocialMediaField,
+}) => {
+  // Extract states from the JSON
+  const states = statesAndLGAs.statesAndLGAs.map((state) => ({
+    id: state.id,
+    name: state.name,
+  }));
+
+  // Get LGAs for the selected state
+  const selectedState = statesAndLGAs.statesAndLGAs.find(
+    (state) => state.name === formik.values.state
+  );
+  const lgas = selectedState ? selectedState.local_governments : [];
+
+  return (
+    <section className="space-y-5">
+      <h2 className="text-lg font-semibold text-gray-800">
+        Contact Information
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Phone Number Field */}
+        <div className="group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+              formik.touched.phone && formik.errors.phone
+                ? "border-red-400"
+                : "border-gray-200"
+            }`}
+            required
+          />
+          {formik.touched.phone && formik.errors.phone && (
+            <p className="mt-1 text-xs text-red-500">{formik.errors.phone}</p>
+          )}
+        </div>
+
+        {/* State Field */}
+        <div className="group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            State <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="state"
+            value={formik.values.state}
+            onChange={(e) => {
+              formik.handleChange(e);
+              // Reset city when state changes
+              formik.setFieldValue("city", "");
+            }}
+            onBlur={formik.handleBlur}
+            className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+              formik.touched.state && formik.errors.state
+                ? "border-red-400"
+                : "border-gray-200"
+            }`}>
+            <option value="">Select State</option>
+            {states.map((state) => (
+              <option key={state.id} value={state.name}>
+                {state.name}
+              </option>
+            ))}
+          </select>
+          {formik.touched.state && formik.errors.state && (
+            <p className="mt-1 text-xs text-red-500">{formik.errors.state}</p>
+          )}
+        </div>
+
+        {/* City (LGA) Field */}
+        <div className="group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            City (LGA) <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="city"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+              formik.touched.city && formik.errors.city
+                ? "border-red-400"
+                : "border-gray-200"
+            }`}
+            disabled={!formik.values.state} // Disable if no state is selected
+          >
+            <option value="">Select City (LGA)</option>
+            {lgas.map((lga) => (
+              <option key={lga.id} value={lga.name}>
+                {lga.name}
+              </option>
+            ))}
+          </select>
+          {formik.touched.city && formik.errors.city && (
+            <p className="mt-1 text-xs text-red-500">{formik.errors.city}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Address Field */}
+      <div className="group">
+        <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+          Address <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          name="address"
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+            formik.touched.address && formik.errors.address
+              ? "border-red-400"
+              : "border-gray-200"
+          }`}
+          rows="3"
+          required
+        />
+        {formik.touched.address && formik.errors.address && (
+          <p className="mt-1 text-xs text-red-500">{formik.errors.address}</p>
+        )}
+      </div>
+
+      {/* Social Media Links (unchanged) */}
+      <div className="space-y-3">
+        <label className="block text-xs font-medium text-gray-600">
+          Social Media Links
+        </label>
+        {formik.values.social_media_links.map((link, index) => (
+          <div key={index} className="flex items-center gap-2 group">
+            <input
+              type="url"
+              value={link}
+              onChange={(e) => handleSocialMediaChange(index, e.target.value)}
+              onBlur={formik.handleBlur}
+              className={`flex-1 p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 ${
+                formik.touched.social_media_links?.[index] &&
+                formik.errors.social_media_links?.[index]
+                  ? "border-red-400"
+                  : "border-gray-200"
+              }`}
+              placeholder="https://example.com"
+            />
+            <button
+              type="button"
+              onClick={() => removeSocialMediaField(index)}
+              className="p-1.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 disabled:opacity-50"
+              disabled={formik.values.social_media_links.length <= 1}>
+              <X size={14} />
+            </button>
+          </div>
+        ))}
+        {formik.errors.social_media_links && (
+          <p className="text-xs text-red-500">
+            Please enter valid URLs or leave empty
+          </p>
+        )}
+        <button
+          type="button"
+          onClick={addSocialMediaField}
+          className="mt-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-green-600 transition-colors duration-200">
+          Add Social Media
+        </button>
+      </div>
+    </section>
+  );
+};
+
+const ProfessionalInfo = ({ formik }) => {
+  // List of common professions
+  const professions = [
+    "",
+    "Software Developer",
+    "Doctor",
+    "Teacher",
+    "Engineer",
+    "Lawyer",
+    "Accountant",
+    "Nurse",
+    "Designer",
+    "Manager",
+    "Sales Representative",
+    "Other",
+  ];
+
+  return (
+    <section className="space-y-5">
+      <h2 className="text-lg font-semibold text-gray-800">
+        Professional Details
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {[
+          { name: "current_place_of_work", label: "Current Place of Work" },
+          { name: "last_place_of_work", label: "Last Place of Work" },
+          {
+            name: "qualification",
+            label: "Qualification",
+            type: "select",
+            options: [
+              "",
+              "high_school",
+              "undergraduate",
+              "postgraduate",
+              "other",
+            ],
+            optionLabels: [
+              "Select Qualification",
+              "High School",
+              "Undergraduate",
+              "Postgraduate",
+              "Other",
+            ],
+          },
+        ].map((field) => (
+          <div key={field.name} className="group">
+            <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+              {field.label}
+            </label>
+            {field.type === "select" ? (
+              <select
+                name={field.name}
+                value={formik.values[field.name]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200">
+                {field.options.map((option, idx) => (
+                  <option key={option} value={option}>
+                    {field.optionLabels[idx]}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                name={field.name}
+                value={formik.values[field.name]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200"
+              />
+            )}
+          </div>
+        ))}
+
+        {/* Profession Field */}
+        <div className="group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            Profession
+          </label>
+          <select
+            name="profession"
+            value={formik.values.profession}
+            onChange={(e) => {
+              formik.handleChange(e);
+              if (e.target.value !== "Other") {
+                formik.setFieldValue("custom_profession", "");
+              }
+            }}
+            onBlur={formik.handleBlur}
+            className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200">
+            {professions.map((prof) => (
+              <option key={prof} value={prof}>
+                {prof || "Select Profession"}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Custom Profession Field (shown only if 'Other' is selected) */}
+        {formik.values.profession === "Other" && (
+          <div className="group">
+            <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+              Specify Profession
+            </label>
+            <input
+              type="text"
+              name="custom_profession"
+              value={formik.values.custom_profession}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full p-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300 border-gray-200"
+              placeholder="Enter your profession"
+            />
+          </div>
+        )}
+
+        {/* Bio Field */}
+        <div className="md:col-span-2 group">
+          <label className="block mb-1 text-xs font-medium text-gray-600 group-hover:text-gray-800 transition-colors">
+            Bio
+          </label>
+          <ReactQuill
+            theme="snow"
+            value={formik.values.bio}
+            onChange={(value) => formik.setFieldValue("bio", value)}
+            className="bg-white rounded-md border border-gray-200 hover:border-blue-300 transition-all duration-200"
+            modules={{
+              toolbar: [
+                ["bold", "italic", "underline"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link"],
+                ["clean"],
+              ],
+            }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ReviewSubmit = ({ formik }) => (
+  <section className="space-y-5">
+    <h2 className="text-lg font-semibold text-gray-800">Review & Submit</h2>
+    <div className="bg-gray-50 p-5 rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200">
+      <h3 className="text-base font-semibold text-gray-700 mb-3">
+        Your Profile Summary
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+        <div>
+          <h4 className="font-semibold text-blue-600 mb-2">
+            Personal Information
+          </h4>
+          <p>
+            Full Name:{" "}
+            {`${formik.values.first_name} ${formik.values.middle_name} ${formik.values.last_name}`}
+          </p>
+          <p>Date of Birth: {formik.values.date_of_birth || "Not provided"}</p>
+          <p>Gender: {formik.values.gender || "Not provided"}</p>
+          <p>
+            Marital Status: {formik.values.marital_status || "Not provided"}
+          </p>
+          <p>Religion: {formik.values.religion || "Not provided"}</p>
+          <p>Number of Children: {formik.values.number_of_children || "0"}</p>
+        </div>
+        <div>
+          <h4 className="font-semibold text-blue-600 mb-2">
+            Contact Information
+          </h4>
+          <p>Phone: {formik.values.phone}</p>
+          <p>
+            Location:{" "}
+            {`${formik.values.city || "Not provided"}, ${formik.values.state || "Not provided"}`}
+          </p>
+          <p>Address: {formik.values.address}</p>
+          <div>
+            <span>Social Media:</span>
+            <ul className="list-disc pl-4 mt-1">
+              {formik.values.social_media_links.filter((link) => link).length >
+              0 ? (
+                formik.values.social_media_links.map((link, index) =>
+                  link ? (
+                    <li
+                      key={index}
+                      className="hover:text-blue-500 transition-colors">
+                      {link}
+                    </li>
+                  ) : null
+                )
+              ) : (
+                <li>No links provided</li>
+              )}
+            </ul>
+          </div>
+        </div>
+        <div className="md:col-span-2 mt-4">
+          <h4 className="font-semibold text-blue-600 mb-2">
+            Professional Details
+          </h4>
+          <p>
+            Profession:{" "}
+            {formik.values.profession === "Other"
+              ? formik.values.custom_profession || "Not provided"
+              : formik.values.profession || "Not provided"}
+          </p>
+          <p>
+            Current Workplace:{" "}
+            {formik.values.current_place_of_work || "Not provided"}
+          </p>
+          <p>
+            Previous Workplace:{" "}
+            {formik.values.last_place_of_work || "Not provided"}
+          </p>
+          <p>Qualification: {formik.values.qualification || "Not provided"}</p>
+          <div>
+            <span>Bio:</span>
+            <div
+              className="mt-1 text-gray-600 ql-editor"
+              dangerouslySetInnerHTML={{
+                __html: formik.values.bio || "Not provided",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// Add FacialVerificationStep component
+const FacialVerificationStep = ({ onComplete }) => (
+  <section className="space-y-5">
+    <h2 className="text-lg font-semibold text-gray-800">Facial Verification</h2>
+    <p className="text-sm text-gray-600">
+      Please complete the facial verification process to verify your identity.
+    </p>
+    <FacialVerification onComplete={onComplete} />
+  </section>
+);
+
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center py-4">
+    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
+    <span className="ml-2 text-sm text-gray-600">Loading...</span>
+  </div>
+);
 
 const UserProfile = () => {
+  const { userInfo, token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    companyName: "",
-    businessType: "",
-    foundedYear: "",
-    primaryContactName: "",
-    email: "",
-    phone: "",
-    address: "",
-    annualRevenue: "",
-    employeeCount: "",
-    taxId: "",
-    ownerName: "",
-    shareholderCount: "",
-    industryCategory: "",
-    businessModel: "",
-    websiteUrl: "",
+  const [showAlert, setShowAlert] = useState(false);
+  const [userSlug, setUserSlug] = useState(null);
+  const [alertConfig, setAlertConfig] = useState({
+    variant: "default",
+    message: "",
   });
 
-  const [formValidation, setFormValidation] = useState({
-    personalDetails: false,
-    contactInformation: false,
-    financialDetails: false,
-    ownershipDetails: false,
-    additionalDetails: false,
+  const showAlertMessage = useCallback((message, variant = "default") => {
+    setAlertConfig({ message, variant });
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 5000);
+  }, []);
+
+  const [formStatus, setFormStatus] = useState({
+    loading: false,
+    error: null,
+    success: null,
+    isDraft: false,
+  });
+  const [completionData, setCompletionData] = useState({
+    personal: 0,
+    contact: 0,
+    professional: 0,
+    verification: 0,
+    overall: 0,
+  });
+
+  const validationSchema = Yup.object({
+    first_name: Yup.string()
+      .required("First name is required")
+      .min(2, "First name must be at least 2 characters"),
+    last_name: Yup.string()
+      .required("Last name is required")
+      .min(2, "Last name must be at least 2 characters"),
+    phone: Yup.string()
+      .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")
+      .required("Phone number is required"),
+    state: Yup.string().required("State is required"),
+    city: Yup.string().required("City (LGA) is required"),
+    address: Yup.string()
+      .required("Address is required")
+      .min(5, "Address must be at least 5 characters"),
+    social_media_links: Yup.array().of(
+      Yup.string()
+        .url("Invalid URL format")
+        .nullable()
+        .matches(
+          /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+          "Invalid URL"
+        )
+    ),
+  });
+
+  const initialFetchDone = useRef(false);
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      date_of_birth: "",
+      gender: "",
+      marital_status: "",
+      religion: "",
+      number_of_children: "",
+      phone: "",
+      state: "",
+      city: "",
+      address: "",
+      social_media_links: [""],
+      current_place_of_work: "",
+      last_place_of_work: "",
+      qualification: "",
+      profession: "",
+      custom_profession: "",
+      bio: "",
+    },
+    validationSchema,
+    onSubmit: async (values) => await handleSubmit(values),
   });
 
   const steps = [
-    { id: 1, title: "Company Basics", key: "personalDetails" },
-    { id: 2, title: "Contact Information", key: "contactInformation" },
-    { id: 3, title: "Financial Details", key: "financialDetails" },
-    { id: 4, title: "Ownership Details", key: "ownershipDetails" },
-    { id: 5, title: "Additional Details", key: "additionalDetails" },
+    {
+      id: 1,
+      title: "Personal Information",
+      component: PersonalInfo,
+      weight: 30,
+    },
+    {
+      id: 2,
+      title: "Contact",
+      component: (props) => (
+        <ContactInfo
+          {...props}
+          handleSocialMediaChange={handleSocialMediaChange}
+          addSocialMediaField={addSocialMediaField}
+          removeSocialMediaField={removeSocialMediaField}
+        />
+      ),
+      weight: 30,
+    },
+    { id: 3, title: "Professional", component: ProfessionalInfo, weight: 20 },
+    {
+      id: 4,
+      title: "Facial Verification",
+      component: (props) => (
+        <FacialVerificationStep
+          {...props}
+          onComplete={handleVerificationComplete}
+        />
+      ),
+      weight: 10,
+    },
+    { id: 5, title: "Review & Submit", component: ReviewSubmit, weight: 10 },
   ];
 
-  // Load saved data from localStorage
-  useEffect(() => {
-    const savedData = localStorage.getItem("userProfileFormData");
-    if (savedData) {
-      setFormData(JSON.parse(savedData));
-    }
-  }, []);
-
-  // Save data to localStorage
-  const saveProgress = () => {
-    localStorage.setItem("userProfileFormData", JSON.stringify(formData));
-    alert("Progress saved! You can continue later.");
-  };
-
-  const validateStep = (step) => {
-    switch (step) {
-      case 1:
-        return (
-          formData.companyName && formData.businessType && formData.foundedYear
-        );
-      case 2:
-        return (
-          formData.primaryContactName &&
-          formData.email &&
-          formData.phone &&
-          formData.address
-        );
-      case 3:
-        return (
-          formData.annualRevenue && formData.employeeCount && formData.taxId
-        );
-      case 4:
-        return formData.ownerName && formData.shareholderCount;
-      case 5:
-        return formData.industryCategory && formData.businessModel;
-      default:
-        return false;
-    }
-  };
-
-  const handleNext = () => {
-    if (validateStep(currentStep)) {
-      const newValidation = { ...formValidation };
-      newValidation[steps[currentStep - 1].key] = true;
-      setFormValidation(newValidation);
-      setCurrentStep(currentStep + 1);
-    } else {
-      alert("Please complete all required fields before proceeding.");
-    }
-  };
-
-  const handlePrevious = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Modified sidebar component
-  const renderSidebar = () => (
-    <div
-      className={`fixed lg:relative inset-y-0 left-0 w-64 bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 ease-in-out z-50 ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-      }`}>
-      <h2 className="text-xl font-bold mb-6">Business Form</h2>
-      <ul className="space-y-4">
-        {steps.map((step) => (
-          <li
-            key={step.id}
-            className={`flex items-center cursor-pointer ${
-              currentStep === step.id
-                ? "text-blue-500 font-bold"
-                : "text-gray-500"
-            }`}
-            onClick={() => {
-              setCurrentStep(step.id);
-              setIsSidebarOpen(false);
-            }}>
-            {formValidation[step.key] ? (
-              <Check className="w-5 h-5 mr-2 text-green-500" />
-            ) : (
-              <span className="w-5 h-5 mr-2 bg-gray-200 rounded-full flex items-center justify-center">
-                {step.id}
-              </span>
-            )}
-            <span>{step.title}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-
-  // Add backdrop for mobile
-  const renderBackdrop = () =>
-    isSidebarOpen && (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-        onClick={() => setIsSidebarOpen(false)}
-      />
+  const calculateCompletionStatus = useCallback(() => {
+    const personalFields = [
+      "first_name",
+      "last_name",
+      "date_of_birth",
+      "gender",
+      "marital_status",
+      "religion",
+    ];
+    const personalComplete = personalFields.filter(
+      (field) => formik.values[field]
+    ).length;
+    const personalPercentage = Math.min(
+      100,
+      Math.round((personalComplete / personalFields.length) * 100)
     );
 
-  const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Company Basics</h2>
-            <input
-              type="text"
-              name="companyName"
-              placeholder="Company Name *"
-              value={formData.companyName}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <select
-              name="businessType"
-              value={formData.businessType}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required>
-              <option value="">Select Business Type *</option>
-              <option value="LLC">LLC</option>
-              <option value="Corporation">Corporation</option>
-              <option value="Partnership">Partnership</option>
-              <option value="Sole Proprietorship">Sole Proprietorship</option>
-            </select>
-            <input
-              type="number"
-              name="foundedYear"
-              placeholder="Founded Year *"
-              value={formData.foundedYear}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-        );
+    const contactFields = ["phone", "state", "city", "address"];
+    const contactComplete = contactFields.filter(
+      (field) => formik.values[field]
+    ).length;
+    const contactPercentage = Math.min(
+      100,
+      Math.round((contactComplete / contactFields.length) * 100)
+    );
 
-      case 2:
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Contact Information</h2>
-            <input
-              type="text"
-              name="primaryContactName"
-              placeholder="Primary Contact Name *"
-              value={formData.primaryContactName}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Business Email *"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone Number *"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <textarea
-              name="address"
-              placeholder="Business Address *"
-              value={formData.address}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-        );
+    const professionalFields = [
+      "current_place_of_work",
+      "last_place_of_work",
+      "qualification",
+      "profession",
+      "bio",
+    ];
+    const professionalComplete = professionalFields.filter(
+      (field) =>
+        formik.values[field] ||
+        (field === "profession" &&
+          formik.values[field] === "Other" &&
+          formik.values.custom_profession)
+    ).length;
+    const professionalPercentage = Math.min(
+      100,
+      Math.round((professionalComplete / professionalFields.length) * 100)
+    );
 
-      case 3:
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Financial Details</h2>
-            <input
-              type="number"
-              name="annualRevenue"
-              placeholder="Annual Revenue *"
-              value={formData.annualRevenue}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <input
-              type="number"
-              name="employeeCount"
-              placeholder="Number of Employees *"
-              value={formData.employeeCount}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <input
-              type="text"
-              name="taxId"
-              placeholder="Tax Identification Number *"
-              value={formData.taxId}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-        );
+    const verificationPercentage = currentStep > 4 ? 100 : 0;
 
-      case 4:
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Ownership Details</h2>
-            <input
-              type="text"
-              name="ownerName"
-              placeholder="Primary Owner/CEO Name *"
-              value={formData.ownerName}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-            <input
-              type="number"
-              name="shareholderCount"
-              placeholder="Number of Shareholders *"
-              value={formData.shareholderCount}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-        );
+    const totalWeight = steps.reduce((sum, step) => sum + step.weight, 0);
+    const overallPercentage = Math.round(
+      (personalPercentage * steps[0].weight +
+        contactPercentage * steps[1].weight +
+        professionalPercentage * steps[2].weight +
+        verificationPercentage * steps[3].weight) /
+        totalWeight
+    );
 
-      case 5:
-        return (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Additional Business Details</h2>
-            <select
-              name="industryCategory"
-              value={formData.industryCategory}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required>
-              <option value="">Select Industry Category *</option>
-              <option value="Technology">Technology</option>
-              <option value="Finance">Finance</option>
-              <option value="Healthcare">Healthcare</option>
-              <option value="Retail">Retail</option>
-              <option value="Manufacturing">Manufacturing</option>
-            </select>
-            <select
-              name="businessModel"
-              value={formData.businessModel}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required>
-              <option value="">Select Business Model *</option>
-              <option value="B2B">Business to Business (B2B)</option>
-              <option value="B2C">Business to Consumer (B2C)</option>
-              <option value="C2C">Consumer to Consumer (C2C)</option>
-              <option value="Subscription">Subscription Based</option>
-            </select>
-            <input
-              type="url"
-              name="websiteUrl"
-              placeholder="Company Website URL"
-              value={formData.websiteUrl}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-        );
+    setCompletionData({
+      personal: personalPercentage,
+      contact: contactPercentage,
+      professional: professionalPercentage,
+      verification: verificationPercentage,
+      overall: overallPercentage,
+    });
+  }, [formik.values, currentStep]);
 
-      case 6:
-        return (
-          <div className="text-center space-y-4">
-            <Check className="mx-auto text-green-500" size={64} />
-            <h2 className="text-2xl font-bold">Profile Submission Complete</h2>
-            <p>Your business profile has been successfully submitted.</p>
-            <pre className="text-left bg-gray-100 p-4 rounded">
-              {JSON.stringify(formData, null, 2)}
-            </pre>
-          </div>
-        );
+  // const fetchUserSlug = useCallback(async () => {
+  //   if (!userInfo?.slug) {
+  //     showAlertMessage("User slug not found", "destructive");
+  //     return;
+  //   }
+  //   try {
+  //     const response = await fetch(
+  //       `http://backend.edirect.ng/api/user/${userInfo.slug}`
+  //     );
 
-      default:
-        return null;
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message || "Failed to fetch profile data");
+  //     }
+
+  //     const data = await response.json();
+  //     const newSlug = data?.data?.user.contact.slug;
+  //     setUserSlug(newSlug);
+  //     console.log("Fetched slug:", newSlug);
+  //     return newSlug;
+  //   } catch (error) {
+  //     showAlertMessage(error.message, "destructive");
+  //   }
+  // }, [userInfo?.slug, showAlertMessage]);
+
+  // useEffect(() => {
+  //   fetchUserSlug();
+  // }, [fetchUserSlug]);
+
+  // const fetchProfile = useCallback(async () => {
+  //   if (!userSlug) {
+  //     showAlertMessage("User slug not found.....", "destructive");
+  //     return;
+  //   }
+  //   try {
+  //     setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
+  //     const response = await fetch(
+  //       `http://backend.edirect.ng/api/profile/${userSlug}`
+  //     );
+
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message || "Failed to fetch profile data");
+  //     }
+
+  //     const data = await response.json();
+  //     if (data.contact) {
+  //       const newValues = {
+  //         ...formik.initialValues,
+  //         ...data.contact,
+  //         social_media_links: data.contact.social_media_links?.length
+  //           ? data.contact.social_media_links
+  //           : [""],
+  //       };
+  //       formik.setValues(newValues);
+  //     }
+  //   } catch (error) {
+  //     showAlertMessage(error.message, "destructive");
+  //     setFormStatus((prev) => ({ ...prev, error: error.message }));
+  //   } finally {
+  //     setFormStatus((prev) => ({ ...prev, loading: false }));
+  //   }
+  // }, [userSlug, formik.initialValues, showAlertMessage]);
+
+  // // Fetch profile on mount
+  // useEffect(() => {
+  //   if (!initialFetchDone.current) {
+  //     fetchProfile();
+  //     initialFetchDone.current = true;
+  //   }
+  // }, [fetchProfile]);
+  const fetchUserSlug = useCallback(async () => {
+    if (!userInfo?.slug) {
+      showAlertMessage("User slug not found in userInfo", "destructive");
+      return null;
     }
-  };
+    try {
+      const response = await fetch(
+        `http://backend.edirect.ng/api/user/${userInfo.slug}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`, // Add token if required
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch user data");
+      }
+
+      const data = await response.json();
+      const newSlug = data?.data?.user.contact.slug;
+      if (!newSlug) {
+        throw new Error("Slug not found in response");
+      }
+      setUserSlug(newSlug);
+      console.log("Fetched slug:", newSlug);
+      return newSlug;
+    } catch (error) {
+      showAlertMessage(error.message, "destructive");
+      return null;
+    }
+  }, [userInfo?.slug, token.token, showAlertMessage]);
+
+  const fetchProfile = useCallback(
+    async (slugToUse) => {
+      const slug = slugToUse || userSlug;
+      if (!slug) {
+        showAlertMessage(
+          "User slug not found for profile fetch",
+          "destructive"
+        );
+        return;
+      }
+      try {
+        setFormStatus((prev) => ({ ...prev, loading: true, error: null }));
+        const response = await fetch(
+          `http://backend.edirect.ng/api/profile/${slug}`
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch profile data");
+        }
+
+        const data = await response.json();
+        if (data.contact) {
+          const newValues = {
+            ...formik.initialValues,
+            ...data.contact,
+            social_media_links: data.contact.social_media_links?.length
+              ? data.contact.social_media_links
+              : [""],
+          };
+          formik.setValues(newValues);
+          console.log("Profile fetched successfully for slug:", slug);
+        }
+      } catch (error) {
+        showAlertMessage(error.message, "destructive");
+        setFormStatus((prev) => ({ ...prev, error: error.message }));
+      } finally {
+        setFormStatus((prev) => ({ ...prev, loading: false }));
+      }
+    },
+    [userSlug, formik.initialValues, token.token, showAlertMessage]
+  );
+
+  // Combined fetch logic
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!initialFetchDone.current) {
+        const slug = await fetchUserSlug(); // Fetch slug first
+        if (slug) {
+          await fetchProfile(slug); // Fetch profile with the new slug
+        }
+        initialFetchDone.current = true;
+      }
+    };
+    fetchData();
+  }, [fetchUserSlug, fetchProfile]);
+
+  // Calculate completion status only when form values or step changes
+  useEffect(() => {
+    calculateCompletionStatus();
+  }, [formik.values, currentStep, calculateCompletionStatus]);
+
+  const handleApiCall = useCallback(
+    async (url, data, isDraft = false) => {
+      try {
+        setFormStatus((prev) => ({
+          ...prev,
+          loading: true,
+          error: null,
+          success: null,
+          isDraft,
+        }));
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.token}`,
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Request failed");
+        }
+
+        const result = await response.json();
+        showAlertMessage(
+          isDraft
+            ? "Draft saved successfully"
+            : "Profile updated successfully!",
+          "success"
+        );
+        setFormStatus((prev) => ({
+          ...prev,
+          loading: false,
+          success: true,
+          isDraft,
+        }));
+        return result;
+      } catch (error) {
+        showAlertMessage(error.message, "destructive");
+        setFormStatus((prev) => ({
+          ...prev,
+          loading: false,
+          error: error.message,
+          success: null,
+          isDraft,
+        }));
+        throw error;
+      }
+    },
+    [dispatch, token.token, showAlertMessage]
+  );
+
+  const handleSubmit = useCallback(
+    async (values) => {
+      try {
+        const cleanedData = {
+          ...values,
+          social_media_links: values.social_media_links.filter((link) =>
+            link?.trim()
+          ),
+        };
+        await handleApiCall(
+          "http://backend.edirect.ng/api/create/user/profile",
+          cleanedData,
+          false
+        );
+        setCurrentStep(steps.length + 1); // Move to completion screen
+      } catch (error) {
+        console.error("Submission failed:", error);
+      }
+    },
+    [handleApiCall]
+  );
+
+  const handleVerificationComplete = useCallback(() => {
+    setCurrentStep(5); // Move to Review & Submit after verification
+  }, []);
+
+  const handleNext = useCallback(() => {
+    formik.validateForm().then((errors) => {
+      const stepFields = {
+        1: ["first_name", "last_name"],
+        2: ["phone", "state", "city", "address"], // Updated to include state and city
+        3: [],
+        4: [],
+        5: [],
+      };
+      const relevantErrors = Object.keys(errors).filter((key) =>
+        stepFields[currentStep].includes(key)
+      );
+      if (relevantErrors.length === 0) {
+        setCurrentStep((prev) => Math.min(prev + 1, steps.length));
+      } else {
+        formik.setTouched(
+          relevantErrors.reduce((acc, key) => ({ ...acc, [key]: true }), {})
+        );
+        showAlertMessage(
+          "Please fix the errors before proceeding",
+          "destructive"
+        );
+      }
+    });
+  }, [currentStep, formik, showAlertMessage]);
+
+  const handleSocialMediaChange = useCallback(
+    (index, value) => {
+      const updatedLinks = [...formik.values.social_media_links];
+      updatedLinks[index] = value;
+      formik.setFieldValue("social_media_links", updatedLinks);
+    },
+    [formik]
+  );
+
+  const addSocialMediaField = useCallback(() => {
+    formik.setFieldValue("social_media_links", [
+      ...formik.values.social_media_links,
+      "",
+    ]);
+  }, [formik]);
+
+  const removeSocialMediaField = useCallback(
+    (index) => {
+      const updatedLinks = [...formik.values.social_media_links];
+      updatedLinks.splice(index, 1);
+      formik.setFieldValue("social_media_links", updatedLinks);
+    },
+    [formik]
+  );
+
+  const saveDraft = useCallback(async () => {
+    try {
+      await handleApiCall(
+        "http://backend.edirect.ng/api/create/user/profile",
+        formik.values,
+        true
+      );
+    } catch (error) {
+      console.error("Failed to save draft:", error);
+    }
+  }, [formik.values, handleApiCall]);
 
   return (
-    <div className="min-h-screen bg-gray-300 flex p-4 mx-auto w-full">
-      {/* Sidebar */}
-      {renderBackdrop()}
-      {renderSidebar()}
-
-      {/* Main Form */}
-      <div className="flex-1 bg-white shadow-xl rounded-lg p-8 ml-6">
-        {/* Mobile Toggle Button */}
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="lg:hidden p-2 mb-4 mod:mt-12">
-          {isSidebarOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
-        {/* Progress Indicator */}
-        <div className="flex justify-between mb-8">
-          {steps.map((step) => (
-            <div
-              key={step.id}
-              className={`w-full mx-2 h-2 rounded ${
-                currentStep > step.id || formValidation[step.key]
-                  ? "bg-green-500"
-                  : currentStep === step.id
-                    ? "bg-blue-500"
-                    : "bg-gray-300"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Form Content */}
-        <div className="mb-6">{renderStepContent()}</div>
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between">
-          {currentStep > 1 && currentStep < 6 && (
-            <button
-              onClick={handlePrevious}
-              className="flex items-center bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
-              <ChevronLeft className="mr-2" /> Previous
-            </button>
-          )}
-
-          <div className="flex justify-between">
-            {currentStep > 1 && currentStep < 6 && (
+    <div className="">
+      <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row p-3 md:p-5">
+        {/* Sidebar for desktop */}
+        <aside className="hidden lg:block w-64 bg-white shadow-md rounded-lg p-5 sticky top-5 h-[calc(100vh-2.5rem)]">
+          <h2 className="text-xl font-bold text-gray-800 mb-5">
+            Profile Setup
+          </h2>
+          <div className="flex justify-center mb-5">
+            <ProgressRing progress={completionData.overall} />
+          </div>
+          <nav className="space-y-2">
+            {steps.map((step) => (
               <button
-                onClick={handlePrevious}
-                className="flex items-center bg-gray-200 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded hover:bg-gray-300 text-sm sm:text-base">
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Previous
+                key={step.id}
+                onClick={() => setCurrentStep(step.id)}
+                className={`w-full flex items-center p-2 rounded-md text-sm transition-all duration-200 ${
+                  currentStep === step.id
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                }`}>
+                <span
+                  className={`w-5 h-5 mr-2 flex items-center justify-center rounded-full text-xs ${
+                    currentStep > step.id
+                      ? "bg-green-500 text-white"
+                      : currentStep === step.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
+                  }`}>
+                  {currentStep > step.id ? <Check size={12} /> : step.id}
+                </span>
+                {step.title}
+                <span className="ml-auto text-xs font-medium">
+                  {step.id === 1
+                    ? `${completionData.personal}%`
+                    : step.id === 2
+                      ? `${completionData.contact}%`
+                      : step.id === 3
+                        ? `${completionData.professional}%`
+                        : step.id === 4
+                          ? `${completionData.verification}%`
+                          : ""}
+                </span>
               </button>
-            )}
+            ))}
+          </nav>
+        </aside>
 
-            {currentStep < 6 && (
-              <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                {/* Save and Continue Later Button */}
-                <button
-                  onClick={saveProgress}
-                  className="flex items-center bg-gray-200 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded hover:bg-gray-300 text-sm sm:text-base">
-                  <Save className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  <span className="hidden sm:inline">
-                    Save and Continue Later
-                  </span>
-                  <span className="sm:hidden">Save</span>
-                </button>
+        {/* Mobile sidebar */}
+        <div
+          className={`fixed inset-0 bg-black/40 z-40 lg:hidden transition-opacity duration-300 ${
+            isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={() => setIsSidebarOpen(false)}
+        />
+        <aside
+          className={`fixed inset-y-0 left-0 w-64 bg-white shadow-md p-5 transition-transform duration-300 z-50 lg:hidden ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}>
+          <div className="flex justify-between items-center mb-5">
+            <h2 className="text-xl font-bold text-gray-800">Profile Setup</h2>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-1 rounded-full hover:bg-gray-100 transition-colors">
+              <X size={20} />
+            </button>
+          </div>
+          <div className="flex justify-center mb-5">
+            <ProgressRing progress={completionData.overall} size={90} />
+          </div>
+          <nav className="space-y-2">
+            {steps.map((step) => (
+              <button
+                key={step.id}
+                onClick={() => {
+                  setCurrentStep(step.id);
+                  setIsSidebarOpen(false);
+                }}
+                className={`w-full flex items-center p-2 rounded-md text-sm transition-all duration-200 ${
+                  currentStep === step.id
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                }`}>
+                <span
+                  className={`w-5 h-5 mr-2 flex items-center justify-center rounded-full text-xs ${
+                    currentStep > step.id
+                      ? "bg-green-500 text-white"
+                      : currentStep === step.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
+                  }`}>
+                  {currentStep > step.id ? <Check size={12} /> : step.id}
+                </span>
+                {step.title}
+                <span className="ml-auto text-xs font-medium">
+                  {step.id === 1
+                    ? `${completionData.personal}%`
+                    : step.id === 2
+                      ? `${completionData.contact}%`
+                      : step.id === 3
+                        ? `${completionData.professional}%`
+                        : step.id === 4
+                          ? `${completionData.verification}%`
+                          : ""}
+                </span>
+              </button>
+            ))}
+          </nav>
+        </aside>
 
-                {/* Next/Submit Button */}
+        {/* Main Content */}
+        <main className="flex-1 bg-white shadow-md Nlg:mt-16 rounded-lg p-2 md:p-2 lg:ml-5 mt-4 lg:mt-0">
+          <div className="flex justify-between items-center mb-5">
+            <h1 className="text-xl font-bold text-gray-800">
+              {currentStep <= steps.length
+                ? `Step ${currentStep}: ${steps[currentStep - 1].title}`
+                : "Profile Complete"}
+            </h1>
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="lg:hidden p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+              <Menu size={18} />
+            </button>
+          </div>
+
+          {/* Form Content */}
+          <form onSubmit={formik.handleSubmit}>
+            {formStatus.loading ? (
+              <LoadingSpinner />
+            ) : currentStep <= steps.length ? (
+              steps[currentStep - 1].component({ formik })
+            ) : (
+              <div className="text-center space-y-5 py-12 bg-gray-50 rounded-lg border border-green shadow-sm max-w-xl mx-auto">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500 text-green mb-5 ring-2 ring-green">
+                  <Check size={32} strokeWidth={2.5} />
+                </div>
+                <h2 className="text-lg font-bold text-green">
+                  Profile Submitted Successfully
+                </h2>
+                <p className="text-sm text-gray-600 max-w-md mx-auto">
+                  Your profile is now complete! Explore the platform and manage
+                  your details from your dashboard.
+                </p>
                 <button
-                  onClick={handleNext}
-                  className="flex items-center bg-blue-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded hover:bg-blue-600 text-sm sm:text-base">
-                  {currentStep === 5 ? "Submit" : "Next"}{" "}
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                  type="button"
+                  className="mt-6 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  onClick={() => (window.location.href = "/user/MyDashBoad")}>
+                  Go to Dashboard
                 </button>
               </div>
             )}
-          </div>
-        </div>
+
+            {/* Navigation */}
+            {currentStep <= steps.length &&
+              currentStep !== 4 &&
+              !formStatus.loading && (
+                <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between items-center">
+                  {currentStep > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep((prev) => prev - 1)}
+                      className="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-colors duration-200">
+                      <ChevronLeft size={18} className="mr-1" /> Previous
+                    </button>
+                  ) : (
+                    <div></div>
+                  )}
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <button
+                      type="button"
+                      onClick={saveDraft}
+                      disabled={formStatus.loading}
+                      className="flex-1 sm:flex-initial px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50">
+                      <Save size={18} className="inline mr-1" /> Save Draft
+                    </button>
+                    <button
+                      type={currentStep === steps.length ? "submit" : "button"}
+                      onClick={
+                        currentStep === steps.length ? undefined : handleNext
+                      }
+                      disabled={formStatus.loading}
+                      className="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50">
+                      {currentStep === steps.length ? "Submit" : "Next"}
+                      <ChevronRight size={18} className="inline ml-1" />
+                    </button>
+                  </div>
+                </div>
+              )}
+          </form>
+        </main>
+
+        {/* Alert Component */}
+        {showAlert && (
+          <Alert
+            variant={alertConfig.variant}
+            show={showAlert}
+            onClose={() => setShowAlert(false)}
+            autoClose={true}
+            autoCloseTime={5000}>
+            <AlertDescription>{alertConfig.message}</AlertDescription>
+          </Alert>
+        )}
       </div>
     </div>
   );

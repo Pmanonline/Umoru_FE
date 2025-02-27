@@ -13,7 +13,7 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { MdPersonAddAlt1 } from "react-icons/md";
 import LoginModal from "../components/tools/LoginModal";
 import GroupsYouMayLike from "../components/Cards/GroupsYouMayLike";
-import AllEssentialgroupSection from "../components/AllEssentialgroupSection";
+// import AllEssentialgroupSection from "../components/AllEssentialgroupSection";
 import {
   BreakingNewsCarousel,
   TopTopicCarousel,
@@ -231,7 +231,7 @@ export const Ebusinesses = ({ userInfo }) => (
       <TopTopicCarousel />
     </div>
     <section className=" lg:px-12  pt-12">
-      <AllEssentialgroupSection />
+      {/* <AllEssentialgroupSection /> */}
     </section>
     <section className=" lg:px-6  pt-12">
       <GroupsYouMayLike />

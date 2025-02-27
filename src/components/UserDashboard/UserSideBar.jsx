@@ -219,7 +219,8 @@ const UserSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sidebarRef = useRef(null);
   const { userInfo } = useSelector((state) => state.auth);
-  const profile = userInfo?.userProfile || {};
+  const profile = userInfo?.name || {};
+  const UserName = userInfo?.name || "Anonymous";
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
@@ -299,7 +300,7 @@ const UserSidebar = () => {
             )}
           </span>
           <span className="mb-1 mr-2 font-medium text-xs">
-            {profile?.name || "User"}
+            {UserName || "User"}
           </span>
         </div>
         <button
@@ -345,7 +346,7 @@ const UserSidebar = () => {
                 </span>
                 {!isCollapsed && (
                   <span className="mb-1 mr-2 font-extralight text-xs">
-                    {profile?.name || "User"}
+                    {UserName || "User"}
                   </span>
                 )}
               </div>

@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://api.edirect.ng/api/forgot-password",
+        "http://backend.edirect.ng/api/forgot-password",
         {
           method: "POST",
           headers: {

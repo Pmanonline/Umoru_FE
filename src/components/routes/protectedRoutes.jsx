@@ -3,10 +3,11 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ requiredRole }) => {
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo, token } = useSelector((state) => state.auth || {});
+  console.log(userInfo, token, "checking for contact slug");
 
   // Extract the user's role from userInfo
-  const userRole = userInfo?.user.role;
+  const userRole = userInfo?.role;
 
   // Check if the user has the required role
   if (requiredRole && userRole !== requiredRole) {
