@@ -11,8 +11,10 @@ import BlacklistPage from "./pages/BlacklistPage";
 import AllBusinessesPage from "./pages/AllBusinessPage";
 import SingleBusinessPage from "./pages/SingleBusinessPage";
 import SinglePeoplesPage from "./pages/SinglePeoplesPage";
+import AccessRequestPage from "./pages/AccessRequestPage";
 import PeoplePage from "./pages/PeoplesPage";
 import RequestFormPage from "./pages/RequestFormPage";
+import HireDriverFormPage from "./pages/HireDriverFormPage";
 import ReporBusiness from "./pages/ReporBusiness";
 import PackagesPage from "./pages/PackagesPage";
 import PaymentPage from "./pages/PaymentPage ";
@@ -33,6 +35,10 @@ import AgentDashboard from "./pages/AgentPages/AgentDashboard";
 
 // UserDashboard
 import UserProfile from "./pages/UserPages/UserProfile";
+import BusinessProfile from "./pages/UserPages/UserBusinessProfile";
+import UserBusinesses from "./pages/UserPages/UserBusinesses";
+
+import UserFinanceForm from "./pages/UserPages/UserFinanceForm";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 
 // Others
@@ -68,14 +74,20 @@ const AppContent = () => {
         <Route path="/searchPage" element={<SearchPage />} />
         <Route path="/searchPage/people" element={<PeopleSearchPage />} />
         <Route path="/business" element={<AllBusinessesPage />} />
-        <Route path="/SingleBusinessPage" element={<SingleBusinessPage />} />
+        <Route
+          path="/SingleBusinessPage/:slug?"
+          element={<SingleBusinessPage />}
+        />
+
         <Route path="/profile/:slug?" element={<SinglePeoplesPage />} />
+        <Route path="/profile-access-request" element={<AccessRequestPage />} />
         <Route path="/people" element={<PeoplePage />} />
         <Route path="/blacklist" element={<BlacklistPage />} />
         <Route path="/requests" element={<RequestFormPage />} />
         <Route path="/reports" element={<ReporBusiness />} />
         <Route path="/packages" element={<PackagesPage />} />
         <Route path="/payment/:packageId?" element={<PaymentPage />} />
+        <Route path="/hire-driver" element={<HireDriverFormPage />} />
         {/* E-Groups */}
         <Route path="/Group/:slug?" element={<GroupPage />} />
         <Route path="/discussion/:slug?" element={<DiscussionPage />} />
@@ -98,6 +110,9 @@ const AppContent = () => {
         <Route element={<ProtectedRoute requiredRole="user" />}>
           <Route element={<UserLayout />}>
             <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/business/:slug?" element={<BusinessProfile />} />
+            <Route path="/user/Allbusiness" element={<UserBusinesses />} />
+            <Route path="/user/finance" element={<UserFinanceForm />} />
             <Route path="/user/MyDashBoad" element={<UserDashboard />} />
           </Route>
         </Route>

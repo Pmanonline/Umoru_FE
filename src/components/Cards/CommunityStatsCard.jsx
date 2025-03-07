@@ -7,7 +7,7 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { MdPersonAddAlt1 } from "react-icons/md";
 
 export const CommunityStats = () => {
-  // State for each total count
+  // ... (keeping all state and useEffect logic the same)
   const [totalApproved, setTotalApproved] = useState("");
   const [totalCaveat, setTotalCaveat] = useState("");
   const [totalRemembrance, setTotalRemembrance] = useState("");
@@ -17,33 +17,35 @@ export const CommunityStats = () => {
   const [totalMissingPersons, setTotalMissingPersons] = useState("");
   const [totalStolenVehicle, setTotalStolenVehicle] = useState("");
   const [totalChangeofName, setTotalChangeofName] = useState("");
+  const [totalBirthday, setTotalBirthday] = useState("");
+  const [totalDedication, setTotalDedication] = useState("");
+  const [totalWedding, setTotalWedding] = useState("");
 
   useEffect(() => {
     const fetchAllStats = async () => {
-      // Define all endpoints
       const endpoints = [
-        "https://essentialnews.connectnesthub.com/api/posts/published",
-        "https://essentialnews.connectnesthub.com/api/posts/caveat",
-        "https://essentialnews.connectnesthub.com/api/posts/remembrance",
-        "https://essentialnews.connectnesthub.com/api/public-notice",
-        "https://essentialnews.connectnesthub.com/api/posts/lost-and-found",
-        "https://essentialnews.connectnesthub.com/api/posts/obituary",
-        "https://essentialnews.connectnesthub.com/api/posts/missing-or-wanted",
-        "https://essentialnews.connectnesthub.com/api/posts/stolen-vehicle",
-        "https://essentialnews.connectnesthub.com/api/posts/change-of-name",
+        "http://backend.essentialnews.ng/api/posts/published",
+        "http://backend.essentialnews.ng/api/posts/caveat",
+        "http://backend.essentialnews.ng/api/posts/remembrance",
+        "http://backend.essentialnews.ng/api/public-notice",
+        "http://backend.essentialnews.ng/api/posts/lost-and-found",
+        "http://backend.essentialnews.ng/api/posts/obituary",
+        "http://backend.essentialnews.ng/api/posts/missing-or-wanted",
+        "http://backend.essentialnews.ng/api/posts/stolen-vehicle",
+        "http://backend.essentialnews.ng/api/posts/change-of-name",
+        "http://backend.essentialnews.ng/api/posts/birthday",
+        "http://backend.essentialnews.ng/api/posts/dedication",
+        "http://backend.essentialnews.ng/api/posts/wedding",
       ];
 
       try {
-        // Fetch data from all endpoints and handle each response individually
         const results = await Promise.allSettled(
           endpoints.map(async (endpoint) => {
             try {
               const response = await fetch(endpoint, {
-                // Add CORS headers if needed
-                credentials: "include", // Include credentials if required
+                credentials: "include",
                 headers: {
                   Accept: "application/json",
-                  // Add any other required headers
                 },
               });
 
@@ -60,7 +62,6 @@ export const CommunityStats = () => {
           })
         );
 
-        // Process results and update state
         const [
           totalApproved,
           totalCaveat,
@@ -71,12 +72,13 @@ export const CommunityStats = () => {
           totalMissingPersons,
           totalStolenVehicle,
           totalChangeofName,
+          totalBirthday,
+          totalDedication,
+          totalWedding,
         ] = results.map((result) =>
           result.status === "fulfilled" ? result.value : 0
         );
-        console.log(totalPublicNotices, "totalPublicNotices");
 
-        // Update all states
         setTotalApproved(totalApproved);
         setTotalCaveat(totalCaveat);
         setTotalRemembrance(totalRemembrance);
@@ -86,19 +88,20 @@ export const CommunityStats = () => {
         setTotalMissingPersons(totalMissingPersons);
         setTotalStolenVehicle(totalStolenVehicle);
         setTotalChangeofName(totalChangeofName);
+        setTotalBirthday(totalBirthday);
+        setTotalDedication(totalDedication);
+        setTotalWedding(totalWedding);
       } catch (error) {
         console.error("Error in fetchAllStats:", error);
-        // Handle any unexpected errors in the main try-catch block
       }
     };
     fetchAllStats();
   }, []);
 
-  // Stats configuration
   const stats = [
     {
       number: totalApproved,
-      label: "Total Approved Posts",
+      label: "Total Posts",
       bgColor: "bg-blue-50",
       textColor: "text-blue-600",
       borderColor: "border-blue-500",
@@ -168,17 +171,41 @@ export const CommunityStats = () => {
       borderColor: "border-cyan-600",
       Url: "https://essentialnews.ng/lists/change-of-name",
     },
+    {
+      number: totalBirthday,
+      label: "Birthday Posts",
+      bgColor: "bg-purple-500",
+      textColor: "text-green",
+      borderColor: "border-green",
+      Url: "https://essentialnews.ng/posts/birthday/lists",
+    },
+    {
+      number: totalDedication,
+      label: "Dedication Posts",
+      bgColor: "bg-indigo-50",
+      textColor: "text-indigo-600",
+      borderColor: "border-indigo-600",
+      Url: "https://essentialnews.ng/lists/dedication",
+    },
+    {
+      number: totalWedding,
+      label: "Wedding Posts",
+      bgColor: "bg-rose-50",
+      textColor: "text-rose-600",
+      borderColor: "border-rose-600",
+      Url: "https://essentialnews.ng/lists/wedding/posts",
+    },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto sm:px-4 py-8">
       {/* Header Section */}
       <div className="bg-[#8B2323] text-white p-8 rounded-none mb-0 flex justify-center">
         <h1 className="text-3xl font-bold text-start ml-[0rem] mb-4">
           Why you should list your <br /> business on Essential Nigeria
         </h1>
       </div>
-      <div className=" text-black px-8 pt-4 rounded-lg mb-8">
+      <div className="text-black px-8 pt-4 rounded-lg mb-8">
         <p className="text-center">
           Over 50 million people use Edirect to discover great businesses and
           services and also find or locate missed or lost contacts and loved
@@ -186,7 +213,7 @@ export const CommunityStats = () => {
           have taken advantage of this online platform to reach more customers
           and service consumers helping them enhance the reach of their
           business. <br></br>{" "}
-          <span className=" font-semibold animate-pulse">
+          <span className="font-semibold animate-pulse">
             EDIRECT CONNECTING THE WORLD OF SERVICE AND PERSONS.
           </span>
         </p>
@@ -199,7 +226,7 @@ export const CommunityStats = () => {
         <h2 className="text-2xl font-bold text-center mb-6">
           Community Post Statistics
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-8">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 mx-4">
           {stats.map((stat, index) => (
             <StatsCard
               key={index}
@@ -218,6 +245,7 @@ export const CommunityStats = () => {
 };
 
 const EssentialNigeriaBenefits = () => {
+  // ... (keeping this component unchanged)
   const features = [
     {
       title: "Maximize Your Online Presence",
@@ -244,7 +272,6 @@ const EssentialNigeriaBenefits = () => {
 
   return (
     <div className="pb-20 px-4 sm:px-6 md:px-8">
-      {/* Features Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {features.map((feature, index) => (
           <FeatureCard
@@ -265,14 +292,17 @@ const StatsCard = ({
   label,
   bgColor = "bg-white",
   textColor = "text-black",
-  borderColor = "border-gray-200 ",
+  borderColor = "border-gray-200",
   Url,
 }) => (
   <Link target="_blank" to={Url}>
     <div
-      className={`${bgColor} rounded-lg p-6 flex flex-col items-center justify-center border ${borderColor} transition-all duration-300 hover:shadow-lg`}>
-      <div className={`text-4xl font-bold mb-2 ${textColor}`}>{number}</div>
-      <div className={`text-sm font-medium text-center uppercase ${textColor}`}>
+      className={`${bgColor} rounded-lg p-4 sm:p-6 flex flex-col items-center justify-center border ${borderColor} transition-all duration-300 hover:shadow-lg`}>
+      <div className={`text-3xl sm:text-4xl font-bold mb-2 ${textColor}`}>
+        {number}
+      </div>
+      <div
+        className={`text-xs sm:text-sm font-medium text-center uppercase mod:lowercase ${textColor}`}>
         {label}
       </div>
     </div>
@@ -280,6 +310,7 @@ const StatsCard = ({
 );
 
 const FeatureCard = ({ title, description, color, icon: Icon }) => (
+  // ... (keeping this component unchanged)
   <div className="flex flex-col items-center p-6 bg-white rounded-xl shadow-md h-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border border-x-1">
     <div className="mb-6">
       <Icon
@@ -288,7 +319,7 @@ const FeatureCard = ({ title, description, color, icon: Icon }) => (
       />
     </div>
     <button
-      className={`w-full py-3 px-6 rounded-lg text-white font-semibold\ text-sm mb-6 transition-transform duration-300 hover:scale-105 ${
+      className={`w-full py-3 px-6 rounded-lg text-white font-semibold text-sm mb-6 transition-transform duration-300 hover:scale-105 ${
         color === "#ff0000"
           ? "bg-red-600 hover:bg-red-700 border-red-700"
           : "bg-gray-700 hover:bg-gray-800"

@@ -195,7 +195,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { FilterPeople } from "../components/Cards/BrowseComponent";
+// import { FilterPeople } from "../components/Cards/BrowseComponent";
 import PeopleCard from "../components/Cards/PeopleCard";
 import axios from "axios";
 import backendURL from "../config";
@@ -462,9 +462,9 @@ const PeopleSearchPage = () => {
           )}
         </div>
       </div>
-      <section className="max-w-5xl mx-auto mb-16">
+      {/* <section className="max-w-5xl mx-auto mb-16">
         <FilterPeople showSearch={false} />
-      </section>
+      </section> */}
     </>
   );
 };

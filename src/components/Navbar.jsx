@@ -257,6 +257,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const { userInfo, token } = useSelector((state) => state.auth);
+  console.log(userInfo);
 
   const navLinks = [
     { name: "Packages", url: "/packages" },

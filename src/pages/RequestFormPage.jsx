@@ -56,8 +56,8 @@ const schema = yup.object().shape({
 
 const RequestFormPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const email = userInfo?.user.email;
-  const name = userInfo?.user.name;
+  const email = userInfo?.email;
+  const name = userInfo?.name;
 
   const {
     register,

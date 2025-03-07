@@ -1,93 +1,413 @@
-import React, { useState, useMemo } from "react";
-import { Search, MapPin, Grid, Briefcase } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import businesses from "../../assets/json/businessData.json";
-import { SearchBar } from "../../pages/pagesections/homeHero";
-import peopleData from "../../assets/json/peopleData.json";
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { Search, MapPin, Grid } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
+// import { SearchBar } from "../../pages/pagesections/homeHero";
+// import backendURL from "../../config";
 
-export const FilterBusiness = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showAllLocations, setShowAllLocations] = useState(false);
-  const [showAllCategories, setShowAllCategories] = useState(false);
+// // Memoized tag components
+// const LocationTag = React.memo(({ name, count, onClick }) => (
+//   <div
+//     className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-blue-50 transition-colors cursor-pointer border"
+//     onClick={onClick}>
+//     {name} ({count})
+//   </div>
+// ));
+
+// const CategoryTag = React.memo(({ name, count, onClick }) => (
+//   <div
+//     className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-gray-100 transition-colors cursor-pointer border"
+//     onClick={onClick}>
+//     {name} ({count})
+//   </div>
+// ));
+
+// export const FilterBusiness = React.memo(() => {
+//   const [visibleLocations, setVisibleLocations] = useState(6);
+//   const [visibleCategories, setVisibleCategories] = useState(6);
+//   const [locations, setLocations] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   const MAX_ITEMS = 30;
+//   const ITEMS_PER_BATCH = 6;
+
+//   const fetchData = useCallback(async () => {
+//     try {
+//       // Fetch categories
+//       const categoryResponse = await fetch(
+//         `${backendURL}/api/list/business/category`,
+//         {
+//           headers: { Accept: "application/json" },
+//         }
+//       );
+//       if (!categoryResponse.ok)
+//         throw new Error(`Category fetch error: ${categoryResponse.status}`);
+//       const categoryData = await categoryResponse.json();
+//       const categoryArray = categoryData.data.categories
+//         .filter((cat) => cat.business_count > 0)
+//         .map((cat) => ({ name: cat.name, count: cat.business_count }))
+//         .sort((a, b) => b.count - a.count)
+//         .slice(0, MAX_ITEMS);
+//       setCategories(categoryArray);
+
+//       // Fetch profiles and process locations
+//       const profileResponse = await fetch(
+//         `https://backend.edirect.ng/api/lists/business`,
+//         {
+//           headers: { Accept: "application/json" },
+//         }
+//       );
+//       if (!profileResponse.ok)
+//         throw new Error(`Profile fetch error: ${profileResponse.status}`);
+//       const profileData = await profileResponse.json();
+//       console.log(profileData.data, "profileData");
+
+//       const locationMap = new Map();
+//       profileData.data?.forEach((contact) => {
+//         const state = contact.state; // Access state directly from contact object
+//         if (state) {
+//           const count = locationMap.get(state) || 0;
+//           locationMap.set(state, count + 1);
+//         }
+//       });
+
+//       const locationArray = Array.from(locationMap.entries())
+//         .map(([name, count]) => ({ name, count }))
+//         .sort((a, b) => b.count - a.count)
+//         .slice(0, MAX_ITEMS);
+//       setLocations(locationArray);
+
+//       setLoading(false);
+//     } catch (err) {
+//       setError(err.message);
+//       setLoading(false);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     fetchData();
+//   }, [fetchData]);
+
+//   const handleLocationClick = useCallback(
+//     (locationItem) => {
+//       const searchParams = new URLSearchParams();
+//       searchParams.set("location", locationItem.name);
+//       searchParams.set("category", "All");
+//       searchParams.set("query", "");
+//       navigate(`/searchPage?${searchParams.toString()}`);
+//     },
+//     [navigate]
+//   );
+
+//   const handleCategoryClick = useCallback(
+//     (categoryItem) => {
+//       const searchParams = new URLSearchParams();
+//       searchParams.set("category", categoryItem.name);
+//       searchParams.set("location", "All");
+//       searchParams.set("query", "");
+//       navigate(`/searchPage?${searchParams.toString()}`);
+//     },
+//     [navigate]
+//   );
+
+//   const handleShowMoreLocations = useCallback(() => {
+//     setVisibleLocations((prev) => Math.min(prev + ITEMS_PER_BATCH, MAX_ITEMS));
+//   }, []);
+
+//   const handleShowMoreCategories = useCallback(() => {
+//     setVisibleCategories((prev) => Math.min(prev + ITEMS_PER_BATCH, MAX_ITEMS));
+//   }, []);
+
+//   const handleShowLessLocations = useCallback(() => {
+//     setVisibleLocations(ITEMS_PER_BATCH);
+//   }, []);
+
+//   const handleShowLessCategories = useCallback(() => {
+//     setVisibleCategories(ITEMS_PER_BATCH);
+//   }, []);
+
+//   const visibleLocationItems = useMemo(
+//     () => locations.slice(0, visibleLocations),
+//     [locations, visibleLocations]
+//   );
+//   const visibleCategoryItems = useMemo(
+//     () => categories.slice(0, visibleCategories),
+//     [categories, visibleCategories]
+//   );
+
+//   if (loading)
+//     return (
+//       <div className="max-w-6xl mx-auto px-4 py-8 text-center text-gray-600 animate-pulse">
+//         Loading filters...
+//       </div>
+//     );
+//   if (error)
+//     return (
+//       <div className="max-w-6xl mx-auto px-4 py-8 text-center text-red-600">
+//         Error: {error}
+//       </div>
+//     );
+
+//   return (
+//     <div className="max-w-6xl mx-auto px-4 py-8">
+//       <span className="mx-3">
+//         <SearchBar />
+//       </span>
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+//         <div className="bg-blue-500 rounded-lg p-4">
+//           <div className="flex items-center justify-between mb-4">
+//             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+//               <MapPin size={18} />
+//               Browse by Location
+//             </h2>
+//           </div>
+//           <div className="mb-4">
+//             {visibleLocationItems.map((location) => (
+//               <LocationTag
+//                 key={location.name}
+//                 name={location.name}
+//                 count={location.count}
+//                 onClick={() => handleLocationClick(location)}
+//               />
+//             ))}
+//           </div>
+//           {locations.length > visibleLocations && (
+//             <button
+//               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl mr-2"
+//               onClick={handleShowMoreLocations}>
+//               Show More
+//             </button>
+//           )}
+//           {visibleLocations > ITEMS_PER_BATCH && (
+//             <button
+//               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
+//               onClick={handleShowLessLocations}>
+//               Show Less
+//             </button>
+//           )}
+//         </div>
+//         <div className="bg-gray-600 rounded-lg p-4">
+//           <div className="flex items-center justify-between mb-4">
+//             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+//               <Grid size={18} />
+//               Browse By Categories
+//             </h2>
+//           </div>
+//           <div className="mb-4">
+//             {visibleCategoryItems.map((category) => (
+//               <CategoryTag
+//                 key={category.name}
+//                 name={category.name}
+//                 count={category.count}
+//                 onClick={() => handleCategoryClick(category)}
+//               />
+//             ))}
+//           </div>
+//           {categories.length > visibleCategories && (
+//             <button
+//               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl mr-2"
+//               onClick={handleShowMoreCategories}>
+//               Show More
+//             </button>
+//           )}
+//           {visibleCategories > ITEMS_PER_BATCH && (
+//             <button
+//               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
+//               onClick={handleShowLessCategories}>
+//               Show Less
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { Search, MapPin, Grid } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { SearchBar } from "../../pages/pagesections/homeHero";
+import backendURL from "../../config";
+
+// Utility to format category slugs for display
+const formatCategoryName = (slug) => {
+  if (!slug || typeof slug !== "string") return "Uncategorized";
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
+// Memoized tag components
+const LocationTag = React.memo(({ name, count, onClick }) => (
+  <div
+    className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-blue-50 transition-colors cursor-pointer border"
+    onClick={onClick}>
+    {name} ({count})
+  </div>
+));
+
+const CategoryTag = React.memo(({ name, count, onClick }) => (
+  <div
+    className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-gray-100 transition-colors cursor-pointer border"
+    onClick={onClick}>
+    {name} ({count})
+  </div>
+));
+
+export const FilterBusiness = React.memo(() => {
+  const [visibleLocations, setVisibleLocations] = useState(6);
+  const [visibleCategories, setVisibleCategories] = useState(6);
+  const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const LocationTag = ({ name, count, onClick }) => (
-    <div
-      className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-blue-50 transition-colors cursor-pointer border"
-      onClick={onClick}>
-      {name} ({count})
-    </div>
-  );
+  const MAX_ITEMS = 30;
+  const ITEMS_PER_BATCH = 6;
 
-  const CategoryTag = ({ name, count, onClick }) => (
-    <div
-      className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-gray-100 transition-colors cursor-pointer border"
-      onClick={onClick}>
-      {name} ({count})
-    </div>
-  );
+  const fetchData = useCallback(async () => {
+    try {
+      // Fetch business data to derive both locations and categories
+      const profileResponse = await fetch(
+        `https://backend.edirect.ng/api/lists/business`,
+        {
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (!profileResponse.ok) {
+        throw new Error(`Profile fetch error: ${profileResponse.status}`);
+      }
+      const profileData = await profileResponse.json();
+      console.log(profileData.data, "profileData");
 
-  // Process locations and categories from businesses data
-  const { locations, categories } = useMemo(() => {
-    const locationMap = new Map();
-    const categoryMap = new Map();
-
-    businesses.forEach((business) => {
-      // Process locations
-      if (business.location) {
-        const count = locationMap.get(business.location) || 0;
-        locationMap.set(business.location, count + 1);
+      if (
+        profileData.status !== "success" ||
+        !Array.isArray(profileData.data)
+      ) {
+        throw new Error("Invalid data format or failed to fetch business data");
       }
 
-      // Process categories
-      if (business.category) {
-        const count = categoryMap.get(business.category) || 0;
-        categoryMap.set(business.category, count + 1);
-      }
-    });
+      // Process locations (using state field)
+      const locationMap = new Map();
+      profileData.data.forEach((contact) => {
+        const state = contact.state || "Not Available";
+        if (state) {
+          const count = locationMap.get(state) || 0;
+          locationMap.set(state, count + 1);
+        }
+      });
 
-    // Convert maps to sorted arrays
-    const locationArray = Array.from(locationMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
+      const locationArray = Array.from(locationMap.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, MAX_ITEMS);
+      setLocations(locationArray);
 
-    const categoryArray = Array.from(categoryMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
+      // Process categories (using category_slug field)
+      const categoryMap = new Map();
+      profileData.data.forEach((contact) => {
+        const categorySlug = contact.category_slug || "uncategorized";
+        const categoryName = formatCategoryName(categorySlug);
+        const key = categorySlug; // Use the raw slug as the key for filtering
+        const count = categoryMap.get(key) || 0;
+        categoryMap.set(key, { name: categoryName, count: count + 1 });
+      });
 
-    return {
-      locations: locationArray,
-      categories: categoryArray,
-    };
+      const categoryArray = Array.from(categoryMap.entries())
+        .map(([slug, { name, count }]) => ({
+          name,
+          slug, // Store the raw slug for navigation
+          count,
+        }))
+        .filter((cat) => cat.count > 0)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, MAX_ITEMS);
+      setCategories(categoryArray);
+
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+      console.error("Error fetching data:", err);
+    }
   }, []);
 
-  const handleLocationClick = (locationItem) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("location", locationItem.name);
-    searchParams.set("category", "All"); // Reset category
-    searchParams.set("query", ""); // Reset search query
-    navigate(`/searchPage?${searchParams.toString()}`);
-  };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const handleCategoryClick = (categoryItem) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("category", categoryItem.name);
-    searchParams.set("location", "All"); // Reset location
-    searchParams.set("query", ""); // Reset search query
-    navigate(`/searchPage?${searchParams.toString()}`);
-  };
+  const handleLocationClick = useCallback(
+    (locationItem) => {
+      const searchParams = new URLSearchParams();
+      searchParams.set("location", locationItem.name);
+      searchParams.set("category", "All");
+      searchParams.set("query", "");
+      navigate(`/searchPage?${searchParams.toString()}`);
+    },
+    [navigate]
+  );
+
+  const handleCategoryClick = useCallback(
+    (categoryItem) => {
+      const searchParams = new URLSearchParams();
+      searchParams.set("category", categoryItem.slug); // Use the raw slug for filtering
+      searchParams.set("location", "All");
+      searchParams.set("query", "");
+      navigate(`/searchPage?${searchParams.toString()}`);
+    },
+    [navigate]
+  );
+
+  const handleShowMoreLocations = useCallback(() => {
+    setVisibleLocations((prev) => Math.min(prev + ITEMS_PER_BATCH, MAX_ITEMS));
+  }, []);
+
+  const handleShowMoreCategories = useCallback(() => {
+    setVisibleCategories((prev) => Math.min(prev + ITEMS_PER_BATCH, MAX_ITEMS));
+  }, []);
+
+  const handleShowLessLocations = useCallback(() => {
+    setVisibleLocations(ITEMS_PER_BATCH);
+  }, []);
+
+  const handleShowLessCategories = useCallback(() => {
+    setVisibleCategories(ITEMS_PER_BATCH);
+  }, []);
+
+  const visibleLocationItems = useMemo(
+    () => locations.slice(0, visibleLocations),
+    [locations, visibleLocations]
+  );
+  const visibleCategoryItems = useMemo(
+    () => categories.slice(0, visibleCategories),
+    [categories, visibleCategories]
+  );
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center text-gray-600 animate-pulse">
+        Loading filters...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center text-red-600">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Search Bar */}
       <span className="mx-3">
-        {" "}
         <SearchBar />
       </span>
-
-      {/* Browse Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Location Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         <div className="bg-blue-500 rounded-lg p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -96,27 +416,30 @@ export const FilterBusiness = () => {
             </h2>
           </div>
           <div className="mb-4">
-            {locations
-              .slice(0, showAllLocations ? locations.length : 9)
-              .map((location, index) => (
-                <LocationTag
-                  key={index}
-                  name={location.name}
-                  count={location.count}
-                  onClick={() => handleLocationClick(location)}
-                />
-              ))}
+            {visibleLocationItems.map((location) => (
+              <LocationTag
+                key={location.name}
+                name={location.name}
+                count={location.count}
+                onClick={() => handleLocationClick(location)}
+              />
+            ))}
           </div>
-          {locations.length > 9 && (
+          {locations.length > visibleLocations && (
+            <button
+              className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl mr-2"
+              onClick={handleShowMoreLocations}>
+              Show More
+            </button>
+          )}
+          {visibleLocations > ITEMS_PER_BATCH && (
             <button
               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
-              onClick={() => setShowAllLocations(!showAllLocations)}>
-              {showAllLocations ? "See Less" : "See More"}
+              onClick={handleShowLessLocations}>
+              Show Less
             </button>
           )}
         </div>
-
-        {/* Categories Section */}
         <div className="bg-gray-600 rounded-lg p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -125,168 +448,31 @@ export const FilterBusiness = () => {
             </h2>
           </div>
           <div className="mb-4">
-            {categories
-              .slice(0, showAllCategories ? categories.length : 6)
-              .map((category, index) => (
-                <CategoryTag
-                  key={index}
-                  name={category.name}
-                  count={category.count}
-                  onClick={() => handleCategoryClick(category)}
-                />
-              ))}
+            {visibleCategoryItems.map((category) => (
+              <CategoryTag
+                key={category.slug}
+                name={category.name}
+                count={category.count}
+                onClick={() => handleCategoryClick(category)}
+              />
+            ))}
           </div>
-          {categories.length > 6 && (
+          {categories.length > visibleCategories && (
+            <button
+              className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl mr-2"
+              onClick={handleShowMoreCategories}>
+              Show More
+            </button>
+          )}
+          {visibleCategories > ITEMS_PER_BATCH && (
             <button
               className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
-              onClick={() => setShowAllCategories(!showAllCategories)}>
-              {showAllCategories ? "See Less" : "See More"}
+              onClick={handleShowLessCategories}>
+              Show Less
             </button>
           )}
         </div>
       </div>
     </div>
   );
-};
-
-export const FilterPeople = () => {
-  const [showAllLocations, setShowAllLocations] = useState(false);
-  const [showAllProfessions, setShowAllProfessions] = useState(false);
-  const navigate = useNavigate();
-
-  const LocationTag = ({ name, count, onClick }) => (
-    <div
-      className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-green-50 transition-colors cursor-pointer border"
-      onClick={onClick}>
-      {name} ({count})
-    </div>
-  );
-
-  const ProfessionTag = ({ name, count, onClick }) => (
-    <div
-      className="inline-block bg-white rounded-full px-3 py-1 text-xs mr-2 mb-2 hover:bg-gray-100 transition-colors cursor-pointer border"
-      onClick={onClick}>
-      {name} ({count})
-    </div>
-  );
-
-  // Process locations and professions from people data
-  const { locations, professions } = useMemo(() => {
-    const locationMap = new Map();
-    const professionMap = new Map();
-
-    peopleData.forEach((person) => {
-      // Process locations
-      if (person.location) {
-        const count = locationMap.get(person.location) || 0;
-        locationMap.set(person.location, count + 1);
-      }
-
-      // Process professions
-      if (person.profession) {
-        const count = professionMap.get(person.profession) || 0;
-        professionMap.set(person.profession, count + 1);
-      }
-    });
-
-    // Convert maps to sorted arrays
-    const locationArray = Array.from(locationMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
-
-    const professionArray = Array.from(professionMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
-
-    return {
-      locations: locationArray,
-      professions: professionArray,
-    };
-  }, []);
-
-  const handleLocationClick = (locationItem) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("location", locationItem.name);
-    searchParams.set("profession", "All"); // Reset profession
-    searchParams.set("query", ""); // Reset search query
-    navigate(`/searchPage/people?${searchParams.toString()}`);
-  };
-
-  const handleProfessionClick = (professionItem) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("profession", professionItem.name);
-    searchParams.set("location", "All"); // Reset location
-    searchParams.set("query", ""); // Reset search query
-    navigate(`/searchPage/people?${searchParams.toString()}`);
-  };
-
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Search Bar */}
-      <span className="mx-3">
-        <SearchBar initialSearchOption="People" />
-      </span>
-
-      {/* Browse Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Location Section */}
-        <div className="bg-blue-500 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <MapPin size={18} />
-              Browse People by Location
-            </h2>
-          </div>
-          <div className="mb-4">
-            {locations
-              .slice(0, showAllLocations ? locations.length : 9)
-              .map((location, index) => (
-                <LocationTag
-                  key={index}
-                  name={location.name}
-                  count={location.count}
-                  onClick={() => handleLocationClick(location)}
-                />
-              ))}
-          </div>
-          {locations.length > 9 && (
-            <button
-              className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
-              onClick={() => setShowAllLocations(!showAllLocations)}>
-              {showAllLocations ? "See Less" : "See More"}
-            </button>
-          )}
-        </div>
-
-        {/* Professions Section */}
-        <div className="bg-gray-600 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Briefcase size={18} />
-              Browse By Profession
-            </h2>
-          </div>
-          <div className="mb-4">
-            {professions
-              .slice(0, showAllProfessions ? professions.length : 6)
-              .map((profession, index) => (
-                <ProfessionTag
-                  key={index}
-                  name={profession.name}
-                  count={profession.count}
-                  onClick={() => handleProfessionClick(profession)}
-                />
-              ))}
-          </div>
-          {professions.length > 6 && (
-            <button
-              className="text-white text-sm hover:rotate-2 border hover:border-2 transition-all ease-in-out duration-300 p-1 rounded-xl"
-              onClick={() => setShowAllProfessions(!showAllProfessions)}>
-              {showAllProfessions ? "See Less" : "See More"}
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+});

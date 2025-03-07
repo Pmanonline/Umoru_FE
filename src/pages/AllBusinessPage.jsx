@@ -1,78 +1,128 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
-  MapPin,
-  Mail,
-  ExternalLink,
-  Share2,
-  Star,
-  Phone,
-  Clock,
   ChevronLeft,
   ChevronRight,
   Search,
-  Sliders,
+  MapPin,
+  Briefcase,
+  Filter,
+  Grid,
+  List,
+  Loader,
+  Star,
 } from "lucide-react";
-import businesses from "../assets/json/businessData.json";
 import BusinessCard from "../components/Cards/BusinessCard";
-import businessImage from "../assets/images/E-business.png";
+import businessImage from "../assets/images/E-business.png"; // Reuse or replace with a business-themed image
 
 const AllBusinessesPage = () => {
+  const [businesses, setBusinesses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [businessesPerPage] = useState(12);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("Select States");
-  const [selectedCategory, setSelectedCategory] = useState("Select Categories");
-  const [sortBy, setSortBy] = useState("rating");
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [selectedState, setSelectedState] = useState("All States");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [sortBy, setSortBy] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [viewMode, setViewMode] = useState("grid");
 
-  // Get unique locations and categories
-  const locations = [
-    "Select States",
-    ...new Set(businesses.map((b) => b.location).filter(Boolean)),
-  ];
-  const categories = [
-    "Select Categories",
-    ...new Set(
-      businesses
-        .flatMap((b) => b.category?.split(",").map((c) => c.trim()))
-        .filter(Boolean)
-    ),
-  ];
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
 
-  // Filter and sort businesses
-  const filteredBusinesses = businesses
-    .filter((business) => {
-      const matchesSearch =
-        business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        business.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        business.address?.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchesLocation =
-        selectedLocation === "Select States" ||
-        business.location === selectedLocation;
-      const matchesCategory =
-        selectedCategory === "Select Categories" ||
-        business.category?.includes(selectedCategory);
-
-      return matchesSearch && matchesLocation && matchesCategory;
-    })
-    .sort((a, b) => {
-      const multiplier = sortOrder === "asc" ? 1 : -1;
-      switch (sortBy) {
-        case "rating":
-          return (a.rating - b.rating) * multiplier;
-        case "name":
-          return a.name.localeCompare(b.name) * multiplier;
-        case "sinceDate":
-          return (new Date(a.sinceDate) - new Date(b.sinceDate)) * multiplier;
-        default:
-          return 0;
+  const fetchBusinesses = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://backend.edirect.ng/api/lists/business`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    });
+      const data = await response.json();
+      console.log(data.data, "data");
+      if (data.status === "success") {
+        setBusinesses(data.data);
+      } else {
+        throw new Error("Failed to fetch businesses");
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching businesses:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Pagination
+  const states = useMemo(() => {
+    if (!Array.isArray(businesses)) return ["All States"];
+    // Assuming 'state' will be added soon; currently using a placeholder
+    const uniqueStates = [
+      ...new Set(
+        businesses.map((b) => b.state || "Not Available").filter(Boolean)
+      ),
+    ];
+    return ["All States", ...uniqueStates];
+  }, [businesses]);
+
+  const categories = useMemo(() => {
+    if (!Array.isArray(businesses)) return ["All Categories"];
+    const uniqueCategories = [
+      ...new Set(
+        businesses
+          .map((b) => b.category_slug || "Uncategorized")
+          .filter(Boolean)
+      ),
+    ];
+    return ["All Categories", ...uniqueCategories];
+  }, [businesses]);
+
+  const filteredBusinesses = useMemo(() => {
+    return businesses
+      .filter((business) => {
+        const name = (business.business_name || "").toLowerCase();
+        const address = (business.business_address || "").toLowerCase();
+        const category = (business.category_slug || "").toLowerCase();
+        const state = (business.state || "Not Available").toLowerCase();
+        const matchesSearch =
+          name.includes(searchQuery.toLowerCase()) ||
+          address.includes(searchQuery.toLowerCase()) ||
+          category.includes(searchQuery.toLowerCase());
+        const matchesState =
+          selectedState === "All States" ||
+          state === selectedState.toLowerCase();
+        const matchesCategory =
+          selectedCategory === "All Categories" ||
+          category === selectedCategory.toLowerCase();
+        return matchesSearch && matchesState && matchesCategory;
+      })
+      .sort((a, b) => {
+        const multiplier = sortOrder === "asc" ? 1 : -1;
+        switch (sortBy) {
+          case "name":
+            return (
+              (a.business_name || "").localeCompare(b.business_name || "") *
+              multiplier
+            );
+          case "rating":
+            return ((b.rating || 0) - (a.rating || 0)) * multiplier;
+          case "views":
+            return ((b.views || 0) - (a.views || 0)) * multiplier;
+          default:
+            return 0;
+        }
+      });
+  }, [
+    businesses,
+    searchQuery,
+    selectedState,
+    selectedCategory,
+    sortBy,
+    sortOrder,
+  ]);
+
   const indexOfLastBusiness = currentPage * businessesPerPage;
   const indexOfFirstBusiness = indexOfLastBusiness - businessesPerPage;
   const currentBusinesses = filteredBusinesses.slice(
@@ -87,130 +137,126 @@ const AllBusinessesPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Pagination range generator
-  const generatePaginationRange = () => {
-    const range = [];
-    const maxVisiblePages = 5; // Number of visible page buttons
-    const ellipsis = "...";
-
-    if (totalPages <= maxVisiblePages) {
-      // Show all pages if total pages are less than or equal to maxVisiblePages
-      for (let i = 1; i <= totalPages; i++) {
-        range.push(i);
-      }
-    } else {
-      // Add first page
-      range.push(1);
-
-      // Add ellipsis or pages before current page
-      if (currentPage > 3) {
-        range.push(ellipsis);
-      }
-
-      // Add pages around current page
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-      for (let i = start; i <= end; i++) {
-        range.push(i);
-      }
-
-      // Add ellipsis or pages after current page
-      if (currentPage < totalPages - 2) {
-        range.push(ellipsis);
-      }
-
-      // Add last page
-      range.push(totalPages);
-    }
-
-    return range;
-  };
-
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedLocation, selectedCategory, sortBy, sortOrder]);
+  }, [searchQuery, selectedState, selectedCategory, sortBy, sortOrder]);
+
+  const formatBusinessForCard = (business) => {
+    return {
+      id: business.id || Math.random().toString(36).substr(2, 9),
+      name: business.business_name || "Unnamed Business",
+      slug: business.slug || "undefined",
+      address: business.business_address || "Not specified",
+      category: business.category_slug || "Uncategorized",
+      state: business.state || "Not Available", // Prepare for state field
+      owner: {
+        email: business.business_email || "Not provided",
+        phone: business.contact_person_number || "Not available",
+      },
+      sinceDate: business.date_of_establishment || "N/A",
+      rating: business.rating || 0, // Assuming rating might be added later
+      reviews: business.reviews || 0, // Assuming reviews might be added later
+      views: business.views || 0, // Assuming views might be added later
+      image:
+        business.business_photos && business.business_photos.length > 0
+          ? business.business_photos[0].photo_path
+          : null,
+    };
+  };
 
   return (
     <>
-      <div>
-        {/* Hero Section */}
-        <div className="relative h-[50vh] flex flex-col justify-center items-center text-center mb-8 p-6">
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-80"
-            style={{ backgroundImage: `url(${businessImage})` }}></div>
-
-          {/* Overlay for better text visibility */}
-          {/* <div className="absolute  opacity-60"></div> */}
-
-          {/* Content */}
-          <h1 className="relative text-4xl sm:text-5xl font-bold mb-4 text-white z-10">
-            Find the Best Businesses Near You
+      {/* Hero Section */}
+      <div className="relative h-[60vh] bg-gradient-to-b from-gray-900 to-gray-700 flex items-center justify-center text-center px-4 sm:px-6 lg:px-8">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: `url(${businessImage})` }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
+            Discover Top Businesses
           </h1>
-          <p className="relative text-lg sm:text-xl mb-6 text-white z-10">
-            Discover businesses by location, category, and essential services.
-            Whether you're looking for a cozy café, a reliable plumber, or a
-            trusted doctor, we've got you covered.
+          <p className="text-base sm:text-lg text-gray-200 mb-6 max-w-2xl mx-auto">
+            Find trusted businesses by location, category, and ratings—connect
+            with the best today.
           </p>
-          <div className="relative flex space-x-4 z-10">
-            <button className="bg-white text-red-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-              Explore Now
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button className="bg-red-600 text-white px-6 py-2.5 rounded-full font-medium hover:bg-red-700 transition-colors duration-300 shadow-md">
+              Start Exploring
             </button>
-            <button className="bg-transparent border-2 border-white text-white px-6 py-2 rounded-full font-semibold hover:bg-white hover:text-red-600 transition-colors">
-              Find People
-            </button>
+            <Link
+              to="/people"
+              className="bg-transparent border-2 border-white text-white px-6 py-2.5 rounded-full font-medium hover:bg-white hover:text-gray-900 transition-colors duration-300 shadow-md">
+              Browse Professionals
+            </Link>
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex">
-        {/* Main Content */}
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row">
         <div className="flex-1">
-          {/* Search and Filters */}
+          {/* Filters */}
           <div className="mb-8 space-y-4">
-            <div className="relative">
+            <div className="relative max-w-xl">
               <input
                 type="text"
-                placeholder="Search businesses..."
-                className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder="Search businesses by name, location, or category..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search className="absolute left-4 top-3.5 text-gray-400" />
+              <Search
+                className="absolute left-3 top-2.5 text-gray-400"
+                size={18}
+              />
             </div>
 
             <div className="flex flex-wrap gap-4 items-center">
-              <select
-                className="bg-white border rounded-lg px-4 py-2"
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}>
-                {locations.map((location) => (
-                  <option key={location} value={location}>
-                    {location}
-                  </option>
-                ))}
-              </select>
+              <div className="relative w-full sm:w-48">
+                <select
+                  className="appearance-none bg-white border rounded-lg px-4 py-2 pr-8 w-full text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  value={selectedState}
+                  onChange={(e) => setSelectedState(e.target.value)}>
+                  {states.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <MapPin
+                  className="absolute right-3 top-2.5 text-gray-400 pointer-events-none"
+                  size={16}
+                />
+              </div>
 
-              <select
-                className="bg-white border rounded-lg px-4 py-2"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
+              <div className="relative w-full sm:w-48">
+                <select
+                  className="appearance-none bg-white border rounded-lg px-4 py-2 pr-8 w-full text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                <Briefcase
+                  className="absolute right-3 top-2.5 text-gray-400 pointer-events-none"
+                  size={16}
+                />
+              </div>
 
               <div className="flex items-center space-x-2 ml-auto">
                 <label className="text-sm text-gray-600">Sort by:</label>
                 <select
-                  className="bg-white border rounded-lg px-3 py-2"
+                  className="bg-white border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}>
-                  <option value="rating">Rating</option>
                   <option value="name">Name</option>
-                  <option value="sinceDate">Date Added</option>
+                  <option value="rating">Rating</option>
+                  <option value="views">Views</option>
                 </select>
                 <button
                   onClick={() =>
@@ -224,55 +270,99 @@ const AllBusinessesPage = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg ${
-                    viewMode === "grid" ? "bg-gray-100" : "hover:bg-gray-50"
-                  }`}>
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeWidth="2"
-                      d="M4 6h6M4 12h6M4 18h6m10-12h-6m6 6h-6m6 6h-6"
-                    />
-                  </svg>
+                  className={`p-2 rounded-lg ${viewMode === "grid" ? "bg-red-100" : "hover:bg-gray-50"}`}>
+                  <Grid
+                    size={20}
+                    className={
+                      viewMode === "grid" ? "text-red-600" : "text-gray-600"
+                    }
+                  />
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`p-2 rounded-lg ${
-                    viewMode === "list" ? "bg-gray-100" : "hover:bg-gray-50"
-                  } hidden sm:block`}>
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
+                  className={`p-2 rounded-lg ${viewMode === "list" ? "bg-red-100" : "hover:bg-gray-50"} hidden sm:block`}>
+                  <List
+                    size={20}
+                    className={
+                      viewMode === "list" ? "text-red-600" : "text-gray-600"
+                    }
+                  />
                 </button>
               </div>
             </div>
 
             <div className="text-sm text-gray-600">
               Showing {filteredBusinesses.length} results
+              <button
+                onClick={fetchBusinesses}
+                className="ml-4 text-red-600 hover:text-red-700"
+                disabled={loading}>
+                {loading ? "Refreshing..." : "Refresh"}
+              </button>
             </div>
           </div>
 
-          {/* Business Listings */}
-          <div
-            className={`gap-6 ${
-              viewMode === "grid"
-                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                : "space-y-6"
-            }`}>
-            {currentBusinesses.map((business) => (
-              <BusinessCard key={business.id} business={business} />
-            ))}
-          </div>
+          {/* Loading/Error/Empty States */}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-12">
+              <Loader className="animate-spin h-10 w-10 text-red-600 mb-4" />
+              <p className="text-gray-500">Loading businesses...</p>
+            </div>
+          )}
 
-          {/* Modern Pagination */}
-          {totalPages > 1 && (
+          {error && !loading && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+              <p className="font-medium">Failed to load businesses</p>
+              <p className="text-sm">{error}</p>
+              <button
+                onClick={fetchBusinesses}
+                className="mt-2 text-sm text-red-600 hover:text-red-800 underline">
+                Try again
+              </button>
+            </div>
+          )}
+
+          {!loading && !error && filteredBusinesses.length === 0 && (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <Briefcase size={48} className="mx-auto text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No businesses found
+              </h3>
+              <p className="text-gray-500 mb-4">
+                Try adjusting your filters or search terms.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedState("All States");
+                  setSelectedCategory("All Categories");
+                }}
+                className="text-red-600 hover:text-red-700 font-medium inline-flex items-center">
+                <Filter size={16} className="mr-2" />
+                Clear all filters
+              </button>
+            </div>
+          )}
+
+          {/* Business Listings */}
+          {!loading && !error && filteredBusinesses.length > 0 && (
+            <div
+              className={`gap-6 ${
+                viewMode === "grid"
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                  : "space-y-6"
+              }`}>
+              {currentBusinesses.map((business) => (
+                <BusinessCard
+                  key={business.id}
+                  business={formatBusinessForCard(business)}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {!loading && !error && totalPages > 1 && (
             <div className="flex justify-center items-center mt-8 space-x-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -285,26 +375,34 @@ const AllBusinessesPage = () => {
                 <ChevronLeft size={18} />
               </button>
 
-              {generatePaginationRange().map((page, index) =>
-                page === "..." ? (
-                  <span
-                    key={index}
-                    className="px-4 py-2 text-gray-600 cursor-default">
-                    {page}
-                  </span>
-                ) : (
-                  <button
-                    key={index}
-                    onClick={() => handlePageChange(page)}
-                    className={`px-4 py-2 rounded-full transition-colors ${
-                      currentPage === page
-                        ? "bg-red-600 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}>
-                    {page}
-                  </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(
+                  (page) =>
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
                 )
-              )}
+                .map((page, index, array) => {
+                  const prevPage = array[index - 1];
+                  const showEllipsisBefore = index > 0 && prevPage !== page - 1;
+
+                  return (
+                    <React.Fragment key={page}>
+                      {showEllipsisBefore && (
+                        <span className="px-3 py-2 text-gray-400">...</span>
+                      )}
+                      <button
+                        onClick={() => handlePageChange(page)}
+                        className={`px-4 py-2 rounded-full transition-colors ${
+                          currentPage === page
+                            ? "bg-red-600 text-white"
+                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        }`}>
+                        {page}
+                      </button>
+                    </React.Fragment>
+                  );
+                })}
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
@@ -320,14 +418,8 @@ const AllBusinessesPage = () => {
           )}
         </div>
 
-        {/* Right Sidebar - Advertisements */}
+        {/* Sidebar */}
         <div className="hidden lg:block w-[16rem] ml-8 space-y-6">
-          <div className="bg-gray-100 rounded-xl p-4 h-96">
-            <span className="text-sm text-gray-500">Advertisement</span>
-            <div className="mt-4 h-full flex items-center justify-center">
-              <span className="text-gray-400">Ad Space 300x600</span>
-            </div>
-          </div>
           <div className="bg-gray-100 rounded-xl p-4 h-96">
             <span className="text-sm text-gray-500">Advertisement</span>
             <div className="mt-4 h-full flex items-center justify-center">

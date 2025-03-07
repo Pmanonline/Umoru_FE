@@ -18,6 +18,7 @@ import backendURL from "../config";
 
 const PeoplePage = () => {
   const [profiles, setProfiles] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,6 +34,7 @@ const PeoplePage = () => {
   useEffect(() => {
     fetchProfiles();
   }, []);
+  console.log(profiles, "profiles");
 
   const fetchProfiles = async () => {
     setLoading(true);
@@ -42,9 +44,11 @@ const PeoplePage = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(response);
+      console.log(data);
       if (data.status === "success") {
         setProfiles(data.contacts);
+        setPhotos(data.userPhoto);
+        console.log(data, "photos");
       } else {
         throw new Error("Failed to fetch profiles");
       }
@@ -74,20 +78,24 @@ const PeoplePage = () => {
     return profiles
       .filter((profile) => {
         const fullName =
-          `${profile.first_name} ${profile.middle_name} ${profile.last_name}`.toLowerCase();
+          `${profile.first_name || ""} ${profile.middle_name || ""} ${profile.last_name || ""}`.toLowerCase();
         const matchesSearch =
           fullName.includes(searchQuery.toLowerCase()) ||
-          profile.current_place_of_work
-            ?.toLowerCase()
+          (profile.current_place_of_work || "")
+            .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
-          profile.state?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          profile.city?.toLowerCase().includes(searchQuery.toLowerCase());
+          (profile.state || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          (profile.city || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
         const matchesState =
           selectedState === "All States" ||
-          profile.state.toLowerCase() === selectedState.toLowerCase();
+          (profile.state || "").toLowerCase() === selectedState.toLowerCase();
         const matchesQualification =
           selectedQualification === "All Qualifications" ||
-          profile.qualification.toLowerCase() ===
+          (profile.qualification || "").toLowerCase() ===
             selectedQualification.toLowerCase();
         return matchesSearch && matchesState && matchesQualification;
       })
@@ -95,7 +103,10 @@ const PeoplePage = () => {
         const multiplier = sortOrder === "asc" ? 1 : -1;
         switch (sortBy) {
           case "name":
-            return a.first_name.localeCompare(b.first_name) * multiplier;
+            return (
+              (a.first_name || "").localeCompare(b.first_name || "") *
+              multiplier
+            );
           case "date":
             return (
               (new Date(b.created_at) - new Date(a.created_at)) * multiplier
@@ -136,7 +147,7 @@ const PeoplePage = () => {
       id: profile.id,
       slug: profile.slug,
       name: `${profile.first_name} ${profile.middle_name} ${profile.last_name}`.trim(),
-      profession: profile.current_place_of_work || "Not specified",
+      profession: profile.profession || "Not specified",
       location:
         profile.city && profile.state
           ? `${profile.city}, ${profile.state}`
@@ -144,7 +155,7 @@ const PeoplePage = () => {
       email: "",
       phone: profile.phone || "Not available",
       skills: profile.qualification || "",
-      image: null,
+      image: profile.userPhoto || null,
     };
   };
 

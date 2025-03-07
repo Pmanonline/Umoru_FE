@@ -47,7 +47,7 @@ export const SearchBar = ({
       </div>
       <button
         onClick={handleSearch}
-        className="bg-red-600 text-white px-6 py-3 hover:bg-red-700 w-full sm:w-auto flex items-center justify-center gap-2">
+        className="bg-red-600 text-white px-6 py-3 hover:bg-red-700 w-full sm:w-auto flex items-center justify-center gap-2 mid:rounded-lg">
         <Search size={20} />
         Search
       </button>

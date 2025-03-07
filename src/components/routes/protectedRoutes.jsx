@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ requiredRole }) => {
   const { userInfo, token } = useSelector((state) => state.auth || {});
-  console.log(userInfo, token, "checking for contact slug");
 
   // Extract the user's role from userInfo
   const userRole = userInfo?.role;
