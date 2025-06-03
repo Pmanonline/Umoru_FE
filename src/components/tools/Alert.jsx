@@ -55,7 +55,7 @@ export const Alert = ({
   // Icon configuration based on variant
   const iconConfig = {
     success: {
-      icon: <FaCheckCircle className="w-5 h-5 text-green" />,
+      icon: <FaCheckCircle className="w-5 h-5 text-green-600" />,
       ariaLabel: "Success",
     },
     destructive: {

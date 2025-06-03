@@ -50,10 +50,12 @@ const EGroup = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   const groupId = groupData?.id;
-  const userId = userInfo?.user?.id;
-  const email = userInfo?.user?.email;
-  const name = userInfo?.user?.username;
-  console.log(userId, email, name, userInfo);
+  const userId = userInfo?._id;
+  const email = userInfo?.email;
+  const name = userInfo?.username;
+  console.log(userId);
+  console.log(email);
+  console.log(name);
   const itemsPerPage = 5;
 
   const showAlertMessage = (message, variant = "default") => {
@@ -172,8 +174,13 @@ const EGroup = () => {
 
     setMembershipLoading(true);
     try {
+      // await axios.post(`${EgroupURL}/api/groups/join/${groupId}`, {
+      //   userInfo: { user: userInfo.user },
+      // });
       await axios.post(`${EgroupURL}/api/groups/join/${groupId}`, {
-        userInfo: { user: userInfo.user },
+        email: email,
+        id: userId,
+        name: name,
       });
       setIsGroupMember(true);
       showAlertMessage("Successfully joined the group!", "success");
@@ -195,7 +202,9 @@ const EGroup = () => {
     setMembershipLoading(true);
     try {
       await axios.post(`${EgroupURL}/api/groups/leave/${groupId}`, {
-        userInfo: { user: userInfo.user },
+        email: email,
+        id: userId,
+        name: name,
       });
       setIsGroupMember(false);
       showAlertMessage("Successfully left the group.", "success");
@@ -241,9 +250,9 @@ const EGroup = () => {
         {
           title: newDiscussion.title,
           content: newDiscussion.content,
-          category: newDiscussion.category, // Ensure category is sent
-          email: userInfo?.user.email, // Assuming user's email is available
-          username: userInfo?.user.name, // Replace authorId with username
+          category: newDiscussion.category,
+          email: userInfo?.email,
+          username: userInfo?.name,
           groupId,
         }
       );
@@ -282,7 +291,7 @@ const EGroup = () => {
             <Users className="w-4 h-4 mr-1" />
             Member
           </span>
-          {groupData?.creator?.email !== userInfo.user.email && (
+          {groupData?.creator?.email !== userInfo.email && (
             <Button
               onClick={handleLeaveGroup}
               disabled={membershipLoading}
@@ -315,7 +324,7 @@ const EGroup = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16">
       {/* Group Header Section */}
       <div className="bg-gradient-to-r from-blue-200 to-red-200 rounded-xl text-black shadow-lg mb-8">
         <div className="p-6 md:p-8">

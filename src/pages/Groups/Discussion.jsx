@@ -44,10 +44,10 @@ const GroupDiscussionPage = () => {
   const [newReply, setNewReply] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const currentUser = useSelector((state) => state.auth);
-  const userId = currentUser?.userInfo?.user?.id;
-  const email = currentUser?.userInfo?.user?.email;
-  const username = currentUser?.userInfo?.user?.name;
+  const { userInfo } = useSelector((state) => state.auth);
+  const userId = userInfo?._id;
+  const email = userInfo?.email;
+  const username = userInfo?.username;
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editedReplyContent, setEditedReplyContent] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -635,7 +635,7 @@ const GroupDiscussionPage = () => {
   if (!discussion) return <Typography>Discussion not found</Typography>;
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Container maxWidth="md" sx={{ py: 9 }}>
       {renderDiscussionHeader()}
       {renderCommentInput()}
       {renderComments()}

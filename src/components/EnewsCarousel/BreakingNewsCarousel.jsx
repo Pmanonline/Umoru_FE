@@ -17,7 +17,7 @@ export const BreakingNewsCarousel = () => {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          "http://backend.essentialnews.ng/api/posts/breaking"
+          "https://backend.essentialnews.ng/api/posts/breaking"
         );
         const data = await response.json();
         setNews(data.data.posts.slice(0, 7));
@@ -54,10 +54,10 @@ export const BreakingNewsCarousel = () => {
 
   return (
     <div
-      className="relative w-full max-w-6xl mx-auto"
+      className="relative w-full max-w-6xl mx-auto "
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}>
-      <div className="p-3 bg-primary text-primary-foreground">
+      <div className="p-3 bg-primary  text-white">
         <h2 className="text-xl font-bold">Breaking News</h2>
       </div>
 
@@ -152,7 +152,7 @@ export const TopTopicCarousel = () => {
     const fetchTopics = async () => {
       try {
         const response = await fetch(
-          "http://backend.essentialnews.ng/api/posts/top-topic"
+          "https://backend.essentialnews.ng/api/posts/top-topic"
         );
         const data = await response.json();
         // Assuming each post has a 'createdAt' field that contains the date
@@ -196,7 +196,7 @@ export const TopTopicCarousel = () => {
       className="relative w-full max-w-6xl mx-auto"
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}>
-      <div className="p-3 bg-primary text-primary-foreground">
+      <div className="p-3 bg-primary text-white">
         <h2 className="text-xl font-bold">Trending Topics</h2>
       </div>
 

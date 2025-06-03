@@ -4,12 +4,6 @@ import axios from "axios";
 import EgroupURL from "../../config2";
 import GroupImage from "../../assets/images/groupImage.png";
 import { Dot } from "lucide-react";
-import LoaddingSpinner from "../tools/LoaddingSpinner";
-
-const FRONTEND_URL =
-  import.meta.env.VITE_FRONTEND_URL ||
-  "http://localhost:5173" ||
-  "https://egroup-nine.vercel.app";
 
 const GroupCard = ({ id, Groupname, members, category, slug }) => (
   <Link
@@ -69,7 +63,19 @@ const GroupsYouMayLike = () => {
   };
 
   if (loading) {
-    return <LoaddingSpinner />;
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+        {[...Array(6)].map((_, index) => (
+          <div
+            key={index}
+            className="animate-pulse rounded-lg shadow-md p-4 bg-white">
+            <div className="h-40 bg-gray-300 rounded-md mb-4"></div>
+            <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {

@@ -9,6 +9,7 @@ import {
   FaShoppingCart,
   FaRegBell,
   FaRegBuilding,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { BiCommentDetail } from "react-icons/bi";
 import { MdPayments, MdLocationOn, MdSupportAgent } from "react-icons/md";
@@ -77,7 +78,11 @@ const UserSidebar = () => {
       label: "Registered Businesses",
     },
     { path: "/user/finance", icon: MdPayments, label: "Finance" },
-    { path: "/user/history", icon: FaHistory, label: "Browse History" },
+    {
+      path: "/user/VerifyDocuments",
+      icon: FaCheckCircle,
+      label: "Verify Documents",
+    },
     { path: "/user/support", icon: MdSupportAgent, label: "Support" },
     {
       path: "/user/notifications",

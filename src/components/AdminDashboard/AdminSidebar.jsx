@@ -1,218 +1,193 @@
-import React, { useState, useEffect, useRef } from "react";
-import { HiOutlineLogout, HiMenu, HiX } from "react-icons/hi";
-import { VscDashboard } from "react-icons/vsc";
-import { IoPerson } from "react-icons/io5";
-import {
-  FaUserCircle,
-  FaHome,
-  FaUsers,
-  FaMapMarkerAlt,
-  FaRegEye,
-  FaTasks,
-} from "react-icons/fa";
-import { BiCommentDetail, BiCalendarEdit } from "react-icons/bi";
-import { CheckCircle, ShieldCheck, ChevronDown } from "lucide-react";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { logoutUser } from "../../features/Auth/authSlice";
+import {
+  LayoutDashboard,
+  Home,
+  Users,
+  Award,
+  Star,
+  Tag,
+  ThumbsUp,
+  List,
+  Vote,
+  Trophy,
+  LogOut,
+  ChevronRight,
+  MenuSquare,
+  Menu,
+} from "lucide-react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../features/auth/authSlice";
 
 const AdminSidebar = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [verificationOpen, setVerificationOpen] = useState(false);
-  const [interestOpen, setInterestOpen] = useState(false);
-  const sidebarRef = useRef(null);
-  const { userInfo } = useSelector((state) => state.auth);
-  const userId = userInfo?._id;
-  const profile = 1;
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
-  const toggleVerification = () => setVerificationOpen(!verificationOpen);
-  const toggleInterest = () => setInterestOpen(!interestOpen);
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate("/");
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768);
-      if (window.innerWidth > 768) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const sidebarLinks = [
-    { path: "/", icon: FaHome, label: "Home" },
-    { path: "/Admin/DashBoard", icon: VscDashboard, label: "Dashboard" },
-    { path: "/Admin/Profile", icon: IoPerson, label: "Profile" },
-    { path: "/Admin/Users", icon: FaUsers, label: "All Users" },
-    { path: "/Admin/Businesses", icon: FaUsers, label: "All Businesses" },
-    { path: "/Admin/Reviews", icon: BiCommentDetail, label: "Reviews" },
+  const menuItems = [
     {
-      path: "/Admin/Notifications",
-      icon: IoMdNotificationsOutline,
-      label: "Notifications",
+      title: "Dashboard",
+      icon: LayoutDashboard,
+      path: "/Admin/DashBoard",
     },
-  ];
+    {
+      title: "Home",
+      icon: Home,
+      path: "/",
+    },
+    {
+      title: "Users",
+      icon: Users,
+      path: "/Admin/AdminALlUsers",
+    },
+    {
+      title: "Regional Awards",
+      icon: Award,
+      path: "/Admin/AwardList",
+    },
+    {
+      title: "Famous People",
+      icon: Star,
+      path: "/Admin/FamousPeopleList",
+    },
+    {
+      title: "Pride In Category",
+      icon: Tag,
+      path: "/Admin/PrideInCategoryList",
+    },
+    {
+      title: "Recommended People",
+      icon: ThumbsUp,
+      path: "/Admin/RecommendedPersonList",
+    },
+    {
+      title: "All Nominee",
+      icon: List,
+      path: "/Admin/NomineeList",
+    },
+    {
+      title: "Suggested Nominee",
+      icon: List,
+      path: "/Admin/AdminSuggestedNomination",
+    },
 
-  const verificationLinks = [
-    { path: "/Admin/BusinessVerification", label: "Business Verification" },
-    { path: "/Admin/ProfileVerification", label: "Profile Verification" },
+    {
+      title: "Admin/Judge Voting",
+      icon: Vote,
+      path: "/Admin/AdminJudgeVoting",
+    },
+    {
+      title: "Winners",
+      icon: Trophy,
+      path: "/Admin/AdminWinnersListPage",
+    },
   ];
 
   return (
     <>
-      {/* Mobile Header */}
-      <div
-        className={`fixed top-0 left-0 right-0 z-40 bg-white shadow-md p-4 flex items-center justify-between ${
-          isSmallScreen ? "" : "hidden"
-        }`}>
-        <div className="flex items-center">
-          <span className="mb-2">
-            {profile?.image ? (
-              <img
-                src={`${profile?.image}`}
-                alt={`${userInfo.username}`}
-                className="w-7 h-7 rounded-full object-cover mr-4"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/fallback-image.png";
-                }}
-              />
-            ) : (
-              <FaUserCircle className="w-7 h-7 text-[#005a7e] mr-4 cursor-pointer" />
-            )}
-          </span>
-          <span className="mb-1 mr-2 font-medium text-xs">
-            {profile?.username || "Guest"}
-          </span>
-        </div>
+      {isMobile && (
         <button
-          onClick={toggleSidebar}
-          className="text-[#0A0B2E] hover:text-[#005a7e] p-2 rounded-md focus:outline-none">
-          {isOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-primary text-white md:hidden"
+          aria-label="Toggle menu">
+          <Menu className="w-6 h-6" />
         </button>
-      </div>
+      )}
 
-      {/* Sidebar */}
+      {isMobileOpen && isMobile && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
       <div
-        ref={sidebarRef}
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-gradient-to-b from-[#0A0B2E] to-[#005a7e] text-white transition-all duration-300 ease-in-out transform
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          ${isSmallScreen ? "top-16" : "top-0"}`}>
-        <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="p-5">
-            <Link to={"/"}>
-              <h1 className="text-2xl font-bold mb-1">E-Direct</h1>
-            </Link>
-            <p className="text-sm text-blue-200 mb-6">Super Administrator</p>
-            {!isSmallScreen && (
-              <div className="flex items-center">
-                <span className="mb-2">
-                  {profile?.image ? (
-                    <img
-                      src={`${profile?.image}`}
-                      alt={`${userInfo.username}`}
-                      className="w-7 h-7 rounded-full object-cover mr-4"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/fallback-image.png";
-                      }}
-                    />
-                  ) : (
-                    <FaUserCircle className="w-7 h-7 text-gray-300 mr-4 cursor-pointer" />
-                  )}
-                </span>
-                <span className="mb-1 mr-2 font-extralight text-xs">
-                  {profile?.username || "Guest"}
-                </span>
-              </div>
-            )}
+        className={`fixed md:relative flex flex-col min-h-screen bg-primary text-white transition-all duration-300 z-50
+          ${isMobile ? (isMobileOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"} 
+          ${isDesktopCollapsed ? "md:w-20" : "md:w-64"}
+          w-64`}>
+        {!isMobile && (
+          <button
+            onClick={() => setIsDesktopCollapsed(!isDesktopCollapsed)}
+            className="absolute -right-3 top-8 bg-sunlit-gold rounded-full p-1.5 hover:bg-secondary focus:outline-none hidden md:block"
+            aria-label={
+              isDesktopCollapsed ? "Expand sidebar" : "Collapse sidebar"
+            }>
+            <ChevronRight
+              className={`h-4 w-4 transition-transform duration-300 ${
+                isDesktopCollapsed ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+        )}
+
+        <div className="flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-secondary/30">
+          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
+            <MenuSquare className="w-6 h-6" />
           </div>
-
-          {/* Sidebar Navigation */}
-          <nav className="flex-grow overflow-y-auto">
-            {sidebarLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => isSmallScreen && setIsOpen(false)}
-                className={`flex items-center px-5 py-3 text-sm transition-colors duration-200 ${
-                  location.pathname === link.path
-                    ? "bg-[#003a5e] text-white"
-                    : "hover:bg-[#004a6e]"
-                }`}>
-                <link.icon className="w-5 h-5 mr-3" />
-                <span>{link.label}</span>
-              </Link>
-            ))}
-
-            {/* Verification Dropdown */}
-            <div className="relative">
-              <button
-                onClick={toggleVerification}
-                className="w-full flex items-center justify-between px-5 py-3 text-sm hover:bg-[#004a6e] transition-colors duration-200">
-                <div className="flex items-center">
-                  <ShieldCheck className="w-5 h-5 mr-3" />
-                  <span>Verification</span>
-                </div>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    verificationOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {verificationOpen && (
-                <div className="bg-[#002a4e]">
-                  {verificationLinks.map((link) => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className={`flex items-center px-12 py-2 text-sm transition-colors duration-200 ${
-                        location.pathname === link.path
-                          ? "text-white bg-[#003a5e]"
-                          : "hover:bg-[#004a6e]"
-                      }`}>
-                      <span>{link.label}</span>
-                    </Link>
-                  ))}
-                </div>
-              )}
+          {(!isDesktopCollapsed || isMobileOpen) && (
+            <div>
+              <h1 className="text-lg sm:text-xl font-bold">
+                Pride of the World
+              </h1>
+              <p className="text-xs text-white/50">Administrator</p>
             </div>
-          </nav>
+          )}
+        </div>
 
-          {/* Logout Button */}
-          <div className="p-5">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center px-1 py-1 text-sm bg-[#003a5e] hover:bg-red-500 text-white rounded-md transition-colors duration-200">
-              <HiOutlineLogout className="w-5 h-5 mr-3" />
-              <span>Sign out</span>
-            </button>
-          </div>
+        <nav className="flex-1 px-3 sm:px-4 py-4 sm:py-6 space-y-2 overflow-y-auto">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsMobileOpen(false)}
+                className={`flex items-center gap-3 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors duration-200 ${
+                  isActive
+                    ? "bg-white/10 text-white"
+                    : "hover:bg-white/20 text-white/70"
+                }`}
+                title={isDesktopCollapsed && !isMobile ? item.title : ""}>
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {(!isDesktopCollapsed || isMobileOpen) && (
+                  <span className="truncate">{item.title}</span>
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="p-3 sm:p-4 border-t border-secondary/30">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-2 sm:px-3 py-1.5 sm:py-2 text-unity-coral rounded-lg hover:bg-white/20 transition-colors duration-200"
+            title={isDesktopCollapsed && !isMobile ? "Sign out" : ""}>
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            {(!isDesktopCollapsed || isMobileOpen) && <span>Sign out</span>}
+          </button>
         </div>
       </div>
-
-      {/* Spacer for Desktop */}
-      <div
-        className={`transition-all duration-300 ${
-          isOpen && !isSmallScreen ? "ml-64" : "ml-0"
-        }`}></div>
     </>
   );
 };

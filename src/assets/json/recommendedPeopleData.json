@@ -1,0 +1,94 @@
+{
+  "Daily": [
+    {
+      "id": "d1",
+      "name": "Mrs John James",
+      "title": "Business Leader",
+      "award": "The Morning Emergency Services Award",
+      "category": "Business",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/john_james.jpg",
+      "description": "Dedicated to advancing business innovation in Nigeria.",
+      "year": 2023,
+      "slug": "mrs-john-james-business-2023",
+      "timeframe": "Daily"
+    },
+    {
+      "id": "d2",
+      "name": "Dr. Ada Okoye",
+      "title": "Healthcare Pioneer",
+      "award": "Health Excellence Award",
+      "category": "Healthcare",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/ada_okoye.jpg",
+      "description": "Revolutionized rural healthcare access.",
+      "year": 2023,
+      "slug": "dr-ada-okoye-healthcare-2023",
+      "timeframe": "Daily"
+    }
+  ],
+  "Weekly": [
+    {
+      "id": "w1",
+      "name": "Chinedu Okonkwo",
+      "title": "Tech Innovator",
+      "award": "Tech Trailblazer Award",
+      "category": "Technology",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/chinedu_okonkwo.jpg",
+      "description": "Developed AI solutions for local businesses.",
+      "year": 2024,
+      "slug": "chinedu-okonkwo-technology-2024",
+      "timeframe": "Weekly"
+    },
+    {
+      "id": "w2",
+      "name": "Funmi Adebayo",
+      "title": "Education Advocate",
+      "award": "Education Impact Award",
+      "category": "Education",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/funmi_adebayo.jpg",
+      "description": "Empowered thousands through literacy programs.",
+      "year": 2024,
+      "slug": "funmi-adebayo-education-2024",
+      "timeframe": "Weekly"
+    },
+    {
+      "id": "w3",
+      "name": "Tunde Afolabi",
+      "title": "Sports Icon",
+      "award": "Sports Excellence Award",
+      "category": "Sports",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/tunde_afolabi.jpg",
+      "description": "Inspired youth through sports mentorship.",
+      "year": 2024,
+      "slug": "tunde-afolabi-sports-2024",
+      "timeframe": "Weekly"
+    }
+  ],
+  "Monthly": [
+    {
+      "id": "m1",
+      "name": "Ngozi Eke",
+      "title": "Philanthropist",
+      "award": "Community Service Award",
+      "category": "Philanthropy",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/ngozi_eke.jpg",
+      "description": "Supported education for underprivileged children.",
+      "year": 2024,
+      "slug": "ngozi-eke-philanthropy-2024",
+      "timeframe": "Monthly"
+    }
+  ],
+  "Yearly": [
+    {
+      "id": "y1",
+      "name": "Emeka Nwosu",
+      "title": "Cultural Ambassador",
+      "award": "Cultural Heritage Award",
+      "category": "Culture",
+      "image": "https://res.cloudinary.com/demo/image/upload/v1/Pride/images/emeka_nwosu.jpg",
+      "description": "Preserved Nigerian cultural heritage globally.",
+      "year": 2024,
+      "slug": "emeka-nwosu-culture-2024",
+      "timeframe": "Yearly"
+    }
+  ]
+}

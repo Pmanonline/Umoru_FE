@@ -1,0 +1,55 @@
+{
+  "awards": [
+    {
+      "id": 1,
+      "name": "Humanitarian of the Year",
+      "description": "Recognizing individuals who have made exceptional contributions to humanitarian causes",
+      "nominees": [
+        {
+          "id": 101,
+          "name": "John Adebayo",
+          "image": "https://i0.wp.com/76crimes.com/wp-content/uploads/2024/06/Nigerian-Coach-650x572-1.jpg?resize=650,572&ssl=1",
+          "bio": "Dedicated to improving education in rural communities, impacting thousands of lives",
+          "votes": 1245
+        },
+        {
+          "id": 102,
+          "name": "Amina Mohammed",
+          "image": "https://i0.wp.com/76crimes.com/wp-content/uploads/2024/06/Nigerian-Coach-650x572-1.jpg?resize=650,572&ssl=1",
+          "bio": "Founded healthcare clinics in 5 northern states serving over 50,000 patients annually",
+          "votes": 982
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Innovator of the Year",
+      "description": "Celebrating groundbreaking innovations that solve critical Nigerian challenges",
+      "nominees": [
+        {
+          "id": 201,
+          "name": "Aisha Bello",
+          "image": "https://ichef.bbci.co.uk/ace/standard/304/mcs/media/images/49266000/jpg/_49266069_nigeria_fan_big.jpg",
+          "bio": "Revolutionized sustainable farming with her agricultural tech startup",
+          "votes": 1567
+        },
+        {
+          "id": 202,
+          "name": "Musa Abdullahi",
+          "image": "https://ichef.bbci.co.uk/ace/standard/304/mcs/media/images/49266000/jpg/_49266069_nigeria_fan_big.jpg",
+          "bio": "Developed solar-powered irrigation systems for dry regions",
+          "votes": 875
+        }
+      ]
+    }
+  ],
+  "votingPeriod": {
+    "start": "2023-11-01",
+    "end": "2023-11-30"
+  },
+  "rules": [
+    "One vote per person per category",
+    "Voting requires account registration",
+    "Results will be announced December 15th"
+  ]
+}

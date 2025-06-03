@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "image": "/path/to/awardImage1.png",
+    "name": "Mrs John James",
+    "award": "The Morning Emergency Services Award",
+    "description": "Ornallis Sed ut vulputate nisi. Integer in felis sed leo vestibulum venenatis. Curabitur tempor qua eros tempus lacinia. Nam bi"
+  },
+  {
+    "id": 2,
+    "image": "/path/to/awardImage2.png",
+    "name": "Mrs John James",
+    "award": "The Morning Emergency Services Award",
+    "description": "Ornallis Sed ut vulputate nisi. Integer in felis sed leo vestibulum venenatis. Curabitur tempor qua eros tempus lacinia. Nam bi"
+  },
+  {
+    "id": 3,
+    "image": "/path/to/awardImage3.png",
+    "name": "Mrs John James",
+    "award": "The Morning Emergency Services Award",
+    "description": "Ornallis Sed ut vulputate nisi. Integer in felis sed leo vestibulum venenatis. Curabitur tempor qua eros tempus lacinia. Nam bi"
+  }
+]
