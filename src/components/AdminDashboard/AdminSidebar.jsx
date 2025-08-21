@@ -19,7 +19,7 @@ import {
   Moon,
   User,
 } from "lucide-react";
-import { logoutUser } from "../../features/auth/authSlice";
+import { logoutUser } from "../../features/Auth/authSlice";
 import { MdOutlineEventBusy } from "react-icons/md";
 import { FaCashRegister } from "react-icons/fa";
 import { MdPermMedia } from "react-icons/md";
