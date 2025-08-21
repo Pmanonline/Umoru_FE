@@ -1,6 +1,6 @@
 // const backendURL = import.meta.VITE_BACKEND_URL;
 
 // export default backendURL;
-const backendURL = "https://api-prideofnigeria.ecars.ng";
+const backendURL = "http://localhost:3001";
 
 export default backendURL;

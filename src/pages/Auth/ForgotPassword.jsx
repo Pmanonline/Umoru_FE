@@ -1,115 +1,8 @@
-// import React, { useState } from "react";
-// import axios from "axios";
-// import { Snackbar } from "@mui/material";
-// import MuiAlert from "@mui/material/Alert";
-// import LoaddingSpinner from "../../components/tools/LoaddingSpinner";
-// import PrideImage1 from "../../assets/images/PrideImage1.jpg";
-// import backendURL from "../../config";
-
-// const Alert = React.forwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
-
-// const ForgotPassword = () => {
-//   const [email, setEmail] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [openSnackbar, setOpenSnackbar] = useState(false);
-//   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-//   const handleCloseSnackbar = (event, reason) => {
-//     if (reason === "clickaway") {
-//       return;
-//     }
-//     setOpenSnackbar(false);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     try {
-//       const response = await axios.post(`${backendURL}/api/forgot-password`, {
-//         email,
-//       });
-//       setMessage(response.data.message);
-//       setSnackbarSeverity("success");
-//       setEmail("");
-//     } catch (error) {
-//       setMessage(error.response?.data?.message || "An error occurred");
-//       setSnackbarSeverity("error");
-//     } finally {
-//       setLoading(false);
-//       setOpenSnackbar(true);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
-//         <div className="text-center">
-//           <div className="text-center">
-//             <img src={PrideImage1} alt="Autograph Logo" />
-
-//             <p className="mt-2  font-bold text-lg text-gray-600">
-//               Forgot Password?
-//             </p>
-//           </div>
-//           <p className="mt-2 text-sm text-gray-600">
-//             Enter your email to reset your password
-//           </p>
-//         </div>
-
-//         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-//           <div className="space-y-4">
-//             <div>
-//               <label
-//                 htmlFor="email"
-//                 className="block text-sm font-medium text-gray-700">
-//                 Your Email
-//               </label>
-//               <input
-//                 type="email"
-//                 id="email"
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//                 placeholder="Enter your email"
-//                 required
-//                 className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-btColour focus:border-btColour sm:text-sm"
-//               />
-//             </div>
-//           </div>
-
-//           <div>
-//             <button
-//               type="submit"
-//               className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#1e293b] to-btColour hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-btColour transition-all duration-200 ease-in-out">
-//               {loading ? <LoaddingSpinner /> : "Reset Password"}
-//             </button>
-//           </div>
-//         </form>
-//       </div>
-
-//       {/* Snackbar for notifications */}
-//       <Snackbar
-//         open={openSnackbar}
-//         autoHideDuration={6000}
-//         onClose={handleCloseSnackbar}>
-//         <Alert
-//           onClose={handleCloseSnackbar}
-//           severity={snackbarSeverity}
-//           sx={{ width: "100%" }}>
-//           {message}
-//         </Alert>
-//       </Snackbar>
-//     </div>
-//   );
-// };
-
-// export default ForgotPassword;
+// UMORUS-POR.../client/src/components/ForgotPassword.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { Mail } from "lucide-react";
-import PrideImage1 from "../../assets/images/PrideImage1.jpg";
+import UmorusPortrait from "../../assets/images/authImage.png";
 import backendURL from "../../config";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
 
@@ -144,7 +37,7 @@ const ForgotPassword = () => {
       showAlertMessage(
         error.response?.data?.message ||
           "An error occurred while sending reset link",
-        "error"
+        "destructive"
       );
     } finally {
       setIsLoading(false);
@@ -152,16 +45,24 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-12">
-      <div className="w-full max-w-md space-y-8 bg-white p-6 sm:p-8 rounded-2xl shadow-xl transform transition-all duration-300">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
+      {/* Faded and Blurred Full Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center blur-sm opacity-50"
+        style={{ backgroundImage: `url(${UmorusPortrait})` }}
+      />
+
+      <div className="relative z-10 w-full max-w-lg p-6 sm:p-8 bg-white/95 dark:bg-gray-800/95 rounded-xl shadow-lg backdrop-blur-md space-y-6">
         <div className="text-center space-y-2">
           <img
-            src={PrideImage1}
-            alt="Autograph Logo"
+            src={UmorusPortrait} // Replace with your logo if different from background
+            alt="Umorus Logo"
             className="mx-auto h-32 w-auto object-contain"
           />
-          <h2 className="text-2xl font-bold text-gray-900">Forgot Password?</h2>
-          <p className="text-gray-600">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Forgot Password?
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300">
             Enter your email to reset your password
           </p>
         </div>
@@ -171,12 +72,12 @@ const ForgotPassword = () => {
             <div className="space-y-1">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700">
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Your Email
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-500" />
+                  <Mail className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 </div>
                 <input
                   type="email"
@@ -186,11 +87,11 @@ const ForgotPassword = () => {
                   placeholder="Enter your email"
                   required
                   disabled={isLoading}
-                  className={`w-full px-3 py-3 pl-10 border ${
+                  className={`w-full px-3 py-2 pl-10 border ${
                     isLoading
                       ? "border-gray-300 bg-gray-100"
-                      : "border-gray-300"
-                  } rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 placeholder-gray-400 disabled:cursor-not-allowed`}
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-primary-darkMode focus:border-primary dark:focus:border-primary-darkMode transition-all placeholder-gray-500 dark:placeholder-gray-400 disabled:cursor-not-allowed`}
                 />
               </div>
             </div>
@@ -199,9 +100,9 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg font-medium hover:from-green-700 hover:to-green-600 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center">
+            className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-light dark:bg-primary-darkMode dark:hover:bg-primary-light transition-colors duration-200 disabled:opacity-60 flex items-center justify-center">
             {isLoading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
             ) : (
               "Reset Password"
             )}
@@ -213,7 +114,9 @@ const ForgotPassword = () => {
             variant={alertConfig.variant}
             show={showAlert}
             onClose={() => setShowAlert(false)}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+            autoClose={true}
+            autoCloseTime={5000}
+            className="w-full max-w-md">
             <AlertDescription>{alertConfig.message}</AlertDescription>
           </Alert>
         )}

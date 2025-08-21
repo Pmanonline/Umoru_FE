@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+// UMORUS-POR.../client/src/components/RegisterUser.jsx
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, User, Lock } from "lucide-react";
-import PrideImage1 from "../../assets/images/PrideImage1.jpg";
+import UmorusPortrait from "../../assets/images/authImage.png";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import backendURL from "../../config";
-import edirectURL from "../../config3";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
 
-// Define validation schema using yup
+// Validation schema
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -35,7 +35,6 @@ const RegisterUser = () => {
     variant: "default",
     message: "",
   });
-  const [showDirectoryModal, setShowDirectoryModal] = useState(false);
 
   const {
     register,
@@ -85,26 +84,6 @@ const RegisterUser = () => {
         "success"
       );
 
-      try {
-        const secondResponse = await fetch(`${edirectURL}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: data.username,
-            email: data.email.toLowerCase(),
-            password: data.password,
-            password_confirmation: data.confirmPassword,
-            role: "user",
-          }),
-        });
-
-        if (secondResponse.ok) {
-          setShowDirectoryModal(true);
-        }
-      } catch (error) {
-        console.error("Directory registration failed:", error);
-      }
-
       setTimeout(() => navigate("/login"), 3000);
     } catch (error) {
       showAlertMessage(
@@ -117,16 +96,21 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-12 mt-8">
-      <div className="w-full max-w-md space-y-8 bg-white p-6 sm:p-8 rounded-2xl shadow-xl transform transition-all duration-300">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 mt-9">
+      {/* Faded and Blurred Full Background Image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center blur-sm opacity-50"
+        style={{ backgroundImage: `url(${UmorusPortrait})` }}
+      />
+
+      <div className="relative z-10 w-full max-w-lg p-6 sm:p-8 bg-white/95 dark:bg-gray-800/95 rounded-xl shadow-lg backdrop-blur-md space-y-6">
         <div className="text-center space-y-2">
-          <img
-            src={PrideImage1}
-            alt="Autograph Logo"
-            className="mx-auto h-32 w-auto object-contain"
-          />
-          <h2 className="text-2xl font-bold text-gray-900">Create Account</h2>
-          <p className="text-gray-600">Register to get started</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Create Account
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300">
+            Register to get started
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(submitForm)} className="space-y-6">
@@ -135,7 +119,9 @@ const RegisterUser = () => {
               id="username"
               type="text"
               placeholder="Username"
-              icon={<User className="h-5 w-5 text-gray-500" />}
+              icon={
+                <User className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              }
               register={register("username")}
               error={errors.username}
               disabled={isLoading}
@@ -144,7 +130,9 @@ const RegisterUser = () => {
               id="email"
               type="email"
               placeholder="Email address"
-              icon={<Mail className="h-5 w-5 text-gray-500" />}
+              icon={
+                <Mail className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              }
               register={register("email")}
               error={errors.email}
               disabled={isLoading}
@@ -153,7 +141,9 @@ const RegisterUser = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              icon={<Lock className="h-5 w-5 text-gray-500" />}
+              icon={
+                <Lock className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              }
               toggleIcon={
                 <button
                   type="button"
@@ -161,9 +151,9 @@ const RegisterUser = () => {
                   className="focus:outline-none"
                   disabled={isLoading}>
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-500" />
+                    <EyeOff className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-500" />
+                    <Eye className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   )}
                 </button>
               }
@@ -175,7 +165,9 @@ const RegisterUser = () => {
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
-              icon={<Lock className="h-5 w-5 text-gray-500" />}
+              icon={
+                <Lock className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+              }
               toggleIcon={
                 <button
                   type="button"
@@ -183,9 +175,9 @@ const RegisterUser = () => {
                   className="focus:outline-none"
                   disabled={isLoading}>
                   {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-500" />
+                    <EyeOff className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-500" />
+                    <Eye className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   )}
                 </button>
               }
@@ -201,7 +193,7 @@ const RegisterUser = () => {
               className={`${
                 isLoading
                   ? "text-gray-400 cursor-not-allowed"
-                  : "text-green-600 hover:text-green-700 transition-colors"
+                  : "text-primary dark:text-primary-darkMode hover:text-primary-light dark:hover:text-primary-light"
               }`}>
               Already have an account?
             </Link>
@@ -210,9 +202,9 @@ const RegisterUser = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg font-medium hover:from-green-700 hover:to-green-600 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center">
+            className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-light dark:bg-primary-darkMode dark:hover:bg-primary-light transition-colors duration-200 disabled:opacity-60 flex items-center justify-center">
             {isLoading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
             ) : (
               "Sign Up"
             )}
@@ -224,28 +216,11 @@ const RegisterUser = () => {
             variant={alertConfig.variant}
             show={showAlert}
             onClose={() => setShowAlert(false)}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+            autoClose={true}
+            autoCloseTime={5000}
+            className="w-full max-w-md">
             <AlertDescription>{alertConfig.message}</AlertDescription>
           </Alert>
-        )}
-
-        {showDirectoryModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-2xl p-6 max-w-md w-full space-y-4">
-              <h3 className="text-xl font-bold text-gray-900">
-                Directory Registration
-              </h3>
-              <p className="text-gray-600">
-                You've also been registered on our Directory platform. Please
-                check your email to verify your Directory account.
-              </p>
-              <button
-                onClick={() => setShowDirectoryModal(false)}
-                className="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg font-medium hover:from-green-700 hover:to-green-600 transition-all duration-200">
-                Close
-              </button>
-            </div>
-          </div>
         )}
       </div>
     </div>
@@ -273,9 +248,7 @@ const InputField = ({
         type={type}
         placeholder={placeholder}
         disabled={disabled}
-        className={`w-full px-3 py-3 pl-10 pr-10 border ${
-          error ? "border-red-300" : "border-gray-300"
-        } rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 placeholder-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed`}
+        className={`w-full px-3 py-2 pl-10 pr-10 border ${error ? "border-red-500" : "border-gray-300 dark:border-gray-600"} rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-primary-darkMode focus:border-primary dark:focus:border-primary-darkMode transition-all placeholder-gray-500 dark:placeholder-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed`}
       />
       {toggleIcon && (
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -283,7 +256,11 @@ const InputField = ({
         </div>
       )}
     </div>
-    {error && <p className="text-sm text-red-600 pl-2">{error.message}</p>}
+    {error && (
+      <p className="text-sm text-red-600 dark:text-red-400 pl-2">
+        {error.message}
+      </p>
+    )}
   </div>
 );
 

@@ -1,41 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   LayoutDashboard,
   Home,
   Users,
-  Award,
-  Star,
-  Tag,
-  ThumbsUp,
-  List,
-  Vote,
-  Trophy,
+  FileText,
+  PenTool,
+  Settings,
   LogOut,
-  ChevronRight,
-  MenuSquare,
+  Mic,
   Menu,
+  X,
+  Bell,
+  Search,
+  ChevronDown,
+  Sun,
+  Moon,
+  User,
 } from "lucide-react";
-import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
+import { MdOutlineEventBusy } from "react-icons/md";
+import { FaCashRegister } from "react-icons/fa";
+import { MdPermMedia } from "react-icons/md";
 
-const AdminSidebar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+// Admin Sidebar Component
+const AdminSidebar = ({
+  isOpen,
+  onClose,
+  isCollapsed,
+  onToggleCollapse,
+  posts,
+}) => {
   const location = useLocation();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -47,113 +46,100 @@ const AdminSidebar = () => {
       title: "Dashboard",
       icon: LayoutDashboard,
       path: "/Admin/DashBoard",
+      badge: null,
     },
     {
       title: "Home",
       icon: Home,
       path: "/",
+      badge: null,
     },
     {
       title: "Users",
       icon: Users,
       path: "/Admin/AdminALlUsers",
+      badge: null,
     },
     {
-      title: "Regional Awards",
-      icon: Award,
-      path: "/Admin/AwardList",
+      title: "Blog Posts",
+      icon: FileText,
+      path: "/Admin/BlogPosts",
+      badge: posts?.length > 0 ? posts.length : null,
     },
     {
-      title: "Famous People",
-      icon: Star,
-      path: "/Admin/FamousPeopleList",
+      title: "Authors",
+      icon: PenTool,
+      path: "/Admin/Authors",
+      badge: null,
     },
     {
-      title: "Pride In Category",
-      icon: Tag,
-      path: "/Admin/PrideInCategoryList",
+      title: "Speakers",
+      icon: Mic,
+      path: "/Admin/Speakers",
+      badge: null,
     },
     {
-      title: "Recommended People",
-      icon: ThumbsUp,
-      path: "/Admin/RecommendedPersonList",
+      title: "Events",
+      icon: MdOutlineEventBusy,
+      path: "/Admin/Events",
+      badge: null,
     },
     {
-      title: "All Nominee",
-      icon: List,
-      path: "/Admin/NomineeList",
+      title: "Registered for Events",
+      icon: FaCashRegister,
+      path: "/Admin/RegisteredEvents",
+      badge: null,
     },
     {
-      title: "Suggested Nominee",
-      icon: List,
-      path: "/Admin/AdminSuggestedNomination",
-    },
-
-    {
-      title: "Admin/Judge Voting",
-      icon: Vote,
-      path: "/Admin/AdminJudgeVoting",
+      title: "Resources",
+      icon: MdPermMedia,
+      path: "/Admin/ResourceList",
+      badge: null,
     },
     {
-      title: "Winners",
-      icon: Trophy,
-      path: "/Admin/AdminWinnersListPage",
+      title: "Settings",
+      icon: Settings,
+      path: "/Admin/Settings",
+      badge: null,
     },
   ];
+  console.log(posts, "posts");
 
   return (
     <>
-      {isMobile && (
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-primary text-white md:hidden"
-          aria-label="Toggle menu">
-          <Menu className="w-6 h-6" />
-        </button>
-      )}
-
-      {isMobileOpen && isMobile && (
+      {/* Mobile Overlay */}
+      {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={onClose}
         />
       )}
 
+      {/* Sidebar */}
       <div
-        className={`fixed md:relative flex flex-col min-h-screen bg-primary text-white transition-all duration-300 z-50
-          ${isMobile ? (isMobileOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"} 
-          ${isDesktopCollapsed ? "md:w-20" : "md:w-64"}
+        className={`fixed lg:relative flex flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-50 h-full
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          ${isCollapsed ? "lg:w-20" : "lg:w-64"}
           w-64`}>
-        {!isMobile && (
-          <button
-            onClick={() => setIsDesktopCollapsed(!isDesktopCollapsed)}
-            className="absolute -right-3 top-8 bg-sunlit-gold rounded-full p-1.5 hover:bg-secondary focus:outline-none hidden md:block"
-            aria-label={
-              isDesktopCollapsed ? "Expand sidebar" : "Collapse sidebar"
-            }>
-            <ChevronRight
-              className={`h-4 w-4 transition-transform duration-300 ${
-                isDesktopCollapsed ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-        )}
-
-        <div className="flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-secondary/30">
-          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center">
-            <MenuSquare className="w-6 h-6" />
+        {/* Logo Section */}
+        <div className="flex items-center gap-3 p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <span className="text-white font-bold text-lg">U</span>
           </div>
-          {(!isDesktopCollapsed || isMobileOpen) && (
-            <div>
-              <h1 className="text-lg sm:text-xl font-bold">
-                Pride of the World
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white truncate">
+                Umoru Admin
               </h1>
-              <p className="text-xs text-white/50">Administrator</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                Content Management
+              </p>
             </div>
           )}
         </div>
 
-        <nav className="flex-1 px-3 sm:px-4 py-4 sm:py-6 space-y-2 overflow-y-auto">
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -162,29 +148,47 @@ const AdminSidebar = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={() => setIsMobileOpen(false)}
-                className={`flex items-center gap-3 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-white/10 text-white"
-                    : "hover:bg-white/20 text-white/70"
-                }`}
-                title={isDesktopCollapsed && !isMobile ? item.title : ""}>
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                {(!isDesktopCollapsed || isMobileOpen) && (
-                  <span className="truncate">{item.title}</span>
+                onClick={onClose}
+                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative
+                  ${
+                    isActive
+                      ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-lg shadow-blue-100 dark:shadow-blue-900/20"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                  }`}
+                title={isCollapsed ? item.title : ""}>
+                <Icon
+                  className={`w-5 h-5 flex-shrink-0 transition-colors ${
+                    isActive ? "text-blue-600 dark:text-blue-400" : ""
+                  }`}
+                />
+                {!isCollapsed && (
+                  <>
+                    <span className="flex-1 font-medium truncate">
+                      {item.title}
+                    </span>
+                    {item.badge && (
+                      <span className="px-2 py-1 text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </>
+                )}
+                {isActive && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 dark:bg-blue-400 rounded-r-full" />
                 )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-3 sm:p-4 border-t border-secondary/30">
+        {/* Logout Section */}
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-2 sm:px-3 py-1.5 sm:py-2 text-unity-coral rounded-lg hover:bg-white/20 transition-colors duration-200"
-            title={isDesktopCollapsed && !isMobile ? "Sign out" : ""}>
+            className="flex items-center gap-3 w-full px-3 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all duration-200"
+            title={isCollapsed ? "Sign out" : ""}>
             <LogOut className="w-5 h-5 flex-shrink-0" />
-            {(!isDesktopCollapsed || isMobileOpen) && <span>Sign out</span>}
+            {!isCollapsed && <span className="font-medium">Sign out</span>}
           </button>
         </div>
       </div>

@@ -1,26 +1,29 @@
-// import { StrictMode } from 'react'
-// import { createRoot } from 'react-dom/client'
-// import './index.css'
-// import App from './App.jsx'
-
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
-
-// index.js
-import { StrictMode } from "react";
+// UMORUS-POR.../client/src/main.js
+import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./store"; // Ensure the path is correct
 import "./index.css";
 import App from "./App.jsx";
 
+const Root = () => {
+  const { mode } = useSelector((state) => state.theme);
+
+  useEffect(() => {
+    if (mode === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [mode]);
+
+  return <App />;
+};
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <Root />
     </Provider>
   </StrictMode>
 );
