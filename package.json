@@ -13,6 +13,7 @@
     "node": "22.x"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.14.0",
@@ -37,7 +38,6 @@
     "date-fns": "^2.30.0",
     "dompurify": "^3.2.4",
     "dotenv": "^16.5.0",
-    "emailjs-com": "^3.2.0",
     "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.12.0",
     "flowbite": "^2.5.2",
