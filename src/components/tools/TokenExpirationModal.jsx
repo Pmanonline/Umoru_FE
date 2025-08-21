@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../features/auth/authSlice";
+import { logoutUser } from "../../features/Auth/authSlice";
 import { AlertCircle, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
