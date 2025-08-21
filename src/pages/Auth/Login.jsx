@@ -481,9 +481,9 @@ const Login = () => {
         try {
           const response = await dispatch(refreshToken()).unwrap();
           dispatch(setCredentials(response));
-          console.log(
-            `[Frontend] Token refreshed at ${new Date().toISOString()} (WAT) for user ${response.user._id}`
-          );
+          // console.log(
+          //   `[Frontend] Token refreshed at ${new Date().toISOString()} (WAT) for user ${response.user._id}`
+          // );
         } catch (err) {
           showAlertMessage(
             "Session expired. Please log in again.",
