@@ -66,6 +66,7 @@ const AppContent = () => {
         <Route path="/SingleEvent/:slug" element={<SingleEventPage />} />
         <Route path="/Posts/:slug" element={<SingleBlogPage />} />
         <Route path="/Blog/" element={<BlogPage />} />
+        <Route path="/Blog/" element={<BlogPage />} />
         <Route path="/Events/" element={<EventsPage />} />
 
         {/* Auth */}
@@ -80,10 +81,7 @@ const AppContent = () => {
             <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
             <Route path="/Admin/AdminALlUsers" element={<AdminALlUsers />} />
             <Route path="/Admin/BlogPosts" element={<AdminBlogPageLists />} />
-            <Route
-              path="/Admin/CreateBlogPosts/:postId?"
-              element={<CreateBlogPosts />}
-            />
+            <Route path="/a/:postId?" element={<CreateBlogPosts />} />
             {/* Authors */}
             <Route path="/Admin/Authors" element={<AuthorList />} />
             <Route

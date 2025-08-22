@@ -633,13 +633,8 @@ const BlogSection = () => {
             transform: inView ? "translateY(0)" : "translateY(15px)",
             transition: "all 0.4s ease-out",
           }}>
-          <h2
-            className="text-xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2"
-            style={{
-              transitionDelay: "0.1s",
-            }}>
+          <h2 className="text-3xl mb-4 md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-blue-600 dark:from-gray-200 dark:to-blue-400 leading-tight">
             Blog Posts
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 mt-0.5"></span>
           </h2>
           <p
             className="text-sm text-gray-600 dark:text-gray-300 max-w-lg mx-auto"

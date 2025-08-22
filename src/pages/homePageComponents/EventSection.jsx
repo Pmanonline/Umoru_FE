@@ -11,6 +11,10 @@ import {
   Watch,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+const backendURL =
+  import.meta.env.MODE === "production"
+    ? import.meta.env.VITE_BACKEND_URL
+    : "http://localhost:3001";
 
 const EventSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,7 +32,7 @@ const EventSection = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/getEvents");
+        const res = await fetch(`${backendURL}/api/getEvents`);
         const data = await res.json();
         setEvents(data.events);
       } catch (error) {
@@ -314,12 +318,16 @@ const EventSection = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
-                <button className="bg-gradient-to-r from-blue-700 to-green-600 hover:from-red-700 hover:to-green-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
-                  Register Now
-                </button>
+                <Link
+                  to={`/SingleEvent/${currentEvent.slug}`}
+                  className="w-full">
+                  <button className="w-full bg-gradient-to-r from-blue-700 to-green-600 hover:from-red-700 hover:to-green-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
+                    Read More
+                  </button>
+                </Link>
                 <Link to={`/SingleEvent/${currentEvent.slug}`}>
                   <button className="border-2 border-blue-700/50 hover:border-blue-700 text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-teal-400 font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:bg-blue-700/20 dark:hover:bg-blue-700/20 text-sm sm:text-base">
-                    Learn More
+                    Register
                   </button>
                 </Link>
               </div>

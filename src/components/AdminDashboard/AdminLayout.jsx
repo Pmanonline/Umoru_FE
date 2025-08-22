@@ -140,7 +140,7 @@ export default function AdminLayout() {
       />
 
       {/* Main layout */}
-      <div className="flex flex-col flex-1 h-screen">
+      <div className="flex flex-col flex-1 h-screen overflow-x-auto">
         {/* Header (fixed at top, doesn’t scroll) */}
         <div className="shrink-0">
           <Adminheader
@@ -151,8 +151,8 @@ export default function AdminLayout() {
         </div>
 
         {/* Content area (scrolls independently) */}
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="max-w-6xl mx-auto min-h-full">
+        <main className="flex-1 overflow-y-auto overflow-x-auto md:p-6">
+          <div className="max-w-6xl mx-auto min-h-full overflow-x-auto">
             <Outlet />
           </div>
         </main>

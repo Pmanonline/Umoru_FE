@@ -17,6 +17,7 @@ import {
   BookOpen,
   Star,
 } from "lucide-react";
+import LoadingSpinner from "../components/tools/LoaddingSpinner";
 
 const backendURL =
   import.meta.env.MODE === "production"
@@ -32,6 +33,7 @@ const BlogPage = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState([]);
+
   const postsPerPage = 9;
 
   const sortOptions = [
@@ -62,7 +64,7 @@ const BlogPage = () => {
             .split(" ")
             .slice(0, 20)
             .join(" ")
-            .concat("..."), // Extract excerpt from content
+            .concat("..."),
           featured: post.featured,
           tags: post.tags,
         }));
@@ -94,7 +96,6 @@ const BlogPage = () => {
       return matchesSearch && matchesCategory;
     });
 
-    // Sort posts
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "newest":
@@ -206,7 +207,7 @@ const BlogPage = () => {
     }
 
     return (
-      <div className="flex items-center justify-center space-x-2 mt-9">
+      <div className="flex items-center justify-center space-x-2 mt-6 sm:mt-8">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -257,11 +258,12 @@ const BlogPage = () => {
       <article
         key={post.id}
         className={`group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-600 ${
-          isGridView ? "" : "flex flex-row"
+          isGridView ? "h-auto" : "flex flex-row"
         }`}>
         <div
-          className={`relative overflow-hidden ${isGridView ? "h-48" : "w-1/3 h-auto"}`}>
+          className={`relative overflow-hidden ${isGridView ? "h-48 sm:h-56" : "w-1/3 h-auto"}`}>
           <img
+            loading="lazyLoading"
             src={post.image1}
             alt={post.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -269,38 +271,38 @@ const BlogPage = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Category Badge */}
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
             <span
-              className={`${getPostTypeColor(post.postType)} text-white text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide`}>
+              className={`${getPostTypeColor(post.postType)} text-white text-xs sm:text-sm px-2 py-1 rounded-full uppercase font-semibold tracking-wide`}>
               {post.postType}
             </span>
           </div>
 
           {post.featured && (
-            <div className="absolute top-3 right-3">
+            <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
               <Star size={16} className="text-yellow-400 fill-current" />
             </div>
           )}
         </div>
 
-        <div className={`p-6 ${isGridView ? "" : "flex-1"}`}>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+        <div className={`mid:p-3 sm:p-2 ${isGridView ? "" : "flex-1"}`}>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
             {post.title}
           </h2>
 
-          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 sm:mb-4 line-clamp-3">
             {post.excerpt}
           </p>
 
           {/* Meta Information */}
-          <div className="flex items-center justify-between text-gray-500 dark:text-gray-400 text-xs mb-4">
-            <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between text-gray-500 dark:text-gray-400 text-xs sm:text-sm mb-2 sm:mb-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="flex items-center space-x-1">
-                <Calendar size={14} />
+                <Calendar size={12} sm:size={14} />
                 <span>{formatDate(post.date)}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Eye size={14} />
+                <Eye size={12} sm:size={14} />
                 <span>{post.views.toLocaleString()}</span>
               </div>
             </div>
@@ -310,9 +312,9 @@ const BlogPage = () => {
           <div className="flex items-center justify-between">
             <a
               href={`/Posts/${post.slug}`}
-              className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-green-600 transition-all duration-200 hover:scale-105">
+              className="bg-green-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-sm font-medium flex items-center gap-1 sm:gap-2 hover:bg-green-600 transition-all duration-200 hover:scale-105">
               Read More
-              <ArrowRight size={14} />
+              <ArrowRight size={12} sm:size={14} />
             </a>
           </div>
         </div>
@@ -321,17 +323,19 @@ const BlogPage = () => {
   };
 
   const renderSidebarSection = (title, posts, icon) => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+      <div className="flex items-center gap-2 mb-2 sm:mb-4">
         {icon}
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
           {title}
         </h3>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {posts.map((post, index) => (
-          <div key={post.id} className="flex gap-3 group cursor-pointer">
-            <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+          <div
+            key={post.id}
+            className="flex gap-2 sm:gap-3 group cursor-pointer">
+            <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-lg overflow-hidden flex-shrink-0">
               <img
                 src={post.image1}
                 alt={post.title}
@@ -341,13 +345,13 @@ const BlogPage = () => {
             <div className="flex-1 min-w-0">
               <a
                 href={`/Posts/${post.slug}`}
-                className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                 {post.title}
               </a>
-              <div className="flex items-center gap-3 mt-2 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-2 text-xs text-gray-500 dark:text-gray-400">
                 <span>{formatDate(post.date)}</span>
-                <span className="flex items-center gap-1">
-                  <Eye size={10} />
+                <span className="flex items-center gap-0.5 sm:gap-1">
+                  <Eye size={8} sm:size={10} />
                   {post.views.toLocaleString()}
                 </span>
               </div>
@@ -357,18 +361,26 @@ const BlogPage = () => {
       </div>
     </div>
   );
+  //  Render loading state
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 mt-12">
+    <div className=" mid:px-4 mid:mt-12 min-h-screen bg-gray-50 dark:bg-gray-900  sm:mt-16">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-start lg:items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-blue-600 dark:from-gray-200 dark:to-blue-400 leading-tight">
                 Blog Posts
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mt-1 sm:mt-2 text-sm sm:text-base">
                 Showing {filteredAndSortedPosts.length} posts
               </p>
             </div>
@@ -376,9 +388,9 @@ const BlogPage = () => {
             {/* Search and Filters */}
             <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
               {/* Search */}
-              <div className="relative">
+              <div className="relative w-full sm:w-64">
                 <Search
-                  size={20}
+                  size={18}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                 />
                 <input
@@ -386,7 +398,7 @@ const BlogPage = () => {
                   placeholder="Search posts..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent w-full sm:w-64"
+                  className="pl-10 pr-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
                 />
               </div>
 
@@ -399,7 +411,7 @@ const BlogPage = () => {
                       ? "bg-white dark:bg-gray-600 text-green-600 shadow-sm"
                       : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   }`}>
-                  <Grid size={18} />
+                  <Grid size={16} />
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
@@ -408,15 +420,15 @@ const BlogPage = () => {
                       ? "bg-white dark:bg-gray-600 text-green-600 shadow-sm"
                       : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   }`}>
-                  <List size={18} />
+                  <List size={16} />
                 </button>
               </div>
 
               {/* Filter Toggle */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
-                <Filter size={18} />
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
+                <Filter size={16} />
                 Filters
               </button>
             </div>
@@ -424,8 +436,8 @@ const BlogPage = () => {
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-              <div className="flex flex-wrap gap-4 items-center">
+            <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
+              <div className="flex flex-wrap gap-4 sm:gap-6 items-center">
                 <div className="flex items-center gap-2">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Category:
@@ -433,7 +445,7 @@ const BlogPage = () => {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm">
+                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
                     {categories.map((category) => (
                       <option key={category} value={category}>
                         {category} ({categoryCounts[category]})
@@ -449,7 +461,7 @@ const BlogPage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm">
+                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
                     {sortOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -465,7 +477,7 @@ const BlogPage = () => {
                     setSortBy("newest");
                     setCurrentPage(1);
                   }}
-                  className="flex items-center gap-1 px-3 py-1 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
+                  className="flex items-center gap-1 px-3 py-1 sm:py-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
                   <X size={14} />
                   Clear All
                 </button>
@@ -476,38 +488,33 @@ const BlogPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
           {/* Main Content Area */}
           <main className="flex-1">
-            {isLoading ? (
-              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                {[...Array(postsPerPage)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg animate-pulse h-64"
-                  />
-                ))}
-              </div>
-            ) : currentPosts.length > 0 ? (
-              <>
+            {currentPosts.length > 0 ? (
+              <div>
                 <div
-                  className={`grid gap-6 ${
+                  className={`grid gap-4 sm:gap-6 ${
                     viewMode === "grid"
-                      ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+                      ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
                       : "grid-cols-1"
                   }`}>
                   {currentPosts.map(renderPostCard)}
                 </div>
                 {totalPages > 1 && renderPagination()}
-              </>
+              </div>
             ) : (
-              <div className="text-center py-12">
-                <BookOpen size={64} className="mx-auto text-gray-400 mb-4" />
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
+              <div className="text-center py-8 sm:py-12">
+                <BookOpen
+                  size={48}
+                  sm:size={64}
+                  className="mx-auto text-gray-400 mb-4"
+                />
+                <h3 className="text-lg sm:text-xl font-medium text-gray-900 dark:text-white mb-2">
                   No posts found
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                   Try adjusting your search or filter criteria.
                 </p>
               </div>
@@ -515,24 +522,24 @@ const BlogPage = () => {
           </main>
 
           {/* Sidebar */}
-          <aside className="lg:w-80 space-y-6">
+          <aside className="lg:w-80 space-y-4 sm:space-y-6">
             {/* Categories */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 sm:mb-4">
                 Categories
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-2 sm:space-y-3">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 ${
+                    className={`w-full text-left px-3 py-1 sm:py-2 rounded-lg transition-all duration-200 ${
                       selectedCategory === category
                         ? "bg-green-500 text-white"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     }`}>
                     <span className="font-medium">{category}</span>
-                    <span className="float-right text-sm opacity-75">
+                    <span className="float-right text-xs sm:text-sm opacity-75">
                       ({categoryCounts[category]})
                     </span>
                   </button>
@@ -544,14 +551,14 @@ const BlogPage = () => {
             {renderSidebarSection(
               "Recent Posts",
               recentPosts,
-              <Clock size={18} className="text-blue-500" />
+              <Clock size={16} className="text-blue-500" />
             )}
 
             {/* Popular Posts */}
             {renderSidebarSection(
               "Popular Posts",
               popularPosts,
-              <TrendingUp size={18} className="text-red-500" />
+              <TrendingUp size={16} className="text-red-500" />
             )}
           </aside>
         </div>

@@ -27,6 +27,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import backendURL from "../config";
 import { Alert, AlertDescription } from "../components/tools/Alert";
+import LoadingSpinner from "../components/tools/LoaddingSpinner";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
@@ -775,12 +776,9 @@ const SingleEventPage = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
-        <Loader2
-          className="animate-spin text-teal-500 dark:text-teal-400"
-          size={40}
-        />
-      </div>
+      <>
+        <LoadingSpinner />
+      </>
     );
   }
 
@@ -805,7 +803,7 @@ const SingleEventPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-teal-100 dark:from-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-b from-blue-200 to-teal-100 dark:from-gray-800 dark:to-gray-900 mt-5">
       {/* Alert Component */}
       {showAlert && (
         <Alert
@@ -818,42 +816,6 @@ const SingleEventPage = () => {
         </Alert>
       )}
 
-      {/* Header/Navigation */}
-      <div className="relative z-20 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3 sm:py-4">
-            <motion.button
-              className="flex items-center gap-2 text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
-              whileHover={{ x: -5 }}
-              onClick={() => window.history.back()}
-              aria-label="Back to events">
-              <ChevronLeft size={20} />
-              <span className="text-sm sm:text-base">Back to Events</span>
-            </motion.button>
-            <div className="flex items-center gap-2 sm:gap-4">
-              <motion.button
-                className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-lg transition-colors ${
-                  isLiked
-                    ? "bg-red-500 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-red-500 dark:hover:bg-red-500"
-                }`}
-                onClick={handleLike}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={isLiked ? "Unlike event" : "Like event"}>
-                <Heart size={16} fill={isLiked ? "white" : "none"} />
-                <span className="text-xs sm:text-sm">{likes}</span>
-              </motion.button>
-              <ShareFeature
-                eventData={eventData}
-                showAlertMessage={showAlertMessage}
-              />
-              <AddToCalendar eventData={eventData} />
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="relative" ref={ref}>
         {/* Hero Section */}
         <motion.section
@@ -861,34 +823,23 @@ const SingleEventPage = () => {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           variants={containerVariants}>
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-              <motion.div variants={itemVariants}>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs sm:text-sm font-semibold">
-                    {eventData.eventType}
-                  </span>
-                  <span className="bg-purple-500 text-white px-2 py-1 rounded-full text-xs sm:text-sm font-semibold">
-                    {eventData.category}
-                  </span>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs sm:text-sm font-semibold text-white ${
-                      isUpcoming ? "bg-green-600" : "bg-teal-600"
-                    }`}>
-                    {isUpcoming ? "Upcoming Event" : "Past Event"}
-                  </span>
-                </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 font-montserrat-subrayada">
-                  {eventData.title}
-                </h1>
-                <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
-                  {eventData.content
-                    .replace(/<\/?[^>]+(>|$)/g, "")
-                    .slice(0, 100) + "..."}
-                </p>
+          <div className="mx-auto px-4 sm:px-6 lg:px-16">
+            <div className="md:flex  justify-between gap-2 mb-4 ">
+              <div className="mid:mb-4">
+                <span className="bg-teal-500 text-white px-2 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                  {eventData.eventType}
+                </span>
+                <span
+                  className={`mx-3 px-2 py-1 rounded-full text-xs sm:text-sm font-semibold text-white ${
+                    isUpcoming ? "bg-green-600" : "bg-teal-600"
+                  }`}>
+                  {isUpcoming ? "Upcoming Event" : "Past Event"}
+                </span>
+              </div>
+              <div>
                 {countdown.days > 0 && (
-                  <div className="mb-4 sm:mb-6 bg-white/80 dark:bg-gray-800/80 rounded-lg p-3 sm:p-4 shadow-lg">
-                    <h3 className="text-sm sm:text-base text-teal-600 dark:text-teal-400 font-semibold mb-2">
+                  <div className="flex mb-4 sm:mb-6 bg-white/80 dark:bg-gray-800/80 rounded-lg p-3 sm:p-4 shadow-lg">
+                    <h3 className="mr-3 text-sm sm:text-base text-teal-600 dark:text-teal-400 font-semibold mb-2">
                       Event Starts In
                     </h3>
                     <div className="flex gap-2 sm:gap-4 text-sm sm:text-base">
@@ -927,6 +878,19 @@ const SingleEventPage = () => {
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+              <motion.div variants={itemVariants}>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 font-montserrat-subrayada">
+                  {eventData.title}
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
+                  {eventData.content
+                    .replace(/<\/?[^>]+(>|$)/g, "")
+                    .slice(0, 100) + "..."}
+                </p>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 sm:mb-8">
                   <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
                     <Calendar
@@ -968,24 +932,9 @@ const SingleEventPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {eventData.meetingLink && (
-                    <motion.a
-                      href={eventData.meetingLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-teal-600 dark:bg-teal-400 hover:bg-teal-700 dark:hover:bg-teal-500 text-white dark:text-gray-900 py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-colors text-center"
-                      variants={buttonVariants}
-                      whileHover="hover"
-                      whileTap="tap"
-                      aria-label="Join event">
-                      Join Event
-                    </motion.a>
-                  )}
-                  <AddToCalendar eventData={eventData} />
-                </div>
+
                 {isPastWithVideo && (
-                  <div className="mt-4 text-center">
+                  <div className="mt-4 text-start">
                     <button
                       onClick={() => setShowVerifyModal(true)}
                       className="text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 font-medium text-sm hover:underline transition-colors"
@@ -1033,10 +982,37 @@ const SingleEventPage = () => {
             </div>
           </div>
         </motion.section>
+        {/* Header/Navigation */}
+        <div className="mx-auto px-4 sm:px-6 lg:px-16 relative z-20 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+          <div className="mx-auto">
+            <div className="flex items-center justify-between py-3 sm:py-4">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <motion.button
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-lg transition-colors ${
+                    isLiked
+                      ? "bg-red-500 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-red-500 dark:hover:bg-red-500"
+                  }`}
+                  onClick={handleLike}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label={isLiked ? "Unlike event" : "Like event"}>
+                  <Heart size={16} fill={isLiked ? "white" : "none"} />
+                  <span className="text-xs sm:text-sm">{likes}</span>
+                </motion.button>
+                <ShareFeature
+                  eventData={eventData}
+                  showAlertMessage={showAlertMessage}
+                />
+                <AddToCalendar eventData={eventData} />
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Event Details Section */}
         <section className="py-12 sm:py-16 bg-white/80 dark:bg-gray-800/80">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto px-4 sm:px-6 lg:px-16">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
               <div className="lg:col-span-2">
                 <motion.div
