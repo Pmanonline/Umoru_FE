@@ -180,7 +180,7 @@ const AboutUs = () => {
               className="mt-6 inline-block bg-pink-400 hover:bg-pink-500 text-white py-2 px-4 rounded font-semibold transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}>
-              Explore Services
+              Explore More
             </motion.a>
           </motion.div>
         </div>

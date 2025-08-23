@@ -32,6 +32,8 @@ import CreateEditEvents from "./pages/AdminPages/CreateEditEvents";
 import RegisteredEvent from "./pages/AdminPages/RegisteredEvent";
 import ResourceList from "./pages/AdminPages/ResourceLists";
 import CreateEditResource from "./pages/AdminPages/CreateEditResource";
+import AdminNotificationPage from "./pages/AdminPages/AdminNotifications";
+import AdminBoookingLists from "./pages/AdminPages/AdminBoookingLists";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -108,6 +110,14 @@ const AppContent = () => {
             <Route
               path="/Admin/CreateEditResources/:resourceId?"
               element={<CreateEditResource />}
+            />
+            <Route
+              path="/Admin/AdminNotificationPage"
+              element={<AdminNotificationPage />}
+            />
+            <Route
+              path="/Admin/AdminBoookingLists"
+              element={<AdminBoookingLists />}
             />
           </Route>
         </Route>

@@ -138,8 +138,8 @@ const EventSection = () => {
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}>
       {/* Header with Countdown */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-teal-700 dark:text-teal-300">
+      <div className="md:flex justify-between items-center mb-6">
+        <h2 className=" mid:mb-3  text-2xl sm:text-3xl font-extrabold tracking-tight text-teal-700 dark:text-teal-300">
           Upcoming Events
         </h2>
         <div className="flex items-center space-x-2">
@@ -317,11 +317,11 @@ const EventSection = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
+              <div className=" flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
                 <Link
                   to={`/SingleEvent/${currentEvent.slug}`}
                   className="w-full">
-                  <button className="w-full bg-gradient-to-r from-blue-700 to-green-600 hover:from-red-700 hover:to-green-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
+                  <button className="w-auto mr-5 bg-gradient-to-r from-blue-700 to-green-600 hover:from-red-700 hover:to-green-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
                     Read More
                   </button>
                 </Link>

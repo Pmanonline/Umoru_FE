@@ -18,11 +18,13 @@ import {
   Sun,
   Moon,
   User,
+  CalendarCheck,
 } from "lucide-react";
 import { logoutUser } from "../../features/Auth/authSlice";
 import { MdOutlineEventBusy } from "react-icons/md";
 import { FaCashRegister } from "react-icons/fa";
 import { MdPermMedia } from "react-icons/md";
+import { useNotifications } from "../../components/Hooks/UseNotifications";
 
 // Admin Sidebar Component
 const AdminSidebar = ({
@@ -35,6 +37,11 @@ const AdminSidebar = ({
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {
+    unreadCount,
+    loading: notificationsLoading,
+    error: notificationsError,
+  } = useNotifications("admin"); // Fetch admin notifications
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -97,13 +104,19 @@ const AdminSidebar = ({
       badge: null,
     },
     {
-      title: "Settings",
-      icon: Settings,
-      path: "/Admin/Settings",
+      title: "Bookings",
+      icon: CalendarCheck, // ✅ changed from MdPermMedia → CalendarCheck
+      path: "/Admin/AdminBoookingLists",
       badge: null,
     },
+    {
+      title: "Notifications",
+      icon: Bell, // ✅ Changed from Settings → Bell
+      path: "/Admin/AdminNotificationPage",
+      badge: null,
+      showBadge: true,
+    },
   ];
-  console.log(posts, "posts");
 
   return (
     <>
@@ -176,6 +189,14 @@ const AdminSidebar = ({
                 {isActive && (
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 dark:bg-blue-400 rounded-r-full" />
                 )}
+                {item.showBadge &&
+                  !notificationsLoading &&
+                  !notificationsError &&
+                  unreadCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
               </Link>
             );
           })}

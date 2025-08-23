@@ -1343,7 +1343,7 @@ const CommentBox = ({ postId, showAlertMessage }) => {
   const handleSaveEdit = async (commentId) => {
     if (!editContent.trim() || !userInfo) return;
     try {
-      await axios.put(`${backendURL}/api/updateComment/${commentId}`, {
+      await axios.put(`${backendURL}/api/editComment/${commentId}`, {
         content: editContent,
         userId: userInfo._id,
       });

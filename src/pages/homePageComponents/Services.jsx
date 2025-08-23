@@ -1,129 +1,5 @@
-// import React from "react";
-// import { motion } from "framer-motion";
-// import { useInView } from "react-intersection-observer";
-
-// const ServicesPage = () => {
-//   const { ref, inView } = useInView({
-//     triggerOnce: true,
-//     threshold: 0.1,
-//   });
-
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.2 },
-//     },
-//   };
-
-//   const cardVariants = {
-//     hidden: { opacity: 0, y: 50 },
-//     visible: {
-//       opacity: 1,
-//       y: 0,
-//       transition: { type: "spring", stiffness: 100, damping: 20 },
-//     },
-//   };
-
-//   return (
-//     <section
-//       className="relative py-16 bg-accent-cream dark:bg-accent-charcoal"
-//       ref={ref}>
-//       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-//         <h2 className="text-4xl font-montserrat-subrayada text-primary-dark dark:text-white mb-12">
-//           Our Services
-//         </h2>
-//         <motion.div
-//           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-//           initial="hidden"
-//           animate={inView ? "visible" : "hidden"}
-//           variants={containerVariants}>
-//           {/* Life Coaching */}
-//           <motion.div
-//             className="bg-primary/50 dark:bg-primary p-8 rounded-lg shadow-lg text-white dark:text-white overflow-hidden"
-//             variants={cardVariants}
-//             whileHover={{
-//               scale: 1.05,
-//               boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
-//               transition: { duration: 0.3 },
-//             }}>
-//             <img
-//               src="https://www.workplaceoptions.com/uk/wp-content/uploads/sites/21/2022/02/Life-Coaching-1.jpg"
-//               alt="Life Coaching"
-//               className="w-full h-48 object-cover rounded-t-lg mb-4"
-//             />
-//             <div className="flex items-center mb-4">
-//               <span className="text-2xl mr-2 text-accent-green">💡</span>
-//               <h3 className="text-xl font-montserrat font-semibold">
-//                 Life Coaching
-//               </h3>
-//             </div>
-//             <p className="text-sm">
-//               Personal growth through faith and spirituality, tailored to your
-//               journey. Unlock your potential with personalized guidance.
-//             </p>
-//           </motion.div>
-
-//           {/* Data Science Training */}
-//           <motion.div
-//             className="bg-primary/50 dark:bg-primary p-8 rounded-lg shadow-lg text-white dark:text-white overflow-hidden"
-//             variants={cardVariants}
-//             whileHover={{
-//               scale: 1.05,
-//               boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
-//               transition: { duration: 0.3 },
-//             }}>
-//             <img
-//               src="https://www.thinknexttraining.com/images/data-science-course-in-chandigarh-mob.jpg"
-//               alt="Data Science Training"
-//               className="w-full h-48 object-cover rounded-t-lg mb-4"
-//             />
-//             <div className="flex items-center mb-4">
-//               <span className="text-2xl mr-2 text-accent-teal">📊</span>
-//               <h3 className="text-xl font-montserrat font-semibold">
-//                 Data Science Training
-//               </h3>
-//             </div>
-//             <p className="text-sm">
-//               Master Python, SQL, and machine learning with expert guidance.
-//               Build a strong foundation for your data career.
-//             </p>
-//           </motion.div>
-
-//           {/* Mentoring */}
-//           <motion.div
-//             className="bg-primary/50 dark:bg-primary p-8 rounded-lg shadow-lg text-white dark:text-white overflow-hidden"
-//             variants={cardVariants}
-//             whileHover={{
-//               scale: 1.05,
-//               boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
-//               transition: { duration: 0.3 },
-//             }}>
-//             <img
-//               src="https://mccarthymentoring.com/wp-content/uploads/2023/04/christina-wocintechchat-com-LQ1t-8Ms5PY-unsplash-scaled.jpg"
-//               alt="Mentoring"
-//               className="w-full h-48 object-cover rounded-t-lg mb-4"
-//             />
-//             <div className="flex items-center mb-4">
-//               <span className="text-2xl mr-2 text-accent-green">🤝</span>
-//               <h3 className="text-xl font-montserrat font-semibold">
-//                 Mentoring
-//               </h3>
-//             </div>
-//             <p className="text-sm">
-//               Career and personal development support from an experienced guide.
-//               Achieve your goals with tailored advice.
-//             </p>
-//           </motion.div>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default ServicesPage;
-
 import React, { useState, useEffect } from "react";
+import BookingModal from "../../components/Modals/BookingModal";
 
 const ServicesV3 = () => {
   const [activeHex, setActiveHex] = useState(null);
@@ -293,6 +169,7 @@ const ServicesV3 = () => {
       </div>
     </div>
   );
+  const [bookingService, setBookingService] = useState(null);
 
   return (
     <section
@@ -413,13 +290,14 @@ const ServicesV3 = () => {
             className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
             onClick={() => setActiveHex(null)}>
             <div
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md mx-auto shadow-2xl transform transition-all duration-300 scale-100 opacity-100"
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md mx-auto shadow-2xl transform transition-all duration-300 scale-100 opacity-100 relative"
               onClick={(e) => e.stopPropagation()}>
               <button
                 className="absolute top-4 right-4 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 text-2xl font-bold"
                 onClick={() => setActiveHex(null)}>
                 &times;
               </button>
+
               {services
                 .filter((service) => service.id === activeHex)
                 .map((service) => (
@@ -440,11 +318,13 @@ const ServicesV3 = () => {
                         </div>
                       ))}
                     </div>
+
+                    {/* Trigger Booking Modal */}
                     <button
                       className={`px-6 py-3 rounded-xl bg-gradient-to-r ${service.borderGradient} text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-md`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setActiveHex(null);
+                        setBookingService(service); // track which service is booking
                       }}>
                       Start Your Journey
                     </button>
@@ -454,22 +334,33 @@ const ServicesV3 = () => {
           </div>
         )}
 
-        <div className="text-center mt-12">
-          <div className="mb-6">
-            <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-              Ready to Transform Your Future?
-            </h3>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Choose your path or combine multiple services for maximum impact
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-md">
-              Book Free Consultation
-            </button>
-            <button className="px-6 py-3 bg-white/10 text-gray-800 dark:text-gray-200 font-bold rounded-xl hover:bg-white/20 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-300 dark:border-gray-600">
-              View All Packages
-            </button>
+        <div>
+          <div className="text-center mt-12">
+            <div className="mb-6">
+              <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                Ready to Transform Your Future?
+              </h3>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                Choose your path or combine multiple services for maximum impact
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* Trigger Booking Modal */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setBookingService({
+                    title: "Free Consultation", // give it a custom title
+                  });
+                }}
+                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-md">
+                Book Free Consultation
+              </button>
+
+              <button className="px-6 py-3 bg-white/10 text-gray-800 dark:text-gray-200 font-bold rounded-xl hover:bg-white/20 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-300 dark:border-gray-600">
+                View All Packages
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -489,6 +380,13 @@ const ServicesV3 = () => {
           animation: fadeIn 0.3s ease-out;
         }
       `}</style>
+      {bookingService && (
+        <BookingModal
+          isOpen={!!bookingService}
+          onClose={() => setBookingService(null)}
+          title={`Book ${bookingService.title}`}
+        />
+      )}
     </section>
   );
 };
