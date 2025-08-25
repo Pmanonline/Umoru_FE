@@ -56,45 +56,52 @@ const debounce = (func, delay) => {
 
 const UserTableRow = React.memo(({ user, onDeleteClick }) => {
   return (
-    <tr className="border-b hover:bg-gray-50 transition-colors">
+    <tr className="border-b border-accent-charcoal/20 dark:border-gray-800/20 hover:bg-white/50 dark:hover:bg-accent-creamDark/50 transition-colors">
       <td className="py-4 px-6 whitespace-nowrap">
-        <div className="text-sm text-gray-900">
+        <div className="text-sm text-primary-dark dark:text-white">
           {moment(user.createdAt).format("MMM D, YYYY")}
         </div>
       </td>
       <td className="py-4 px-6 whitespace-nowrap">
         {user.image ? (
           <img
-            src={`${backendURL}/uploads/${user.image}`}
+            src={`${backendURL}/Uploads/${user.image}`}
             alt={user.name}
-            className="w-10 h-10 rounded-full object-cover border border-gray-200"
+            className="w-10 h-10 rounded-full object-cover border border-accent-charcoal/20 dark:border-gray-800/20"
             loading="lazy"
             onError={(e) => {
               e.target.src = "/default-profile.jpg";
             }}
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-            <span className="text-xs text-gray-500">No Image</span>
+          <div className="w-10 h-10 rounded-full bg-white/90 dark:bg-accent-creamDark/90 flex items-center justify-center border border-accent-charcoal/20 dark:border-gray-800/20">
+            <span className="text-xs text-accent-charcoal dark:text-white">
+              No Image
+            </span>
           </div>
         )}
       </td>
       <td className="py-4 px-6 whitespace-nowrap">
-        <span className="text-sm font-medium text-blue-600">{user.name}</span>
+        <span className="text-sm font-medium text-primary-light dark:text-primary-light">
+          {user.name}
+        </span>
       </td>
       <td className="py-4 px-6 whitespace-nowrap">
-        <span className="text-sm text-gray-900">{user.email}</span>
+        <span className="text-sm text-primary-dark dark:text-white">
+          {user.email}
+        </span>
       </td>
       <td className="py-4 px-6 whitespace-nowrap">
-        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-accent-teal/20 text-accent-teal dark:bg-accent-teal/30 dark:text-accent-teal">
           {user.role || "User"}
         </span>
       </td>
       <td className="py-4 px-6 whitespace-nowrap flex space-x-2">
         <button
           onClick={() => onDeleteClick(user._id)}
-          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-          title="Delete">
+          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-accent-red to-accent-red/80 hover:from-accent-red/80 hover:to-accent-red/60 focus:ring-2 focus:ring-primary-light"
+          title="Delete"
+          aria-label={`Delete user ${user.name}`}>
           <Trash2 className="w-4 h-4" />
         </button>
       </td>
@@ -102,7 +109,7 @@ const UserTableRow = React.memo(({ user, onDeleteClick }) => {
   );
 });
 
-export default function AdminALlUsers() {
+export default function AdminAllUsers() {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -158,15 +165,12 @@ export default function AdminALlUsers() {
         setLastMonthUsers(data.lastMonthUsers);
         setCurrentPage(page);
       } else {
-        showAlertMessage(
-          data.message || "Failed to fetch users",
-          "destructive"
-        );
+        showAlertMessage(data.message || "Failed to fetch users", "error");
       }
     } catch (error) {
       showAlertMessage(
         error.message || "An error occurred while fetching users",
-        "destructive"
+        "error"
       );
     } finally {
       setIsLoading(false);
@@ -201,15 +205,12 @@ export default function AdminALlUsers() {
         showAlertMessage("User deleted successfully", "success");
         setDeleteOpen(false);
       } else {
-        showAlertMessage(
-          data.message || "Failed to delete user",
-          "destructive"
-        );
+        showAlertMessage(data.message || "Failed to delete user", "error");
       }
     } catch (error) {
       showAlertMessage(
         error.message || "An error occurred while deleting user",
-        "destructive"
+        "error"
       );
     }
   };
@@ -261,12 +262,12 @@ export default function AdminALlUsers() {
         {
           label: "Activity",
           data: values,
-          borderColor: "rgba(37, 99, 235, 1)", // blue-600
-          backgroundColor: "rgba(37, 99, 235, 0.2)",
+          borderColor: "hsl(var(--primary))",
+          backgroundColor: "hsl(var(--primary-light) / 0.2)",
           fill: true,
           tension: 0.4,
-          pointBackgroundColor: "rgba(37, 99, 235, 1)",
-          pointBorderColor: "rgba(37, 99, 235, 1)",
+          pointBackgroundColor: "hsl(var(--primary))",
+          pointBorderColor: "hsl(var(--primary))",
         },
       ],
     };
@@ -275,13 +276,32 @@ export default function AdminALlUsers() {
       responsive: true,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: "Activity Over Time" },
+        title: {
+          display: true,
+          text: "Activity Over Time",
+          color: "hsl(var(--primary-dark))",
+          font: { size: 16 },
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           max: 1,
-          ticks: { stepSize: 0.1 },
+          ticks: {
+            stepSize: 0.1,
+            color: "hsl(var(--primary-dark))",
+          },
+          grid: {
+            color: "hsl(var(--accent-charcoal) / 0.1)",
+          },
+        },
+        x: {
+          ticks: {
+            color: "hsl(var(--primary-dark))",
+          },
+          grid: {
+            color: "hsl(var(--accent-charcoal) / 0.1)",
+          },
         },
       },
     };
@@ -291,104 +311,127 @@ export default function AdminALlUsers() {
 
   if (isLoading && users.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+      <div className="flex justify-center items-center min-h-screen bg-white dark:bg-accent-creamDark">
+        <Loader2 className="w-8 h-8 text-accent-teal animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto p-4 md:p-6 lg:p-8 max-w-7xl bg-white">
+    <div className="mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl bg-white dark:bg-accent-creamDark text-primary-dark dark:text-white">
       {/* Header */}
       <div className="mb-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Dashboard</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary-dark dark:text-white">
+              My Dashboard
+            </h1>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
               Welcome back, {userInfo?.name || "Admin"}!
             </p>
           </div>
           <div className="flex items-center space-x-4">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
               Last updated: {new Date().toLocaleTimeString()}
             </p>
-            <RefreshCw className="w-4 h-4 text-gray-500 cursor-pointer" />
-            <span className="text-sm font-semibold text-green-600">PUBLIC</span>
+            <RefreshCw className="w-4 h-4 text-accent-teal cursor-pointer" />
+            <span className="text-sm font-semibold text-accent-green">
+              PUBLIC
+            </span>
           </div>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-lg shadow-sm flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
-            <Users className="w-5 h-5 text-gray-400" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-6">
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
+            <Users className="w-5 h-5 text-accent-teal" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">{totalUsers}</p>
-            <p className="text-sm text-gray-500">Total Users</p>
+            <p className="text-2xl font-bold text-primary-dark dark:text-white">
+              {totalUsers}
+            </p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
+              Total Users
+            </p>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm flex items-center space-x-3">
-          <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
-            <Calendar className="w-5 h-5 text-gray-400" />
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
+            <Calendar className="w-5 h-5 text-accent-teal" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">{lastMonthUsers}</p>
-            <p className="text-sm text-gray-500">Last Month Users</p>
+            <p className="text-2xl font-bold text-primary-dark dark:text-white">
+              {lastMonthUsers}
+            </p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
+              Last Month Users
+            </p>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
-            <MessageCircle className="w-5 h-5 text-gray-400" />
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
+            <MessageCircle className="w-5 h-5 text-accent-teal" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">0</p>
-            <p className="text-sm text-gray-500">Engagements</p>
+            <p className="text-2xl font-bold text-primary-dark dark:text-white">
+              0
+            </p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
+              Engagements
+            </p>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm flex items-center space-x-3">
-          <div className="w-10 h-10 bg-yellow-50 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-gray-400" />
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-5 h-5 text-accent-teal" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">0%</p>
-            <p className="text-sm text-gray-500">User Verification</p>
+            <p className="text-2xl font-bold text-primary-dark dark:text-white">
+              0%
+            </p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
+              User Verification
+            </p>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm flex items-center space-x-3">
-          <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-gray-400" />
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-5 h-5 text-accent-teal" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">No</p>
-            <p className="text-sm text-gray-500">Business Verification</p>
+            <p className="text-2xl font-bold text-primary-dark dark:text-white">
+              No
+            </p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
+              Business Verification
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Subscription and Chart Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {/* Chart Section */}
-        <div className="bg-white p-4 rounded-lg shadow-sm md:col-span-2">
+      {/* Chart Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6">
+        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 sm:p-5 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 md:col-span-2">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg sm:text-xl font-semibold text-primary-dark dark:text-white">
               Activity Over Time
             </h2>
             <div className="flex space-x-4">
               <button
                 onClick={() => setChartTimeframe("weekly")}
-                className={`text-sm ${chartTimeframe === "weekly" ? "text-blue-600 underline" : "text-gray-500"}`}>
+                className={`text-sm sm:text-base ${chartTimeframe === "weekly" ? "text-primary-light underline" : "text-accent-charcoal dark:text-white/80 hover:text-primary-light"}`}>
                 Weekly
               </button>
               <button
                 onClick={() => setChartTimeframe("monthly")}
-                className={`text-sm ${chartTimeframe === "monthly" ? "text-blue-600 underline" : "text-gray-500"}`}>
+                className={`text-sm sm:text-base ${chartTimeframe === "monthly" ? "text-primary-light underline" : "text-accent-charcoal dark:text-white/80 hover:text-primary-light"}`}>
                 Monthly
               </button>
               <button
                 onClick={() => setChartTimeframe("yearly")}
-                className={`text-sm ${chartTimeframe === "yearly" ? "text-blue-600 underline" : "text-gray-500"}`}>
+                className={`text-sm sm:text-base ${chartTimeframe === "yearly" ? "text-primary-light underline" : "text-accent-charcoal dark:text-white/80 hover:text-primary-light"}`}>
                 Yearly
               </button>
             </div>
@@ -398,28 +441,32 @@ export default function AdminALlUsers() {
       </div>
 
       {/* Filters Section */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-white/90 dark:bg-accent-creamDark/90 rounded-xl shadow-sm p-4 sm:p-6 mb-6 border border-accent-charcoal/20 dark:border-gray-800/20">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
-          <h2 className="text-xl font-semibold text-gray-900">Manage Users</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-primary-dark dark:text-white">
+            Manage Users
+          </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+              <Search className="h-5 w-5 text-accent-teal" />
             </div>
             <input
               type="text"
               placeholder="Search users by name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full pl-10 pr-3 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white placeholder-accent-charcoal/50 dark:placeholder-white/50 focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all"
+              aria-label="Search users by name or email"
             />
           </div>
           <div>
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              className="block w-full pl-3 pr-10 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all"
+              aria-label="Filter by role">
               <option value="">All Roles</option>
               {roles.map((role) => (
                 <option key={role} value={role}>
@@ -430,18 +477,19 @@ export default function AdminALlUsers() {
           </div>
           <button
             onClick={handleResetFilters}
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            className="px-4 py-2 sm:py-3 border-2 border-accent-charcoal/20 dark:border-gray-800/20 rounded-xl text-sm sm:text-base text-primary-dark dark:text-white hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-all focus:ring-2 focus:ring-primary-light"
+            aria-label="Reset filters">
             Reset Filters
           </button>
         </div>
       </div>
 
       {/* Users Table */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+      <div className="bg-white/90 dark:bg-accent-creamDark/90 shadow-sm rounded-xl overflow-hidden border border-accent-charcoal/20 dark:border-gray-800/20">
         {users.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-blue-600 text-white">
+            <table className="min-w-full divide-y divide-accent-charcoal/20 dark:divide-gray-800/20">
+              <thead className="bg-primary-dark dark:bg-primary-darkMode text-white">
                 <tr>
                   <th
                     scope="col"
@@ -475,7 +523,7 @@ export default function AdminALlUsers() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-accent-creamDark divide-y divide-accent-charcoal/20 dark:divide-gray-800/20">
                 {users.map((user) => (
                   <UserTableRow
                     key={user._id}
@@ -487,40 +535,42 @@ export default function AdminALlUsers() {
             </table>
 
             {totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+              <div className="px-6 py-4 border-t border-accent-charcoal/20 dark:border-gray-800/20 flex justify-between items-center">
                 <button
                   onClick={() => fetchUsers(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg ${
+                  className={`flex items-center px-4 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-xl ${
                     currentPage === 1
-                      ? "text-gray-400 bg-gray-100 cursor-not-allowed"
-                      : "text-blue-600 bg-blue-50 hover:bg-blue-100"
-                  }`}>
-                  <ChevronLeft className="w-4 h-4 mr-2" />
+                      ? "text-accent-charcoal/50 dark:text-white/50 bg-white/50 dark:bg-accent-creamDark/50 cursor-not-allowed"
+                      : "text-primary-dark dark:text-white bg-primary-light/20 dark:bg-primary-darkMode/20 hover:bg-primary-light/30 dark:hover:bg-primary-darkMode/30"
+                  } focus:ring-2 focus:ring-primary-light`}
+                  aria-label="Previous page">
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Previous
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
                   onClick={() => fetchUsers(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg ${
+                  className={`flex items-center px-4 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-xl ${
                     currentPage === totalPages
-                      ? "text-gray-400 bg-gray-100 cursor-not-allowed"
-                      : "text-blue-600 bg-blue-50 hover:bg-blue-100"
-                  }`}>
+                      ? "text-accent-charcoal/50 dark:text-white/50 bg-white/50 dark:bg-accent-creamDark/50 cursor-not-allowed"
+                      : "text-primary-dark dark:text-white bg-primary-light/20 dark:bg-primary-darkMode/20 hover:bg-primary-light/30 dark:hover:bg-primary-darkMode/30"
+                  } focus:ring-2 focus:ring-primary-light`}
+                  aria-label="Next page">
                   Next
-                  <ChevronRight className="w-4 h-4 ml-2" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
                 </button>
               </div>
             )}
           </div>
         ) : (
           <div className="text-center py-12">
-            <div className="text-gray-500 mb-4">
+            <div className="text-accent-charcoal dark:text-white/80 mb-4">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-12 w-12"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -532,10 +582,10 @@ export default function AdminALlUsers() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg sm:text-xl font-medium text-primary-dark dark:text-white">
               No users found
             </h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm sm:text-base text-accent-charcoal dark:text-white/80">
               {searchTerm || filterRole
                 ? "Try adjusting your search or filter criteria"
                 : "Get started by creating a new user"}
@@ -543,8 +593,9 @@ export default function AdminALlUsers() {
             <div className="mt-6">
               <Link
                 to="/Admin/CreateUser"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                <Plus className="-ml-1 mr-2 h-5 w-5" />
+                className="inline-flex items-center px-4 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-primary to-secondary hover:from-primary-light hover:to-secondary-light focus:ring-2 focus:ring-primary-light"
+                aria-label="Create new user">
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 New User
               </Link>
             </div>
@@ -554,22 +605,32 @@ export default function AdminALlUsers() {
 
       {/* Delete Confirmation Modal */}
       {deleteOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-semibold text-blue-800 mb-2">
+        <div
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4"
+          role="dialog"
+          aria-labelledby="delete-modal-title"
+          aria-modal="true">
+          <div className="bg-white dark:bg-accent-creamDark rounded-xl shadow-xl max-w-md w-full p-6 border border-accent-charcoal/20 dark:border-gray-800/20">
+            <h3
+              id="delete-modal-title"
+              className="text-lg sm:text-xl font-semibold text-primary-dark dark:text-white mb-2">
               Are you sure you want to delete this user?
             </h3>
-            <p className="text-gray-600 mb-4">This action cannot be undone.</p>
+            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80 mb-4">
+              This action cannot be undone.
+            </p>
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setDeleteOpen(false)}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                className="px-4 py-2 sm:py-3 text-sm sm:text-base text-primary-dark dark:text-white border-2 border-accent-charcoal/20 dark:border-gray-800/20 rounded-xl hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-all focus:ring-2 focus:ring-primary-light"
+                aria-label="Cancel">
                 Cancel
               </button>
               <button
                 onClick={handleDeleteUser}
-                className="flex items-center px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700">
-                <Trash2 className="w-5 h-5 mr-2" />
+                className="flex items-center px-4 py-2 sm:py-3 text-sm sm:text-base text-white bg-gradient-to-r from-accent-red to-accent-red/80 hover:from-accent-red/80 hover:to-accent-red/60 rounded-xl focus:ring-2 focus:ring-primary-light"
+                aria-label="Confirm delete user">
+                <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Delete
               </button>
             </div>
@@ -582,8 +643,16 @@ export default function AdminALlUsers() {
         <div className="fixed bottom-4 right-4 z-50">
           <Alert
             variant={alertConfig.variant}
-            onClose={() => setShowAlert(false)}>
+            show={showAlert}
+            onClose={() => setShowAlert(false)}
+            autoClose={true}
+            autoCloseTime={5000}>
             <AlertDescription>{alertConfig.message}</AlertDescription>
+            {alertConfig.variant === "success" ? (
+              <CheckCircle className="w-5 h-5 text-accent-green ml-2" />
+            ) : (
+              <AlertCircle className="w-5 h-5 text-accent-red ml-2" />
+            )}
           </Alert>
         </div>
       )}

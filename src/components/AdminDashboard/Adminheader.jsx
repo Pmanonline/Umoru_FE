@@ -144,6 +144,7 @@
 // Admin Header Component
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../../features/Theme/themeSlice";
 import { logoutUser } from "../../features/Auth/authSlice";
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
@@ -151,14 +152,25 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { TbMoneybag } from "react-icons/tb";
 import { FaUserCircle } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
-import { Menu, Search, Moon, Bell, User, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  Search,
+  Moon,
+  Bell,
+  User,
+  ChevronDown,
+  Sun,
+  LogOut,
+} from "lucide-react";
 import { Settings } from "lucide-react";
+
 const Adminheader = ({ onMenuClick, isCollapsed, onToggleCollapse }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { mode } = useSelector((state) => state.theme);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -206,7 +218,7 @@ const Adminheader = ({ onMenuClick, isCollapsed, onToggleCollapse }) => {
         <div className="flex items-center gap-3">
           {/* Dark Mode Toggle */}
           <button
-            onClick={toggleDarkMode}
+            onClick={() => dispatch(toggleTheme())}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             aria-label="Toggle dark mode">
             {isDarkMode ? (
@@ -232,7 +244,7 @@ const Adminheader = ({ onMenuClick, isCollapsed, onToggleCollapse }) => {
               </div>
               <div className="hidden md:block text-left">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {userInfo?.user?.username || "Admin User"}
+                  {userInfo?.username || "Admin User"}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Administrator
@@ -246,22 +258,22 @@ const Adminheader = ({ onMenuClick, isCollapsed, onToggleCollapse }) => {
               <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50">
                 <div className="p-3 border-b border-gray-200 dark:border-gray-700">
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {userInfo?.user?.username || "Admin User"}
+                    {userInfo?.username || "Admin User"}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {userInfo?.user?.email || "admin@umoru.com"}
+                    {userInfo?.email || "admin@umoru.com"}
                   </p>
                 </div>
                 <div className="p-1">
                   <Link
-                    to="/profile"
+                    // to="/profile"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
                     onClick={() => setIsProfileOpen(false)}>
                     <User className="w-4 h-4" />
                     Profile
                   </Link>
                   <Link
-                    to="/settings"
+                    // to="/settings"
                     className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
                     onClick={() => setIsProfileOpen(false)}>
                     <Settings className="w-4 h-4" />

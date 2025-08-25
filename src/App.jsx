@@ -4,13 +4,15 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/routes/protectedRoutes";
 import AdminLayout from "./components/AdminDashboard/AdminLayout";
 import Home from "./pages/Home";
-import ServicesPage from "./pages/homePageComponents/Services";
+import AllServicePage from "./pages/ServicePage";
 import SupportPage from "./pages/SupportPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import SingleEventPage from "./pages/SingleEventPage";
 import BlogPage from "./pages/BlogPage";
 import SingleBlogPage from "./pages/SingleBlogPage";
 import EventsPage from "./pages/EventsPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import ContactUs from "./pages/ContactUs";
 
 // Auth
 import RegisterUser from "./pages/Auth/RegisterUser";
@@ -62,7 +64,7 @@ const AppContent = () => {
       <Routes>
         {/* General Pages */}
         <Route path="/" element={<Home />} />
-        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services" element={<AllServicePage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/ResourcesPage" element={<ResourcesPage />} />
         <Route path="/SingleEvent/:slug" element={<SingleEventPage />} />
@@ -70,6 +72,8 @@ const AppContent = () => {
         <Route path="/Blog/" element={<BlogPage />} />
         <Route path="/Blog/" element={<BlogPage />} />
         <Route path="/Events/" element={<EventsPage />} />
+        <Route path="/about-us/" element={<AboutUsPage />} />
+        <Route path="/contact" element={<ContactUs />} />
 
         {/* Auth */}
         <Route path="/register" element={<RegisterUser />} />

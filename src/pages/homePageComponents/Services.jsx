@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import BookingModal from "../../components/Modals/BookingModal";
 
 const ServicesV3 = () => {
   const [activeHex, setActiveHex] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    setIsDarkMode(prefersDark.matches);
-    const handleChange = (e) => setIsDarkMode(e.matches);
-    prefersDark.addEventListener("change", handleChange);
-    return () => prefersDark.removeEventListener("change", handleChange);
-  }, []);
+  const [bookingService, setBookingService] = useState(null);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -31,9 +24,12 @@ const ServicesV3 = () => {
         "Master Python, SQL, and machine learning with expert guidance. Build predictive models and uncover insights from complex datasets.",
       icon: "📊",
       color: "cyan",
-      bgGradient: "from-cyan-200/20 to-blue-200/20",
-      borderGradient: "from-cyan-400 to-blue-400",
-      textGradient: "from-cyan-500 to-blue-500",
+      bgGradient:
+        "from-cyan-200/20 to-blue-200/20 dark:from-cyan-900/20 dark:to-blue-900/20",
+      borderGradient:
+        "from-cyan-400 to-blue-400 dark:from-cyan-600 dark:to-blue-600",
+      textGradient:
+        "from-cyan-500 to-blue-500 dark:from-cyan-400 dark:to-blue-400",
       features: [
         "Python & SQL",
         "Machine Learning",
@@ -50,9 +46,12 @@ const ServicesV3 = () => {
         "Personal growth through faith and spirituality. Discover your purpose and align your life with your deepest values and beliefs.",
       icon: "✨",
       color: "purple",
-      bgGradient: "from-purple-200/20 to-pink-200/20",
-      borderGradient: "from-purple-400 to-pink-400",
-      textGradient: "from-purple-500 to-pink-500",
+      bgGradient:
+        "from-purple-200/20 to-pink-200/20 dark:from-purple-900/20 dark:to-pink-900/20",
+      borderGradient:
+        "from-purple-400 to-pink-400 dark:from-purple-600 dark:to-pink-600",
+      textGradient:
+        "from-purple-500 to-pink-500 dark:from-purple-400 dark:to-pink-400",
       features: [
         "Spiritual Guidance",
         "Life Purpose",
@@ -69,9 +68,12 @@ const ServicesV3 = () => {
         "Career acceleration through strategic guidance. Develop leadership skills and advance to senior positions with confidence.",
       icon: "🚀",
       color: "green",
-      bgGradient: "from-green-200/20 to-teal-200/20",
-      borderGradient: "from-green-400 to-teal-400",
-      textGradient: "from-green-500 to-teal-500",
+      bgGradient:
+        "from-green-200/20 to-teal-200/20 dark:from-green-900/20 dark:to-teal-900/20",
+      borderGradient:
+        "from-green-400 to-teal-400 dark:from-green-600 dark:to-teal-600",
+      textGradient:
+        "from-green-500 to-teal-500 dark:from-green-400 dark:to-teal-400",
       features: [
         "Career Strategy",
         "Leadership Skills",
@@ -153,8 +155,8 @@ const ServicesV3 = () => {
           points="50,0 150,0 200,86.6 150,173.2 50,173.2 0,86.6"
           className={`transition-all duration-500 ${
             isActive
-              ? "fill-white/10 stroke-white/50"
-              : "fill-white/5 stroke-white/20 hover:fill-white/8"
+              ? "fill-white/10 stroke-white/50 dark:fill-gray-800/10 dark:stroke-white/70"
+              : "fill-white/5 stroke-white/20 hover:fill-white/8 dark:fill-gray-800/5 dark:stroke-white/30 dark:hover:fill-gray-800/8"
           }`}
           strokeWidth="2"
           style={{
@@ -169,15 +171,10 @@ const ServicesV3 = () => {
       </div>
     </div>
   );
-  const [bookingService, setBookingService] = useState(null);
 
   return (
     <section
-      className={`min-h-[70vh] bg-gradient-to-br from-gray-100 via-blue-100 to-gray-100 py-12 px-4 relative overflow-hidden ${
-        isDarkMode
-          ? "from-gray-900 via-blue-950 to-gray-900"
-          : "from-gray-100 via-blue-100 to-gray-100"
-      }`}
+      className="min-h-[70vh] bg-gradient-to-br from-gray-100 via-blue-100 to-gray-100 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       onMouseMove={handleMouseMove}>
       <div
         className="absolute w-80 h-80 rounded-full pointer-events-none mix-blend-screen opacity-20 transition-all duration-1000 ease-out"
@@ -193,9 +190,7 @@ const ServicesV3 = () => {
         {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className={`absolute opacity-10 animate-pulse ${
-              isDarkMode ? "text-white/20" : "text-gray-400/20"
-            }`}
+            className="absolute opacity-10 animate-pulse text-gray-400/20 dark:text-white/20"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -212,23 +207,23 @@ const ServicesV3 = () => {
         ))}
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-block mb-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-blue-600 dark:from-gray-200 dark:to-blue-400 leading-tight">
-              SERVICES
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-block mb-4 sm:mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-blue-600 dark:from-white dark:to-blue-400 leading-tight">
+              Services
             </h2>
             <div className="h-0.5 bg-gradient-to-r from-gray-400 to-blue-400 dark:from-gray-600 dark:to-blue-300 rounded-full mt-2"></div>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-white max-w-2xl mx-auto">
             Three interconnected paths to transformation, designed to elevate
             every aspect of your professional and personal journey
           </p>
         </div>
 
-        <div className="relative mb-12">
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-6 lg:gap-8">
-            {services.map((service, index) => (
+        <div className="relative mb-12 sm:mb-16">
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-6 sm:gap-8">
+            {services.map((service) => (
               <div
                 key={service.id}
                 className="w-64 h-64 cursor-pointer transform transition-all duration-500 hover:scale-105"
@@ -244,14 +239,14 @@ const ServicesV3 = () => {
                     {service.icon}
                   </div>
                   <h3
-                    className={`text-xl font-bold text-center mb-2 transition-all duration-500 ${
+                    className={`text-lg sm:text-xl font-bold text-center mb-2 transition-all duration-500 ${
                       activeHex === service.id
                         ? `bg-gradient-to-r ${service.textGradient} bg-clip-text text-transparent`
-                        : "text-gray-800 dark:text-gray-200"
+                        : "text-gray-800 dark:text-white"
                     }`}>
                     {service.shortTitle}
                   </h3>
-                  <div className="text-center text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <div className="text-center text-sm sm:text-base text-gray-600 dark:text-white space-y-1">
                     <div className="font-semibold">Custom Pricing</div>
                     <div>{service.duration}</div>
                   </div>
@@ -287,13 +282,13 @@ const ServicesV3 = () => {
 
         {activeHex && (
           <div
-            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/50 dark:bg-black/70 z-50"
             onClick={() => setActiveHex(null)}>
             <div
               className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md mx-auto shadow-2xl transform transition-all duration-300 scale-100 opacity-100 relative"
               onClick={(e) => e.stopPropagation()}>
               <button
-                className="absolute top-4 right-4 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 text-2xl font-bold"
+                className="absolute top-4 right-4 text-gray-600 dark:text-white hover:text-gray-800 dark:hover:text-gray-100 text-2xl font-bold"
                 onClick={() => setActiveHex(null)}>
                 &times;
               </button>
@@ -302,29 +297,30 @@ const ServicesV3 = () => {
                 .filter((service) => service.id === activeHex)
                 .map((service) => (
                   <div key={service.id}>
-                    <h4 className="text-3xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-blue-600 dark:from-gray-200 dark:to-blue-400 bg-clip-text text-transparent">
+                    <h4 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 bg-gradient-to-r from-gray-800 to-blue-600 dark:from-white dark:to-blue-400 bg-clip-text text-transparent">
                       {service.title}
                     </h4>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-white mb-4 sm:mb-6">
                       {service.description}
                     </p>
-                    <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="grid grid-cols-2 gap-3 mb-4 sm:mb-6">
                       {service.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="flex items-center text-gray-800 dark:text-gray-200">
+                          className="flex items-center text-gray-800 dark:text-white">
                           <div className="w-2 h-2 rounded-full mr-2 bg-gradient-to-r from-gray-400 to-blue-400 dark:from-gray-600 dark:to-blue-300"></div>
-                          <span className="text-base">{feature}</span>
+                          <span className="text-sm sm:text-base lg:text-lg">
+                            {feature}
+                          </span>
                         </div>
                       ))}
                     </div>
 
-                    {/* Trigger Booking Modal */}
                     <button
-                      className={`px-6 py-3 rounded-xl bg-gradient-to-r ${service.borderGradient} text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-md`}
+                      className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r ${service.borderGradient} text-white dark:text-white font-semibold text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-md`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setBookingService(service); // track which service is booking
+                        setBookingService(service);
                       }}>
                       Start Your Journey
                     </button>
@@ -334,36 +330,35 @@ const ServicesV3 = () => {
           </div>
         )}
 
-        <div>
-          <div className="text-center mt-12">
-            <div className="mb-6">
-              <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-                Ready to Transform Your Future?
-              </h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                Choose your path or combine multiple services for maximum impact
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* Trigger Booking Modal */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setBookingService({
-                    title: "Free Consultation", // give it a custom title
-                  });
-                }}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300 shadow-md">
-                Book Free Consultation
-              </button>
-
-              <button className="px-6 py-3 bg-white/10 text-gray-800 dark:text-gray-200 font-bold rounded-xl hover:bg-white/20 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-300 dark:border-gray-600">
-                View All Packages
-              </button>
-            </div>
+        <div className="text-center mt-12 sm:mt-16">
+          <div className="mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3">
+              Ready to Transform Your Future?
+            </h3>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-white">
+              Choose your path or combine multiple services for maximum impact
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+            <button
+              onClick={() => setBookingService({ title: "Free Consultation" })}
+              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 dark:from-cyan-400 dark:to-blue-400 text-white dark:text-white font-semibold text-sm sm:text-base rounded-lg hover:scale-105 transition-all duration-300 shadow-md hover:shadow-cyan-500/20 dark:hover:shadow-cyan-400/20">
+              Book Free Consultation
+            </button>
+            <button className="px-4 sm:px-6 py-2 sm:py-2.5 bg-white/10 dark:bg-gray-800/10 text-gray-800 dark:text-white font-semibold text-sm sm:text-base rounded-lg hover:bg-white/20 dark:hover:bg-gray-700/20 transition-all duration-300 border border-gray-300 dark:border-gray-600">
+              View All Packages
+            </button>
           </div>
         </div>
       </div>
+
+      <BookingModal
+        isOpen={!!bookingService}
+        onClose={() => setBookingService(null)}
+        title={`Book ${bookingService?.title}`}
+        endpoint="/api/bookings"
+        onSuccess={() => console.log("Booking submitted successfully")}
+      />
 
       <style jsx>{`
         @keyframes fadeIn {
@@ -380,13 +375,6 @@ const ServicesV3 = () => {
           animation: fadeIn 0.3s ease-out;
         }
       `}</style>
-      {bookingService && (
-        <BookingModal
-          isOpen={!!bookingService}
-          onClose={() => setBookingService(null)}
-          title={`Book ${bookingService.title}`}
-        />
-      )}
     </section>
   );
 };

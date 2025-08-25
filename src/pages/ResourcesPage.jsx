@@ -17,7 +17,7 @@ import {
   X,
   Share2,
 } from "lucide-react";
-import { Alert, AlertDescription } from "../components/tools/Alert"; // Adjust path as needed
+import { Alert, AlertDescription } from "../components/tools/Alert";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import ResourcesImage from "../assets/images/resources2.jpg";
 import backendURL from "../config";
@@ -42,7 +42,6 @@ const UmoruResourcesPage = () => {
   const [downloading, setDownloading] = useState(new Set());
   const [favorites, setFavorites] = useState(new Set());
 
-  // Debug: Log showFilters state
   useEffect(() => {
     console.log("showFilters state:", showFilters);
   }, [showFilters]);
@@ -218,31 +217,31 @@ const UmoruResourcesPage = () => {
 
   if (loading)
     return (
-      <>
+      <div className="min-h-screen flex items-center justify-center bg-accent-cream dark:bg-accent-creamDark">
         <LoaddingSpinner />
-      </>
+      </div>
     );
 
   return (
-    <div className="min-h-screen bg-accent-cream dark:bg-accent-creamDark text-primary-dark dark:text-accent-charcoalDark mt-16r">
+    <div className="min-h-screen bg-accent-cream dark:bg-gray-600 text-primary-dark dark:text-white">
       {/* Hero Section */}
-      <div className="relative bg-primary-dark dark:bg-primary-darkMode bg-hero-gradient dark:bg-hero-gradient-dark overflow-hidden">
+      <div className="relative min-h-[50vh] bg-primary-dark dark:bg-primary-darkMode bg-hero-gradient dark:bg-hero-gradient-dark overflow-hidden">
         <img
           src={ResourcesImage}
           alt="Library background"
           className="absolute inset-0 w-full h-full object-cover opacity-20 z-0"
         />
-        <div className="relative container mx-auto px-6 py-20 z-10">
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 z-10 max-w-7xl">
           <div className="text-center text-white">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
-              Umoru Resource Library
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
+              Resource Library
             </h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
               Discover, Learn, and Grow with Our Curated Collection
             </p>
-            <div className="flex justify-center space-x-8 text-lg">
-              <div className="flex items-center bg-white/20 rounded-full px-4 py-2 backdrop-blur-sm">
-                <Download className="w-5 h-5 mr-2 text-accent-green" />
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm sm:text-base">
+              <div className="flex items-center px-3 sm:px-4 py-2 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm">
+                <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-accent-green" />
                 <span>
                   {resources
                     .reduce((sum, r) => sum + (r.downloads || 0), 0)
@@ -250,8 +249,8 @@ const UmoruResourcesPage = () => {
                   Downloads
                 </span>
               </div>
-              <div className="flex items-center bg-white/20 rounded-full px-4 py-2 backdrop-blur-sm">
-                <Archive className="w-5 h-5 mr-2 text-accent-teal" />
+              <div className="flex items-center px-3 sm:px-4 py-2 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm">
+                <Archive className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-accent-teal" />
                 <span>{resources.length} Resources</span>
               </div>
             </div>
@@ -259,19 +258,19 @@ const UmoruResourcesPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-6xl">
         {/* Controls Bar */}
-        <div className="sticky top-0 z-40 bg-accent-cream/95 dark:bg-accent-creamDark/95 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-accent-charcoalDark/20 shadow-lg mb-8 p-6">
+        <div className="sticky top-0 z-40 bg-accent-cream/95 dark:bg-accent-creamDark/95 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-800/20 shadow-lg mb-6 sm:mb-8 p-4 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex-1 min-w-64">
+            <div className="flex-1 min-w-[16rem] sm:min-w-[20rem]">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-accent-charcoal dark:text-accent-charcoalDark" />
+                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-accent-charcoal dark:text-white" />
                 <input
                   type="text"
                   placeholder="Search resources, authors, or tags..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 bg-white/90 dark:bg-primary-customDark/90 text-primary-dark dark:text-accent-charcoalDark placeholder-accent-charcoal/50 dark:placeholder-accent-charcoalDark/50 focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all"
+                  className="w-auto pl-10 sm:pl-12 pr-4 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white placeholder-accent-charcoal/50 dark:placeholder-white/50 focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -285,32 +284,32 @@ const UmoruResourcesPage = () => {
                 );
                 setShowFilters(!showFilters);
               }}
-              className="md:hidden flex items-center px-4 py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 bg-white/90 dark:bg-primary-customDark/90 text-primary-dark dark:text-accent-charcoalDark hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20 transition-all">
-              <Filter className="w-4 h-4 mr-2 text-accent-teal" />
+              className="md:hidden flex items-center px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20 transition-all">
+              <Filter className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-accent-teal" />
               Filters
             </button>
             <div className="flex items-center space-x-2">
               <div className="flex rounded-xl p-1 bg-accent-cream/70 dark:bg-accent-creamDark/70">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-primary-light text-white" : "text-accent-charcoal dark:text-accent-charcoalDark hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20"}`}>
-                  <Grid className="w-4 h-4" />
+                  className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-primary-light text-white" : "text-accent-charcoal dark:text-white hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20"}`}>
+                  <Grid className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-primary-light text-white" : "text-accent-charcoal dark:text-accent-charcoalDark hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20"}`}>
-                  <List className="w-4 h-4" />
+                  className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-primary-light text-white" : "text-accent-charcoal dark:text-white hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20"}`}>
+                  <List className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
           </div>
           <div
-            className={`mt-4 pt-4 border-t border-accent-charcoal/20 dark:border-accent-charcoalDark/20 ${showFilters ? "block" : "hidden"} md:block`}>
-            <div className="flex flex-wrap items-center gap-4">
+            className={`mt-4 pt-4 border-t border-accent-charcoal/20 dark:border-gray-800/20 ${showFilters ? "block" : "hidden"} md:block`}>
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 bg-white/90 dark:bg-primary-customDark/90 text-primary-dark dark:text-accent-charcoalDark focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all">
+                className="px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all w-full sm:w-auto">
                 {[
                   "all",
                   "Spirituality",
@@ -329,7 +328,7 @@ const UmoruResourcesPage = () => {
               <select
                 value={selectedFormat}
                 onChange={(e) => setSelectedFormat(e.target.value)}
-                className="px-4 py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 bg-white/90 dark:bg-primary-customDark/90 text-primary-dark dark:text-accent-charcoalDark focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all">
+                className="px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all w-full sm:w-auto">
                 {["all", "PDF", "MP3", "MP4", "EPUB"].map((format) => (
                   <option key={format} value={format}>
                     {format === "all" ? "All Formats" : format}
@@ -339,7 +338,7 @@ const UmoruResourcesPage = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 bg-white/90 dark:bg-primary-customDark/90 text-primary-dark dark:text-accent-charcoalDark focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all">
+                className="px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 bg-white/90 dark:bg-gray-800/90 text-primary-dark dark:text-white focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all w-full sm:w-auto">
                 {[
                   { value: "newest", label: "Newest First" },
                   { value: "oldest", label: "Oldest First" },
@@ -357,7 +356,7 @@ const UmoruResourcesPage = () => {
                 sortBy !== "newest") && (
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-3 text-sm text-primary-light hover:text-primary-dark font-medium transition-colors">
+                  className="px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-primary-light hover:text-primary-dark dark:hover:text-white font-medium transition-colors">
                   Clear Filters
                 </button>
               )}
@@ -365,82 +364,77 @@ const UmoruResourcesPage = () => {
           </div>
         </div>
 
-        <div className="mb-6">
-          <p className="text-accent-charcoal dark:text-accent-charcoalDark">
+        <div className="mb-4 sm:mb-6">
+          <p className="text-base sm:text-lg text-accent-charcoal dark:text-white">
             Showing {sortedResources.length} of {resources.length} resources
           </p>
         </div>
 
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {sortedResources.map((resource) => (
               <div
                 key={resource._id}
-                className="group bg-accent-cream dark:bg-accent-creamDark rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/20 dark:border-accent-charcoalDark/20">
-                <div className="relative h-48 overflow-hidden">
+                className="group bg-accent-cream dark:bg-accent-creamDark rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/20 dark:border-gray-800/20">
+                <div className="relative h-40 sm:h-48 overflow-hidden">
                   <img
                     src={resource.thumbnail}
                     alt={resource.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent"></div>
-                  <div className="absolute top-4 left-4 flex space-x-2">
-                    <div className="flex items-center px-3 py-1 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm text-white text-sm font-medium">
+                  <div className="absolute top3 sm:top-4 left-3 sm:left-4 flex flex-wrap gap-2">
+                    <div className="flex items-center px-2 sm:px-3 py-1 rounded-full bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm text-white dark:text-white text-xs sm:text-sm font-medium">
                       {getFormatIcon(resource.format)}
-                      <span className="ml-2">{resource.format}</span>
+                      <span className="ml-1 sm:ml-2">{resource.format}</span>
                     </div>
-                    <div className="flex items-center px-3 py-1 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm text-white text-sm font-medium">
-                      <Download className="w-3 h-3 mr-1 text-accent-green" />
+                    <div className="flex items-center px-2 sm:px-3 py-1 rounded-full bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm text-white dark:text-white text-xs sm:text-sm font-medium">
+                      <Download className="w-3 h-3 sm:w-3 sm:h-3 mr-1 text-accent-green" />
                       <span>{resource.downloads || 0}</span>
                     </div>
                   </div>
                   <button
                     onClick={() => toggleFavorite(resource._id)}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-primary-darkMode/30 transition-colors">
+                    className="absolute top-3 sm:top-4 right-3 sm:right-4 p-2 rounded-full bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-700/30 transition-colors">
                     <Heart
-                      className={`w-4 h-4 ${favorites.has(resource._id) ? "fill-secondary text-secondary" : "text-white"}`}
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${favorites.has(resource._id) ? "fill-secondary text-secondary" : "text-white dark:text-white"}`}
                     />
                   </button>
-                  <div className="absolute bottom-4 left-4">
-                    <span className="px-3 py-1 rounded-full bg-primary-light/80 dark:bg-primary-darkMode/80 backdrop-blur-sm text-white text-sm font-medium">
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
+                    <span className="px-2 sm:px-3 py-1 rounded-full bg-primary-light/80 dark:bg-primary-darkMode/80 backdrop-blur-sm text-white dark:text-white text-xs sm:text-sm font-medium">
                       {getCategoryIcon(resource.category)} {resource.category}
                     </span>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary-light transition-colors">
+                <div className="p-4 sm:p-6">
+                  <h3 className="font-bold text-base sm:text-lg lg:text-xl mb-2 line-clamp-2 group-hover:text-primary-light transition-colors">
                     {resource.title}
                   </h3>
-                  <p className="text-sm text-accent-charcoal dark:text-accent-charcoalDark mb-3 line-clamp-2">
+                  <p className="text-sm sm:text-base text-accent-charcoal dark:text-white mb-3 line-clamp-2">
                     {stripHtml(resource.description)}
                   </p>
-                  <div className="flex items-center text-sm text-accent-charcoal/80 dark:text-accent-charcoalDark/80 mb-4">
-                    <User className="w-4 h-4 mr-1 text-accent-teal" />
-                    <span className="mr-4">
+                  <div className="flex flex-wrap items-center text-xs sm:text-sm text-accent-charcoal/80 dark:text-white/80 mb-3 sm:mb-4 gap-2 sm:gap-4">
+                    <span className="flex items-center">
+                      <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-accent-teal" />
                       {resource.author.map((a) => a.name).join(", ")}
                     </span>
-                    <Calendar className="w-4 h-4 mr-1 text-accent-teal" />
-                    <span>{formatDate(resource.date)}</span>
+                    <span className="flex items-center">
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-accent-teal" />
+                      {formatDate(resource.date)}
+                    </span>
                   </div>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => handleDownload(resource)}
-                      disabled={downloading.has(resource._id)}
-                      className="flex-1 flex items-center justify-center w-auto bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:from-primary-light hover:to-secondary-light transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                      {downloading.has(resource._id) ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                          Downloading...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-4 h-4 mr-2" />
-                          Download
-                        </>
-                      )}
+                      onClick={() => {
+                        setSelectedResource(resource);
+                        setShowModal(true);
+                      }}
+                      className="flex-1 flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-primary to-secondary text-white dark:text-white rounded-xl font-semibold text-sm sm:text-base hover:from-primary-light hover:to-secondary-light transition-all">
+                      <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      Download
                     </button>
-                    <button className="p-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors">
-                      <Share2 className="w-4 h-4 text-accent-charcoal dark:text-accent-charcoalDark" />
+                    <button className="p-2 sm:p-3 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors">
+                      <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-accent-charcoal dark:text-white" />
                     </button>
                   </div>
                 </div>
@@ -448,13 +442,13 @@ const UmoruResourcesPage = () => {
             ))}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4 sm:space-y-6">
             {sortedResources.map((resource) => (
               <div
                 key={resource._id}
-                className="bg-accent-cream dark:bg-accent-creamDark rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 dark:border-accent-charcoalDark/20">
-                <div className="flex items-center gap-6">
-                  <div className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden">
+                className="bg-accent-cream dark:bg-accent-creamDark rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 dark:border-gray-800/20">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                  <div className="flex-shrink-0 w-24 h-24 sm:w-20 sm:h-20 rounded-xl overflow-hidden">
                     <img
                       src={resource.thumbnail}
                       alt={resource.title}
@@ -462,52 +456,45 @@ const UmoruResourcesPage = () => {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-bold text-lg mb-1 text-primary-dark dark:text-accent-charcoalDark">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                      <div className="w-full">
+                        <h3 className="font-bold text-base sm:text-lg lg:text-xl mb-1 text-primary-dark dark:text-white line-clamp-2">
                           {resource.title}
                         </h3>
-                        <p className="text-sm text-accent-charcoal dark:text-accent-charcoalDark mb-2 line-clamp-1">
+                        <p className="text-sm sm:text-base text-accent-charcoal dark:text-white mb-2 sm:mb-3 line-clamp-2 overflow-hidden text-ellipsis">
                           {stripHtml(resource.description)}
                         </p>
-                        <div className="flex items-center text-sm text-accent-charcoal/80 dark:text-accent-charcoalDark/80 space-x-4">
+                        <div className="flex flex-wrap items-center text-xs sm:text-sm text-accent-charcoal/80 dark:text-white/80 gap-2 sm:gap-4">
                           <span className="flex items-center">
-                            <User className="w-4 h-4 mr-1 text-accent-teal" />
+                            <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-accent-teal" />
                             {resource.author.map((a) => a.name).join(", ")}
                           </span>
                           <span className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1 text-accent-teal" />
+                            <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-accent-teal" />
                             {resource.duration || "N/A"}
                           </span>
                           <span className="flex items-center">
-                            <Download className="w-4 h-4 mr-1 text-accent-green" />
+                            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-accent-green" />
                             {resource.downloads || 0}
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 sm:gap-3 mt-2 sm:mt-0">
                         <button
                           onClick={() => toggleFavorite(resource._id)}
-                          className="p-2 rounded-full bg-white/20 dark:bg-primary-darkMode/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-primary-darkMode/30 transition-colors">
+                          className="p-2 sm:p-3 rounded-full bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-700/30 transition-colors">
                           <Heart
-                            className={`w-4 h-4 ${favorites.has(resource._id) ? "fill-secondary text-secondary" : "text-accent-charcoal dark:text-accent-charcoalDark"}`}
+                            className={`w-4 h-4 sm:w-5 sm:h-5 ${favorites.has(resource._id) ? "fill-secondary text-secondary" : "text-accent-charcoal dark:text-white"}`}
                           />
                         </button>
                         <button
-                          onClick={() => handleDownload(resource)}
-                          disabled={downloading.has(resource._id)}
-                          className="flex items-center px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:from-primary-light hover:to-secondary-light transition-all disabled:opacity-50">
-                          {downloading.has(resource._id) ? (
-                            <>
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                              Downloading...
-                            </>
-                          ) : (
-                            <>
-                              <Download className="w-4 h-4 mr-2" />
-                              Download
-                            </>
-                          )}
+                          onClick={() => {
+                            setSelectedResource(resource);
+                            setShowModal(true);
+                          }}
+                          className="flex items-center px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-primary to-secondary text-white dark:text-white rounded-xl font-semibold text-sm sm:text-base hover:from-primary-light hover:to-secondary-light transition-all">
+                          <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                          Download
                         </button>
                       </div>
                     </div>
@@ -519,19 +506,19 @@ const UmoruResourcesPage = () => {
         )}
 
         {sortedResources.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-8xl mb-6 text-accent-charcoal dark:text-accent-charcoalDark">
+          <div className="text-center py-12 sm:py-16">
+            <div className="text-6xl sm:text-8xl mb-4 sm:mb-6 text-accent-charcoal dark:text-white">
               🔍
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-primary-dark dark:text-accent-charcoalDark">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 text-primary-dark dark:text-white">
               No resources found
             </h3>
-            <p className="text-accent-charcoal dark:text-accent-charcoalDark mb-6 max-w-md mx-auto">
+            <p className="text-base sm:text-lg text-accent-charcoal dark:text-white mb-4 sm:mb-6 max-w-md mx-auto">
               Try adjusting your search terms or filters
             </p>
             <button
               onClick={clearFilters}
-              className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:from-primary-light hover:to-secondary-light transition-all">
+              className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-primary to-secondary text-white dark:text-white rounded-xl font-semibold text-sm sm:text-base hover:from-primary-light hover:to-secondary-light transition-all">
               Clear All Filters
             </button>
           </div>
@@ -539,39 +526,39 @@ const UmoruResourcesPage = () => {
 
         {showModal && selectedResource && (
           <div className="fixed inset-0 bg-dark/50 dark:bg-dark/70 flex items-center justify-center z-50 p-4">
-            <div className="max-w-md w-full rounded-xl shadow-2xl bg-accent-cream dark:bg-accent-creamDark border border-white/20 dark:border-accent-charcoalDark/20">
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h4 className="text-xl font-semibold text-primary-dark dark:text-accent-charcoalDark">
+            <div className="max-w-md w-full rounded-xl shadow-2xl bg-accent-cream dark:bg-accent-creamDark border border-white/20 dark:border-gray-800/20">
+              <div className="p-4 sm:p-6">
+                <div className="flex justify-between items-start mb-3 sm:mb-4">
+                  <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-primary-dark dark:text-white">
                     Download Resource
                   </h4>
                   <button
                     onClick={() => setShowModal(false)}
                     className="p-2 rounded-lg hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors">
-                    <X className="w-5 h-5 text-accent-charcoal dark:text-accent-charcoalDark" />
+                    <X className="w-4 h-4 sm:w-5 sm:h-5 text-accent-charcoal dark:text-white" />
                   </button>
                 </div>
-                <div className="mb-4">
-                  <h5 className="font-medium mb-2 text-primary-dark dark:text-accent-charcoalDark">
+                <div className="mb-3 sm:mb-4">
+                  <h5 className="font-medium text-sm sm:text-base lg:text-lg mb-2 text-primary-dark dark:text-white">
                     {selectedResource.title}
                   </h5>
-                  <p className="text-sm text-accent-charcoal dark:text-accent-charcoalDark">
+                  <p className="text-xs sm:text-sm text-accent-charcoal dark:text-white">
                     Format: {selectedResource.format} | Size:{" "}
                     {selectedResource.size}
                   </p>
-                  <p className="text-sm text-accent-charcoal dark:text-accent-charcoalDark">
+                  <p className="text-xs sm:text-sm text-accent-charcoal dark:text-white">
                     Author:{" "}
                     {selectedResource.author.map((a) => a.name).join(", ")}
                   </p>
-                  <p className="text-sm text-accent-charcoal dark:text-accent-charcoalDark">
+                  <p className="text-xs sm:text-sm text-accent-charcoal dark:text-white">
                     Downloads: {selectedResource.downloads || 0}
                   </p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-2 sm:gap-4">
                   <button
                     onClick={() => handleDownload(selectedResource)}
                     disabled={downloading.has(selectedResource._id)}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-semibold hover:from-primary-light hover:to-secondary-light transition-all disabled:opacity-50">
+                    className="flex-1 flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-primary to-secondary text-white dark:text-white rounded-xl font-semibold text-sm sm:text-base hover:from-primary-light hover:to-secondary-light transition-all disabled:opacity-50">
                     {downloading.has(selectedResource._id) ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2 inline"></div>
@@ -579,14 +566,14 @@ const UmoruResourcesPage = () => {
                       </>
                     ) : (
                       <>
-                        <Download className="w-4 h-4 mr-2 inline" />
+                        <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 inline" />
                         Confirm Download
                       </>
                     )}
                   </button>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="px-4 py-2 rounded-xl border-2 border-accent-charcoal/20 dark:border-accent-charcoalDark/20 text-accent-charcoal dark:text-accent-charcoalDark hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors">
+                    className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border-2 border-accent-charcoal/20 dark:border-gray-800/20 text-accent-charcoal dark:text-white hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors text-sm sm:text-base">
                     Cancel
                   </button>
                 </div>

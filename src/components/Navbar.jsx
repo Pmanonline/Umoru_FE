@@ -570,8 +570,7 @@ const Navbar = () => {
   const moreDropdownItems = [
     { name: "Podcast", link: "/podcast" },
     { name: "Events", link: "/events" },
-    { name: "Spiritual Resources", link: "/spiritual-resources" },
-    { name: "Telegram", link: "/telegram" },
+    { name: "Telegram", link: "" },
     { name: "Contact Us", link: "/contact" },
     {
       name: "Theme",
