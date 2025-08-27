@@ -39,12 +39,8 @@ export const TokenExpirationModal = () => {
   }, [token, dispatch]);
 
   useEffect(() => {
-    // Initial check
     checkTokenValidity();
-
-    // Set up interval for periodic checks
     const interval = setInterval(checkTokenValidity, 60000); // Check every minute
-
     return () => clearInterval(interval);
   }, [checkTokenValidity]);
 
@@ -56,43 +52,48 @@ export const TokenExpirationModal = () => {
   if (!isModalOpen || tokenValid) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+      role="dialog"
+      aria-labelledby="token-expiration-modal-title"
+      aria-describedby="token-expiration-modal-description"
+      aria-modal="true">
       <div
         className="relative w-full max-w-md mx-4"
         onClick={(e) => e.stopPropagation()}>
-        {/* Pride of Nigeria themed modal */}
-        <div className="bg-white rounded-xl overflow-hidden border border-green-100 shadow-2xl">
-          {/* Header with Pride of Nigeria green */}
-          <div className="bg-green-700 px-6 py-4 flex items-center gap-3">
-            <AlertCircle className="text-white" size={24} />
-            <h3 className="text-xl font-bold text-white">Session Expired</h3>
+        <div className="bg-accent-cream dark:bg-accent-creamDark rounded-xl overflow-hidden border border-accent-charcoal/20 dark:border-gray-800/20 shadow-2xl">
+          <div className="bg-primary-dark dark:bg-primary-darkMode px-4 sm:px-6 py-4 flex items-center gap-3">
+            <AlertCircle className="text-accent-teal" size={24} />
+            <h3
+              id="token-expiration-modal-title"
+              className="text-xl sm:text-2xl font-bold text-white">
+              Session Expired
+            </h3>
           </div>
-
-          {/* Body */}
-          <div className="p-6">
-            <p className="text-gray-700 mb-6">
-              Your session has expired. Please log in again to continue
-              accessing Pride of Nigeria.
+          <div className="p-4 sm:p-6">
+            <p
+              id="token-expiration-modal-description"
+              className="text-sm sm:text-base text-primary-dark dark:text-white mb-6">
+              For your security, your session has timed out. Please sign in
+              again for a better user access!!
             </p>
-
-            {/* Action buttons */}
             <div className="flex justify-end gap-3">
               <button
-                className="px-5 py-2 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
-                onClick={() => setIsModalOpen(false)}>
+                className="px-5 py-2 sm:py-3 text-sm sm:text-base font-medium text-primary-dark dark:text-white rounded-lg border border-accent-charcoal/20 dark:border-gray-800/20 hover:bg-primary-light/10 dark:hover:bg-primary-darkMode/10 transition-colors focus:ring-2 focus:ring-primary-light"
+                onClick={() => setIsModalOpen(false)}
+                aria-label="Close session expired modal">
                 Close
               </button>
               <button
-                className="px-5 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
-                onClick={handleLogin}>
+                className="px-5 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-primary to-secondary hover:from-primary-light hover:to-secondary-light rounded-lg transition-colors flex items-center gap-2 focus:ring-2 focus:ring-primary-light"
+                onClick={handleLogin}
+                aria-label="Login again">
                 <LogIn size={18} />
                 Login Again
               </button>
             </div>
           </div>
-
-          {/* Footer with subtle Pride of Nigeria branding */}
-          <div className="bg-green-50 px-6 py-3 text-center text-xs text-green-800">
+          <div className="bg-accent-cream/90 dark:bg-accent-creamDark/90 px-4 sm:px-6 py-3 text-center text-xs sm:text-sm text-accent-charcoal dark:text-white/80">
             Pride of Nigeria • Secured Access
           </div>
         </div>
@@ -101,7 +102,6 @@ export const TokenExpirationModal = () => {
   );
 };
 
-// Simplified and optimized custom hook
 export const useCheckTokenExpiration = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -125,7 +125,6 @@ export const useCheckTokenExpiration = () => {
   useEffect(() => {
     checkToken();
     const intervalId = setInterval(checkToken, 60000); // Check every minute
-
     return () => clearInterval(intervalId);
   }, [checkToken]);
 };
