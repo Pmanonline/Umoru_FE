@@ -396,19 +396,6 @@ export default function AdminAllUsers() {
             </p>
           </div>
         </div>
-        <div className="bg-white/90 dark:bg-accent-creamDark/90 p-4 rounded-xl shadow-sm border border-accent-charcoal/20 dark:border-gray-800/20 flex items-center space-x-3">
-          <div className="w-10 h-10 bg-accent-teal/20 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-accent-teal" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-primary-dark dark:text-white">
-              No
-            </p>
-            <p className="text-sm sm:text-base text-accent-charcoal dark:text-white/80">
-              Business Verification
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Chart Section */}

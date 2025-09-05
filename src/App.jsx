@@ -40,6 +40,7 @@ import AdminBoookingLists from "./pages/AdminPages/AdminBoookingLists";
 // Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -64,6 +65,7 @@ const AppContent = () => {
       <Routes>
         {/* General Pages */}
         <Route path="/" element={<Home />} />
+        <Route path="/*" element={<NotFound />} />
         <Route path="/services" element={<AllServicePage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/ResourcesPage" element={<ResourcesPage />} />

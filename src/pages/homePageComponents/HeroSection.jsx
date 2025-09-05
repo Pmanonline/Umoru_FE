@@ -5,6 +5,7 @@ import segunHeroImage from "../../assets/images/heroimage.jpg";
 import { Alert, AlertDescription } from "../../components/tools/Alert";
 import LoadingSpinner from "../../components/tools/LoaddingSpinner";
 import BookingModal from "../../components/Modals/BookingModal";
+import { Link } from "react-router-dom";
 
 const backendURL =
   import.meta.env.MODE === "production"
@@ -141,14 +142,15 @@ const Hero = () => {
                   <motion.div
                     className="flex flex-col sm:flex-row gap-3 lg:gap-4"
                     variants={containerVariants}>
-                    <motion.a
-                      href="/about-us"
-                      className="flex-1 bg-gradient-to-r from-pink-500 to-orange-600 hover:from-orange-500 hover:to-red-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-pink-500/30 text-center text-base"
-                      variants={buttonVariants}
-                      whileHover="hover"
-                      whileTap="tap">
-                      Know More
-                    </motion.a>
+                    <Link to="/about-us" className="flex-1">
+                      <motion.div
+                        className="bg-gradient-to-r from-pink-500 to-orange-600 hover:from-orange-500 hover:to-red-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-pink-500/30 text-center text-base"
+                        variants={buttonVariants}
+                        whileHover="hover"
+                        whileTap="tap">
+                        Know More
+                      </motion.div>
+                    </Link>
 
                     <motion.button
                       onClick={() => setIsModalOpen(true)}
