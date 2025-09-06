@@ -2,7 +2,7 @@
 import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider, useSelector } from "react-redux";
-import { store } from "./store"; // Ensure the path is correct
+import { store } from "./store.js"; // Ensure the path is correct
 import "./index.css";
 import App from "./App.jsx";
 
