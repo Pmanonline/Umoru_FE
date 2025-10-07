@@ -11,6 +11,7 @@ import {
   List,
   X,
 } from "lucide-react";
+import { ReadMore } from "@mui/icons-material";
 import { Alert, AlertDescription } from "../components/tools/Alert";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import ResourcesImage from "../assets/images/resources2.jpg";
@@ -202,13 +203,13 @@ const EventsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-accent-cream dark:bg-gray-600 text-primary-dark dark:text-white mt-12">
+    <div className="min-h-screen bg-blue-500/5 dark:bg-gray-600 text-primary-dark dark:text-white mt-12">
       {/* Hero Section - Compact */}
       <div className="relative bg-primary-dark dark:bg-primary-darkMode bg-hero-gradient dark:bg-hero-gradient-dark overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
         <div className="relative container mx-auto px-4 py-12 z-10 max-w-6xl">
           <div className="text-center text-white">
-            <h1 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
+            <h1 className="text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
               Umoru Events
             </h1>
             <p className="text-sm mb-6 opacity-90 max-w-lg mx-auto">
@@ -216,7 +217,7 @@ const EventsPage = () => {
             </p>
             <div className="flex justify-center gap-4 text-sm">
               <div className="flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-                <Calendar className="w-3 h-3 mr-1 text-accent-teal" />
+                <Calendar className="w-3 h-3 mr-1 text-secondary" />
                 <span>{events.length} Events</span>
               </div>
             </div>
@@ -422,7 +423,8 @@ const EventsPage = () => {
                         setSelectedEvent(event);
                         setShowModal(true);
                       }}
-                      className="w-full flex items-center justify-center px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                      className="flex-1 flex items-center justify-center px-2 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                      <ReadMore className="w-3 h-3 mr-1" />
                       Read More
                     </button>
                   </div>
@@ -512,51 +514,6 @@ const EventsPage = () => {
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
               {filteredPastEvents.map((event) => (
-                // <div
-                //   key={event._id}
-                //   className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
-                //   <div className="relative h-24 overflow-hidden">
-                //     <img
-                //       src={event.image || ResourcesImage}
-                //       alt={event.title}
-                //       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                //     />
-                //     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                //     <button
-                //       onClick={() => toggleFavorite(event._id)}
-                //       className="absolute bottom-1 right-1 p-1 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors">
-                //       <Heart
-                //         className={`w-3 h-3 ${favorites.has(event._id) ? "fill-red-500 text-red-500" : "text-white"}`}
-                //       />
-                //     </button>
-                //   </div>
-                //   <div className="p-2">
-                //     <h3 className="font-semibold text-sm mb-1 line-clamp-2 group-hover:text-primary transition-colors leading-tight">
-                //       {event.title}
-                //     </h3>
-                //     <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 leading-tight">
-                //       {stripHtml(event.content)}
-                //     </p>
-                //     <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-2 gap-2">
-                //       <span className="flex items-center">
-                //         <User className="w-2.5 h-2.5 mr-1" />
-                //         {event.speakers.map((s) => s.name).join(", ")}
-                //       </span>
-                //       <span className="flex items-center">
-                //         <Calendar className="w-2.5 h-2.5 mr-1" />
-                //         {formatDate(event.date)}
-                //       </span>
-                //     </div>
-                //     <button
-                //       onClick={() => {
-                //         setSelectedEvent(event);
-                //         setShowModal(true);
-                //       }}
-                //       className="flex-1 flex items-center justify-center px-2 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
-                //       Read More
-                //     </button>
-                //   </div>
-                // </div>
                 <div
                   key={event._id}
                   className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
@@ -646,13 +603,13 @@ const EventsPage = () => {
                       </div>
                     </div>
 
-                    {/* Read More Button */}
                     <button
                       onClick={() => {
                         setSelectedEvent(event);
                         setShowModal(true);
                       }}
-                      className="w-full flex items-center justify-center px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                      className="flex-1 flex items-center justify-center px-2 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                      <ReadMore className="w-3 h-3 mr-1" />
                       Read More
                     </button>
                   </div>
@@ -706,7 +663,8 @@ const EventsPage = () => {
                               setSelectedEvent(event);
                               setShowModal(true);
                             }}
-                            className="flex items-center px-3 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                            className="flex-1 flex items-center justify-center px-2 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-xs hover:from-primary-light hover:to-secondary-light transition-all">
+                            <ReadMore className="w-3 h-3 mr-1" />
                             Read More
                           </button>
                         </div>

@@ -731,9 +731,9 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar - Cellulant Style */}
-      <nav className="fixed md:top-2  top-0 md:mx-5 md:rounded-full left-0 right-0 z-50 dark:bg-accent-charcoal bg-primary/95 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-2">
+      <nav className="fixed md:top-0  top-0 md:mx-5 md:rounded-full left-0 right-0 z-50 dark:bg-accent-charcoal bg-primary/95 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4">
+          <div className="flex justify-between items-center py-1">
             {/* Logo Section */}
             <Link
               to="/"

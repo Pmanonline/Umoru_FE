@@ -77,15 +77,15 @@ const UmoruResourcesPage = () => {
   const getFormatIcon = (format) => {
     switch (format.toLowerCase()) {
       case "pdf":
-        return <FileText className="w-4 h-4 text-accent-teal" />;
+        return <FileText className="w-4 h-4 text-primary" />;
       case "mp3":
-        return <Headphones className="w-4 h-4 text-accent-teal" />;
+        return <Headphones className="w-4 h-4 text-primary" />;
       case "mp4":
-        return <Video className="w-4 h-4 text-accent-teal" />;
+        return <Video className="w-4 h-4 text-primary" />;
       case "epub":
-        return <BookOpen className="w-4 h-4 text-accent-teal" />;
+        return <BookOpen className="w-4 h-4 text-primary" />;
       default:
-        return <Archive className="w-4 h-4 text-accent-teal" />;
+        return <Archive className="w-4 h-4 text-primary" />;
     }
   };
 
@@ -278,7 +278,7 @@ const UmoruResourcesPage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
         <div className="relative container mx-auto px-4 py-12 z-10 max-w-6xl">
           <div className="text-center text-white">
-            <h1 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
+            <h1 className="text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-light">
               Resource Library
             </h1>
             <p className="text-sm mb-6 opacity-90 max-w-lg mx-auto">
@@ -286,7 +286,7 @@ const UmoruResourcesPage = () => {
             </p>
             <div className="flex justify-center gap-4 text-sm">
               <div className="flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-                <Download className="w-3 h-3 mr-1 text-accent-green" />
+                <Download className="w-3 h-3 mr-1 text-secondary" />
                 <span>
                   {resources
                     .reduce((sum, r) => sum + (r.downloads || 0), 0)
@@ -295,7 +295,7 @@ const UmoruResourcesPage = () => {
                 </span>
               </div>
               <div className="flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-                <Archive className="w-3 h-3 mr-1 text-accent-teal" />
+                <Archive className="w-3 h-3 mr-1 text-secondary" />
                 <span>{resources.length} Resources</span>
               </div>
             </div>
@@ -439,7 +439,7 @@ const UmoruResourcesPage = () => {
                   {/* Download count */}
                   <div className="absolute top-1 right-1">
                     <div className="flex items-center px-1.5 py-0.5 rounded-full bg-black/30 backdrop-blur-sm text-white text-xs">
-                      <Download className="w-2.5 h-2.5 mr-1 text-accent-green" />
+                      <Download className="w-2.5 h-2.5 mr-1 text-secondary" />
                       <span>{resource.downloads || 0}</span>
                     </div>
                   </div>
@@ -534,7 +534,7 @@ const UmoruResourcesPage = () => {
                             {resource.duration || "N/A"}
                           </span>
                           <span className="flex items-center">
-                            <Download className="w-2.5 h-2.5 mr-1 text-accent-green" />
+                            <Download className="w-2.5 h-2.5 mr-1 text-secondary" />
                             {resource.downloads || 0}
                           </span>
                         </div>

@@ -187,7 +187,7 @@ const PodcastBanner = () => {
   return (
     <>
       <section
-        className="relative py-16 bg-accent-cream dark:bg-accent-charcoal h-[90vh]"
+        className="relative py-16 bg-accent-cream dark:bg-accent-charcoal md:h-[90vh]"
         ref={ref}>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/70 via-primary-dark/50 dark:from-primary-dark/70 dark:via-primary/50" />
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
@@ -196,11 +196,10 @@ const PodcastBanner = () => {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
             variants={fadeInVariants}>
-            {/* Images with Overlays */}
-            <div className="relative lg:w-1/2 w-full flex flex-col lg:flex-row justify-center gap-4">
+            <div className="relative lg:w-1/2 w-full flex justify-center mid:mx-auto">
               <img
                 src={podcastImage}
-                className="rounded-lg object-cover w-[90%] h-[90%] border-2 border-white/20 dark:border-accent-charcoal/50 "
+                className="rounded-lg object-cover w-[90%] h-[90%] border-2 border-white/20 dark:border-accent-charcoal/50"
                 loading="lazy"
               />
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-accent-teal/30 dark:bg-accent-teal/20 rounded-full blur-md" />
@@ -258,7 +257,6 @@ const PodcastBanner = () => {
           </motion.div>
         </div>
       </section>
-      {/* <section className="bg-gray-50 min-h-10">{""}</section> */}
     </>
   );
 };

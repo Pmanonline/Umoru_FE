@@ -174,10 +174,10 @@ const SpeakersCarousel = ({ speakers }) => {
               <img
                 src={speaker.image}
                 alt={speaker.name}
-                className="w-16 h-16 rounded-full object-cover border-2 border-teal-600"
+                className="w-16 h-16 rounded-full object-cover border-2 border-primary"
               />
             ) : (
-              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary  to-secondary rounded-full flex items-center justify-center text-white font-bold text-lg">
                 {speaker.name
                   .split(" ")
                   .map((n) => n[0])
@@ -185,7 +185,7 @@ const SpeakersCarousel = ({ speakers }) => {
               </div>
             )}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-primary dark:text-white">
                 {speaker.name}
               </h3>
               <p className="text-teal-600 dark:text-teal-400 text-sm">
@@ -353,7 +353,7 @@ END:VCALENDAR`;
   return (
     <>
       <motion.button
-        className="bg-gray-200 dark:bg-gray-700 border border-teal-600 dark:border-teal-400 text-teal-600 dark:text-teal-400 hover:bg-teal-600 dark:hover:bg-teal-400 hover:text-white dark:hover:text-gray-900 py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-colors"
+        className="bg-gray-200 dark:bg-gray-700 border border-primary dark:border-teal-400 text-primary dark:text-teal-400 hover:bg-primary/80 dark:hover:bg-teal-400 hover:text-white dark:hover:text-gray-900 py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-colors"
         onClick={handleOpen}
         variants={{
           hover: {
@@ -427,7 +427,7 @@ const ShareFeature = ({ eventData, showAlertMessage }) => {
   return (
     <>
       <motion.button
-        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-teal-500 dark:hover:bg-teal-400 transition-colors"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-lg bg-gray-300 dark:bg-gray-700 text-primary dark:text-white hover:bg-primary hover:text-white dark:hover:bg-teal-400 transition-colors"
         onClick={handleOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -831,7 +831,7 @@ const SingleEventPage = () => {
                 </span>
                 <span
                   className={`mx-3 px-2 py-1 rounded-full text-xs sm:text-sm font-semibold text-white ${
-                    isUpcoming ? "bg-green-600" : "bg-teal-600"
+                    isUpcoming ? "bg-primary" : "bg-teal-600"
                   }`}>
                   {isUpcoming ? "Upcoming Event" : "Past Event"}
                 </span>
@@ -839,39 +839,39 @@ const SingleEventPage = () => {
               <div>
                 {countdown.days > 0 && (
                   <div className="flex mb-4 sm:mb-6 bg-white/80 dark:bg-gray-800/80 rounded-lg p-3 sm:p-4 shadow-lg">
-                    <h3 className="mr-3 text-sm sm:text-base text-teal-600 dark:text-teal-400 font-semibold mb-2">
+                    <h3 className="mr-3 text-sm sm:text-base text-primary dark:text-teal-400 font-semibold mb-2">
                       Event Starts In
                     </h3>
                     <div className="flex gap-2 sm:gap-4 text-sm sm:text-base">
                       <div className="text-center">
-                        <div className="text-gray-900 dark:text-white font-bold">
+                        <div className="text-secondary-dark dark:text-white font-bold">
                           {countdown.days}
                         </div>
-                        <div className="text-gray-600 dark:text-gray-400 text-xs">
+                        <div className="text-secondary-dark dark:text-gray-400 text-xs">
                           Days
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="text-gray-900 dark:text-white font-bold">
+                        <div className="text-secondary-dark dark:text-white font-bold">
                           {countdown.hours}
                         </div>
-                        <div className="text-gray-600 dark:text-gray-400 text-xs">
+                        <div className="text-secondary-dark dark:text-gray-400 text-xs">
                           Hours
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="text-gray-900 dark:text-white font-bold">
+                        <div className="text-secondary-dark dark:text-white font-bold">
                           {countdown.minutes}
                         </div>
-                        <div className="text-gray-600 dark:text-gray-400 text-xs">
+                        <div className="text-secondary-dark dark:text-gray-400 text-xs">
                           Mins
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="text-gray-900 dark:text-white font-bold">
+                        <div className="text-secondary-dark dark:text-white font-bold">
                           {countdown.seconds}
                         </div>
-                        <div className="text-gray-600 dark:text-gray-400 text-xs">
+                        <div className="text-secondary-dark dark:text-gray-400 text-xs">
                           Secs
                         </div>
                       </div>
@@ -882,7 +882,7 @@ const SingleEventPage = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <motion.div variants={itemVariants}>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 font-montserrat-subrayada">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-700 via-red-700 to-green-600 bg-clip-text text-transparent dark:from-teal-400 dark:via-teal-200 dark:to-green-400 leading-tight">
                   {eventData.title}
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
@@ -1035,7 +1035,7 @@ const SingleEventPage = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.6 }}>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-white mb-4 sm:mb-6">
                       Featured Speakers
                     </h2>
                     <SpeakersCarousel speakers={eventData.speakers} />
@@ -1167,7 +1167,7 @@ const SingleEventPage = () => {
 
                     <motion.button
                       type="submit"
-                      className="w-full bg-teal-600 dark:bg-teal-400 hover:bg-teal-700 dark:hover:bg-teal-500 text-white dark:text-gray-900 py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-colors disabled:opacity-50"
+                      className="w-auto bg-gradient-to-r from-[#1E3A8A] to-secondary  hover:bg-[#FF7F50] dark:hover:bg-[#FF9F80] text-white dark:text-gray-900 py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-colors disabled:opacity-50"
                       variants={buttonVariants}
                       whileHover="hover"
                       whileTap="tap"
@@ -1203,7 +1203,7 @@ const SingleEventPage = () => {
                     href="https://t.me/credulensubscribers"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full bg-gradient-to-r from-teal-600 to-green-600 hover:from-teal-700 hover:to-green-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition-colors text-center mb-4">
+                    className="block w-full bg-gradient-to-r from-[#1E3A8A] to-secondary  hover:from-[#4B6CB7] hover:to-secondary text-white py-2 px-4 rounded-lg text-sm font-semibold transition-colors text-center mb-4">
                     Join Our Telegram Community
                   </a>
                   <form
@@ -1223,12 +1223,13 @@ const SingleEventPage = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
+
                     <motion.button
                       type="submit"
                       className={`w-full py-2 px-4 rounded-lg font-semibold transition-colors ${
                         isSubscribed
-                          ? "bg-teal-600 text-white"
-                          : "bg-teal-600 dark:bg-teal-400 hover:bg-teal-700 dark:hover:bg-teal-500 text-white dark:text-gray-900"
+                          ? "bg-[#10B981] text-white"
+                          : "bg-[#1E3A8A] dark:bg-[#4B6CB7] hover:bg-[#FF7F50] dark:hover:bg-[#FF9F80] text-white dark:text-gray-900"
                       } disabled:opacity-50`}
                       variants={buttonVariants}
                       whileHover="hover"
@@ -1303,7 +1304,7 @@ const SingleEventPage = () => {
                 </motion.div>
 
                 <motion.div
-                  className="bg-white/80 dark:bg-gray-800/80 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-700 shadow-lg"
+                  className="bg-white/80 dark:bg-gray-800/80 rounded-xl p-4 sm:p-5 border border-[#A9A9A9] dark:border-[#D1D5DB] shadow-lg"
                   initial={{ opacity: 0, x: 30 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.9 }}>
@@ -1317,7 +1318,7 @@ const SingleEventPage = () => {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+                      className="bg-[#1E3A8A] hover:bg-[#4B6CB7] text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}>
                       Twitter
@@ -1328,7 +1329,7 @@ const SingleEventPage = () => {
                       )}&title=${encodeURIComponent(eventData.title)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+                      className="bg-[#1E3A8A] hover:bg-[#4B6CB7] text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}>
                       LinkedIn
@@ -1339,13 +1340,13 @@ const SingleEventPage = () => {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+                      className="bg-[#10B981] hover:bg-[#14B8A6] text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}>
                       WhatsApp
                     </motion.a>
                     <motion.button
-                      className="bg-gray-400 dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-500 text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+                      className="bg-[#A9A9A9] dark:bg-gray-600 hover:bg-[#808080] dark:hover:bg-gray-500 text-white py-2 px-3 rounded-lg text-xs sm:text-sm font-medium transition-colors"
                       onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         showAlertMessage(
