@@ -88,7 +88,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import segunHeroImage from "../../assets/images/portrait2.jpg";
 
 const AboutUs = () => {
   const { ref: headingRef, inView: headingInView } = useInView({
@@ -133,7 +132,7 @@ const AboutUs = () => {
             animate={imageInView ? "visible" : "hidden"}
             variants={imageVariants}>
             <img
-              src={segunHeroImage}
+              src="/images/portrait2.JPG"
               alt="Segun Umoru"
               className="rounded-xl shadow-lg object-cover w-full max-w-xs h-auto border-4 border-secondary/50 dark:border-secondary-dark/50"
             />

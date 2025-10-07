@@ -356,10 +356,10 @@
 // };
 
 // export default AboutUsPage;
+
 import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import segunHeroImage from "../assets/images/portrait2.jpg";
 
 const AboutUsPage = () => {
   const { ref: heroContentRef, inView: heroContentInView } = useInView({
@@ -441,7 +441,7 @@ const AboutUsPage = () => {
             animate={imageInView ? "visible" : "hidden"}
             variants={imageVariants}>
             <img
-              src={segunHeroImage}
+              src="/images/portrait2.JPG"
               alt="Segun Umoru"
               className="rounded-xl shadow-lg object-cover w-full max-w-xs h-auto border-4 border-secondary/50 dark:border-secondary-dark/50"
             />
