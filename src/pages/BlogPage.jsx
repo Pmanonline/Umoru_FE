@@ -19,10 +19,7 @@ import {
 } from "lucide-react";
 import LoadingSpinner from "../components/tools/LoaddingSpinner";
 
-const backendURL =
-  import.meta.env.MODE === "production"
-    ? import.meta.env.VITE_BACKEND_URL
-    : "http://localhost:3001";
+import backendURL from "../config";
 
 const BlogPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
