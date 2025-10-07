@@ -43,7 +43,6 @@ const BlogPage = () => {
     { value: "title", label: "Alphabetical" },
   ];
 
-  // Fetch posts from API
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -78,13 +77,11 @@ const BlogPage = () => {
     fetchPosts();
   }, []);
 
-  // Dynamically generate categories from posts
   const categories = useMemo(() => {
     const uniqueCategories = [...new Set(posts.map((post) => post.postType))];
     return ["All", ...uniqueCategories];
   }, [posts]);
 
-  // Filter and sort posts
   const filteredAndSortedPosts = useMemo(() => {
     let filtered = posts.filter((post) => {
       const matchesSearch =
@@ -114,7 +111,6 @@ const BlogPage = () => {
     return filtered;
   }, [searchTerm, selectedCategory, sortBy, posts]);
 
-  // Pagination
   const totalPages = Math.ceil(filteredAndSortedPosts.length / postsPerPage);
   const startIndex = (currentPage - 1) * postsPerPage;
   const currentPosts = filteredAndSortedPosts.slice(
@@ -122,25 +118,21 @@ const BlogPage = () => {
     startIndex + postsPerPage
   );
 
-  // Recent posts for sidebar
   const recentPosts = useMemo(
     () => posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3),
     [posts]
   );
 
-  // Popular posts for sidebar
   const popularPosts = useMemo(
     () => posts.sort((a, b) => b.views - a.views).slice(0, 3),
     [posts]
   );
 
-  // Featured posts for sidebar
   const featuredPosts = useMemo(
     () => posts.filter((post) => post.featured).slice(0, 3),
     [posts]
   );
 
-  // Category counts
   const categoryCounts = useMemo(() => {
     const counts = { All: posts.length };
     categories.slice(1).forEach((category) => {
@@ -154,15 +146,15 @@ const BlogPage = () => {
   const getPostTypeColor = (postType) => {
     switch (postType) {
       case "Web3-&-Blockchain-Education":
-        return "bg-red-500";
+        return "bg-primary-dark";
       case "Entertainment":
-        return "bg-blue-500";
+        return "bg-secondary-light";
       case "Business":
-        return "bg-green-500";
+        return "bg-primary-light";
       case "LifeStyle":
-        return "bg-pink-500";
+        return "bg-secondary-dark";
       default:
-        return "bg-gray-500";
+        return "bg-accent-warmGrey";
     }
   };
 
@@ -198,8 +190,8 @@ const BlogPage = () => {
           onClick={() => handlePageChange(i)}
           className={`px-3 py-2 mx-1 rounded-lg text-sm font-medium transition-all duration-200 ${
             currentPage === i
-              ? "bg-green-500 text-white shadow-lg"
-              : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-gray-700"
+              ? "bg-secondary text-white shadow-lg"
+              : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-secondary-light/20 dark:hover:bg-secondary-darkMode/20"
           }`}>
           {i}
         </button>
@@ -211,7 +203,7 @@ const BlogPage = () => {
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-50 dark:hover:bg-gray-700 transition-all duration-200">
+          className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-light/20 dark:hover:bg-secondary-darkMode/20 transition-all duration-200">
           <ChevronLeft size={20} />
         </button>
 
@@ -219,7 +211,7 @@ const BlogPage = () => {
           <>
             <button
               onClick={() => handlePageChange(1)}
-              className="px-3 py-2 mx-1 rounded-lg text-sm font-medium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-gray-700 transition-all duration-200">
+              className="px-3 py-2 mx-1 rounded-lg text-sm font-medium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-secondary-light/20 dark:hover:bg-secondary-darkMode/20 transition-all duration-200">
               1
             </button>
             {startPage > 2 && <span className="text-gray-500">...</span>}
@@ -235,7 +227,7 @@ const BlogPage = () => {
             )}
             <button
               onClick={() => handlePageChange(totalPages)}
-              className="px-3 py-2 mx-1 rounded-lg text-sm font-medium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-gray-700 transition-all duration-200">
+              className="px-3 py-2 mx-1 rounded-lg text-sm font-medium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-secondary-light/20 dark:hover:bg-secondary-darkMode/20 transition-all duration-200">
               {totalPages}
             </button>
           </>
@@ -244,7 +236,7 @@ const BlogPage = () => {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-50 dark:hover:bg-gray-700 transition-all duration-200">
+          className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-light/20 dark:hover:bg-secondary-darkMode/20 transition-all duration-200">
           <ChevronRight size={20} />
         </button>
       </div>
@@ -257,7 +249,7 @@ const BlogPage = () => {
     return (
       <article
         key={post.id}
-        className={`group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-600 ${
+        className={`group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-accent-charcoal-dark hover:border-secondary-light dark:hover:border-secondary-darkMode ${
           isGridView ? "h-auto" : "flex flex-row"
         }`}>
         <div
@@ -270,7 +262,6 @@ const BlogPage = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-          {/* Category Badge */}
           <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
             <span
               className={`${getPostTypeColor(post.postType)} text-white text-xs sm:text-sm px-2 py-1 rounded-full uppercase font-semibold tracking-wide`}>
@@ -280,22 +271,21 @@ const BlogPage = () => {
 
           {post.featured && (
             <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
-              <Star size={16} className="text-yellow-400 fill-current" />
+              <Star size={16} className="text-secondary-light fill-current" />
             </div>
           )}
         </div>
 
         <div className={`mid:p-3 sm:p-2 ${isGridView ? "" : "flex-1"}`}>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 line-clamp-2 group-hover:text-secondary-light dark:group-hover:text-secondary-darkMode transition-colors duration-200">
             {post.title}
           </h2>
 
-          <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 sm:mb-4 line-clamp-3">
+          <p className="text-gray-600 dark:text-accent-charcoal-dark text-sm mb-2 sm:mb-4 line-clamp-3">
             {post.excerpt}
           </p>
 
-          {/* Meta Information */}
-          <div className="flex items-center justify-between text-gray-500 dark:text-gray-400 text-xs sm:text-sm mb-2 sm:mb-4">
+          <div className="flex items-center justify-between text-gray-500 dark:text-accent-charcoal-dark text-xs sm:text-sm mb-2 sm:mb-4">
             <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="flex items-center space-x-1">
                 <Calendar size={12} sm:size={14} />
@@ -308,11 +298,10 @@ const BlogPage = () => {
             </div>
           </div>
 
-          {/* Author and Read More */}
           <div className="flex items-center justify-between">
             <a
               href={`/Posts/${post.slug}`}
-              className="bg-green-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-sm font-medium flex items-center gap-1 sm:gap-2 hover:bg-green-600 transition-all duration-200 hover:scale-105">
+              className="bg-primary text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-sm font-medium flex items-center gap-1 sm:gap-2 hover:bg-primary-light transition-all duration-200 hover:scale-105">
               Read More
               <ArrowRight size={12} sm:size={14} />
             </a>
@@ -323,7 +312,7 @@ const BlogPage = () => {
   };
 
   const renderSidebarSection = (title, posts, icon) => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-accent-charcoal-dark">
       <div className="flex items-center gap-2 mb-2 sm:mb-4">
         {icon}
         <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
@@ -345,10 +334,10 @@ const BlogPage = () => {
             <div className="flex-1 min-w-0">
               <a
                 href={`/Posts/${post.slug}`}
-                className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white line-clamp-2 group-hover:text-secondary-light dark:group-hover:text-secondary-darkMode transition-colors">
                 {post.title}
               </a>
-              <div className="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-2 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-2 text-xs text-gray-500 dark:text-accent-charcoal-dark">
                 <span>{formatDate(post.date)}</span>
                 <span className="flex items-center gap-0.5 sm:gap-1">
                   <Eye size={8} sm:size={10} />
@@ -361,7 +350,7 @@ const BlogPage = () => {
       </div>
     </div>
   );
-  //  Render loading state
+
   if (isLoading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
@@ -371,23 +360,20 @@ const BlogPage = () => {
   }
 
   return (
-    <div className=" mid:px-4 mid:mt-12 min-h-screen bg-gray-50 dark:bg-gray-900  sm:mt-16">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 top-0 z-40">
+    <div className=" mid:px-4 mid:mt-12 min-h-screen bg-gray-50 dark:bg-primary-customDark  sm:mt-16">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-accent-charcoal-dark top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-start lg:items-center justify-between">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-blue-600 dark:from-gray-200 dark:to-blue-400 leading-tight">
+              <h2 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary dark:from-primary-darkMode via-secondary dark:via-secondary-darkMode to-accent-teal dark:to-accent-teal leading-tight">
                 Blog Posts
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 mt-1 sm:mt-2 text-sm sm:text-base">
+              <p className="text-gray-600 dark:text-accent-charcoal-dark mt-1 sm:mt-2 text-sm sm:text-base">
                 Showing {filteredAndSortedPosts.length} posts
               </p>
             </div>
 
-            {/* Search and Filters */}
             <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-              {/* Search */}
               <div className="relative w-full sm:w-64">
                 <Search
                   size={18}
@@ -398,18 +384,17 @@ const BlogPage = () => {
                   placeholder="Search posts..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
+                  className="pl-10 pr-4 py-2 sm:py-3 border border-gray-300 dark:border-accent-charcoal-dark rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent w-full"
                 />
               </div>
 
-              {/* View Mode Toggle */}
               <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`p-2 rounded-md transition-all duration-200 ${
                     viewMode === "grid"
-                      ? "bg-white dark:bg-gray-600 text-green-600 shadow-sm"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      ? "bg-white dark:bg-gray-600 text-secondary shadow-sm"
+                      : "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-darkMode"
                   }`}>
                   <Grid size={16} />
                 </button>
@@ -417,35 +402,33 @@ const BlogPage = () => {
                   onClick={() => setViewMode("list")}
                   className={`p-2 rounded-md transition-all duration-200 ${
                     viewMode === "list"
-                      ? "bg-white dark:bg-gray-600 text-green-600 shadow-sm"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      ? "bg-white dark:bg-gray-600 text-secondary shadow-sm"
+                      : "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-darkMode"
                   }`}>
                   <List size={16} />
                 </button>
               </div>
 
-              {/* Filter Toggle */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-primary text-white rounded-lg hover:bg-primary-light transition-colors duration-200">
                 <Filter size={16} />
                 Filters
               </button>
             </div>
           </div>
 
-          {/* Filters Panel */}
           {showFilters && (
             <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
               <div className="flex flex-wrap gap-4 sm:gap-6 items-center">
                 <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="text-sm font-medium text-gray-700 dark:text-accent-charcoal-dark">
                     Category:
                   </label>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
+                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-accent-charcoal-dark rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
                     {categories.map((category) => (
                       <option key={category} value={category}>
                         {category} ({categoryCounts[category]})
@@ -455,13 +438,13 @@ const BlogPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="text-sm font-medium text-gray-600 dark:text-accent-charcoal-dark">
                     Sort by:
                   </label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
+                    className="px-3 py-1 sm:py-2 border border-gray-300 dark:border-accent-charcoal-dark rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base">
                     {sortOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
@@ -477,7 +460,7 @@ const BlogPage = () => {
                     setSortBy("newest");
                     setCurrentPage(1);
                   }}
-                  className="flex items-center gap-1 px-3 py-1 sm:py-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">
+                  className="flex items-center gap-1 px-3 py-1 sm:py-2 text-sm text-secondary-dark dark:text-secondary-darkMode hover:text-secondary dark:hover:text-secondary-light">
                   <X size={14} />
                   Clear All
                 </button>
@@ -487,10 +470,8 @@ const BlogPage = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
-          {/* Main Content Area */}
           <main className="flex-1">
             {currentPosts.length > 0 ? (
               <div>
@@ -514,17 +495,15 @@ const BlogPage = () => {
                 <h3 className="text-lg sm:text-xl font-medium text-gray-900 dark:text-white mb-2">
                   No posts found
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                <p className="text-gray-600 dark:text-accent-charcoal-dark text-sm sm:text-base">
                   Try adjusting your search or filter criteria.
                 </p>
               </div>
             )}
           </main>
 
-          {/* Sidebar */}
           <aside className="lg:w-80 space-y-4 sm:space-y-6">
-            {/* Categories */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-accent-charcoal-dark">
               <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 sm:mb-4">
                 Categories
               </h3>
@@ -535,8 +514,8 @@ const BlogPage = () => {
                     onClick={() => setSelectedCategory(category)}
                     className={`w-full text-left px-3 py-1 sm:py-2 rounded-lg transition-all duration-200 ${
                       selectedCategory === category
-                        ? "bg-green-500 text-white"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        ? "bg-primary text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-primary-light/20 dark:hover:bg-primary-darkMode/20"
                     }`}>
                     <span className="font-medium">{category}</span>
                     <span className="float-right text-xs sm:text-sm opacity-75">
@@ -547,18 +526,16 @@ const BlogPage = () => {
               </div>
             </div>
 
-            {/* Recent Posts */}
             {renderSidebarSection(
               "Recent Posts",
               recentPosts,
-              <Clock size={16} className="text-blue-500" />
+              <Clock size={16} className="text-primary-dark" />
             )}
 
-            {/* Popular Posts */}
             {renderSidebarSection(
               "Popular Posts",
               popularPosts,
-              <TrendingUp size={16} className="text-red-500" />
+              <TrendingUp size={16} className="text-secondary-dark" />
             )}
           </aside>
         </div>

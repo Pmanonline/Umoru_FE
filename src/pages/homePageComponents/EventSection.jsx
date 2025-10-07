@@ -117,7 +117,7 @@ const EventSection = () => {
       conference: "from-blue-700 to-emerald-600",
       workshop: "from-blue-700 to-green-600",
       seminar: "from-red-700 to-green-700",
-      webinar: "from-teal-400 to-green-500",
+      webinar: "from-teal-400 to-primary",
       other: "from-gray-600 to-gray-700",
     };
     return colors[type] || colors.other;
@@ -139,7 +139,7 @@ const EventSection = () => {
       onMouseLeave={() => setIsAutoPlaying(true)}>
       {/* Header with Countdown */}
       <div className="md:flex justify-between items-center mb-6">
-        <h2 className=" mid:mb-3  text-2xl sm:text-3xl font-extrabold tracking-tight text-teal-700 dark:text-teal-300">
+        <h2 className=" mid:mb-3  text-2xl sm:text-3xl font-extrabold tracking-tight text-primary dark:text-teal-300">
           Upcoming Events
         </h2>
         <div className="flex items-center space-x-2">
@@ -147,16 +147,16 @@ const EventSection = () => {
             Time Left:
           </span>
           <div className="flex space-x-1 sm:space-x-2">
-            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-red-700 dark:text-teal-200 rounded-md text-xs sm:text-sm">
+            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-secondary dark:text-teal-200 rounded-md text-xs sm:text-sm">
               {timeLeft.days}d
             </span>
-            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-red-700 dark:text-teal-200 rounded-md text-xs sm:text-sm">
+            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-secondary dark:text-teal-200 rounded-md text-xs sm:text-sm">
               {timeLeft.hours}h
             </span>
-            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-red-700 dark:text-teal-200 rounded-md text-xs sm:text-sm">
+            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-secondary dark:text-teal-200 rounded-md text-xs sm:text-sm">
               {timeLeft.minutes}m
             </span>
-            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-red-700 dark:text-teal-200 rounded-md text-xs sm:text-sm">
+            <span className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-700/20 dark:bg-blue-700/30 text-secondary dark:text-teal-200 rounded-md text-xs sm:text-sm">
               {timeLeft.seconds}s
             </span>
           </div>
@@ -176,7 +176,7 @@ const EventSection = () => {
         <button
           onClick={nextSlide}
           className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200/30 dark:bg-gray-800/30 hover:bg-gray-300/40 dark:hover:bg-gray-700/40 backdrop-blur-sm border border-gray-300/20 dark:border-gray-700/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 group">
-          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300 group-hover:text-blue-700 dark:group-hover:text-teal-400 transition-colors" />
+          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-teal-400 transition-colors" />
         </button>
       </div>
 
@@ -297,7 +297,7 @@ const EventSection = () => {
               }`}>
               {/* Speakers Section */}
               <div className="bg-gray-100/10 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300/20 dark:border-gray-700/30 rounded-xl p-3 sm:p-4">
-                <h3 className="text-lg sm:text-axl font-extrabold text-teal-700 dark:text-teal-300 mb-3 sm:mb-4">
+                <h3 className="text-lg sm:text-axl font-extrabold text-primary dark:text-teal-300 mb-3 sm:mb-4">
                   Featured Speakers
                 </h3>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
@@ -321,12 +321,12 @@ const EventSection = () => {
                 <Link
                   to={`/SingleEvent/${currentEvent.slug}`}
                   className="w-full">
-                  <button className="w-auto mr-5 bg-gradient-to-r from-blue-700 to-green-600 hover:from-red-700 hover:to-green-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
+                  <button className="w-auto mr-5 bg-gradient-to-r from-blue-700 to-secondary hover:from-secondary hover:to-secondary text-white font-bold py-2 sm:py-2 px-2 sm:px-2 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-700/30 transform hover:-translate-y-0.5 text-sm sm:text-base flex-1 sm:flex-none">
                     Read More
                   </button>
                 </Link>
                 <Link to={`/SingleEvent/${currentEvent.slug}`}>
-                  <button className="border-2 border-blue-700/50 hover:border-blue-700 text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-teal-400 font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-xl transition-all duration-300 hover:bg-blue-700/20 dark:hover:bg-blue-700/20 text-sm sm:text-base">
+                  <button className="border-2 border-blue-700/50 hover:border-blue-700 text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-teal-400 font-semibold py-2 sm:py-2 px-2 sm:px-2 rounded-xl transition-all duration-300 hover:bg-blue-700/20 dark:hover:bg-blue-700/20 text-sm sm:text-base">
                     Register
                   </button>
                 </Link>

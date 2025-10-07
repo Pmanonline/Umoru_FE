@@ -1,7 +1,6 @@
-// const backendURL = import.meta.VITE_BACKEND_URL;
-
-// export default backendURL;
-// const backendURL = "http://localhost:3001";
-const backendURL = "https://umoru-be.vercel.app";
+const backendURL =
+  import.meta.env.MODE === "production"
+    ? import.meta.env.VITE_BACKEND_URL
+    : "http://localhost:3001";
 
 export default backendURL;

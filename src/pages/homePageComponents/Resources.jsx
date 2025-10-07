@@ -113,7 +113,7 @@ const Resources = () => {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           variants={containerVariants}>
-          <h2 className="text-5xl md:text-6xl font-bold font-montserrat-subrayada mb-6 bg-clip-text text-transparent bg-accent-teal">
+          <h2 className="text-5xl md:text-6xl font-bold font-montserrat-subrayada mb-6 bg-clip-text text-transparent bg-gray-200">
             Resource Library
           </h2>
 
@@ -125,11 +125,11 @@ const Resources = () => {
           {/* Quick Stats */}
           <div className="flex justify-center gap-8 mb-10">
             <div className="flex items-center bg-white/20 rounded-full px-4 py-2 backdrop-blur-sm">
-              <Archive className="w-5 h-5 mr-2 text-accent-teal" />
+              <Archive className="w-5 h-5 mr-2 text-secondary" />
               <span className="font-semibold">50+ Resources</span>
             </div>
             <div className="flex items-center bg-white/20 rounded-full px-4 py-2 backdrop-blur-sm">
-              <Download className="w-5 h-5 mr-2 text-accent-green" />
+              <Download className="w-5 h-5 mr-2 text-secondary" />
               <span className="font-semibold">500+ Downloads</span>
             </div>
           </div>
@@ -140,7 +140,7 @@ const Resources = () => {
             whileTap={{ scale: 0.95 }}>
             <Link
               to="/ResourcesPage"
-              className="relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-orange-600 hover:from-orange-500 hover:to-red-500 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 active:scale-95 group overflow-hidden">
+              className="relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-secondary hover:from-orange-500 hover:to-red-500 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105 active:scale-95 group overflow-hidden">
               {/* Icon */}
               <svg
                 className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
