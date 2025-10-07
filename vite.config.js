@@ -8,4 +8,9 @@ export default defineConfig({
   define: {
     "process.env": process.env, // To make env vars accessible globally (if needed)
   },
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
+  },
 });
