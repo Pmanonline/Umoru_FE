@@ -613,6 +613,7 @@
 // };
 
 // export default Navbar;
+
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -690,6 +691,11 @@ const Navbar = () => {
   // Click outside handlers
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Don't close if clicking on a link (let navigation happen first)
+      if (event.target.closest("a")) {
+        return;
+      }
+
       if (
         profileDropdownRef.current &&
         !profileDropdownRef.current.contains(event.target)
@@ -775,12 +781,12 @@ const Navbar = () => {
       subItems: [
         {
           name: "Apple Podcast",
-          link: "https://apple.com/podcast",
+          link: "https://podcasts.apple.com/us/podcast/faith-talk-show/id1702484346",
           icon: <FaApple className="w-4 h-4" />,
         },
         {
           name: "Spotify Podcast",
-          link: "https://spotify.com/podcast",
+          link: "https://open.spotify.com/show/1gEbkeViieEWX3afbXPZJw?si=_wCZaxTTSLSH9JHS__2-iw",
           icon: <FaSpotify className="w-4 h-4" />,
         },
       ],
@@ -1196,9 +1202,14 @@ const Navbar = () => {
                         </button>
                       </Link>
                     </div>
-                    <div className="text-center text-xs text-gray-50 bg-secondary p-1 px-3 rounded-md dark:text-gray-400">
-                      Join our community today
-                    </div>
+
+                    <Link
+                      target="_blank"
+                      to="https://t.me/TheAscendedChurchNetwork">
+                      <div className="text-center text-xs text-gray-50 bg-secondary p-1 px-3 rounded-md dark:text-gray-400">
+                        Join our community today
+                      </div>
+                    </Link>
                   </div>
                 ) : (
                   <div className="space-y-2">

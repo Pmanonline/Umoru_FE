@@ -670,10 +670,11 @@ const Hero = () => {
               <motion.div
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                 variants={childVariants}>
-                <Link to="/book-session">
+                <Link>
                   <motion.button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex-1 bg-secondary/80 hover:bg-secondary text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 text-center text-base"
+                    className="flex-1 bg-secondary/80 hover:from-secondary hover:to-primary text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 text-center text-base"
+                    a
                     variants={buttonVariants}
                     whileHover="hover"
                     whileTap="tap">

@@ -291,7 +291,8 @@ const Footer = () => {
 
             {/* Telegram Button */}
             <Link
-              to="/join-telegram"
+              target="_blank"
+              to="https://t.me/TheAscendedChurchNetwork"
               className="inline-flex items-center mt-6 bg-secondary text-white px-4 py-2 rounded-md text-xs sm:text-sm hover:bg-secondary-light transition-all duration-200 hover:scale-105">
               <FaTelegramPlane className="mr-2" /> Join Telegram
             </Link>
